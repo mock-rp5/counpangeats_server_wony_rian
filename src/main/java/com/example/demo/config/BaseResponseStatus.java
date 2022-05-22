@@ -30,6 +30,10 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
+    POST_USERS_EMPTY_NAME(false, 2018, "이름을 입력해주세요."),
+    POST_USERS_EMPTY_PASSWORD(false, 2019, "패스워드를 입력해주세요."),
+    POST_USERS_EMPTY_PHONE(false, 2020, "휴대폰 번호를 입력해주세요."),
+
 
 
     /**
@@ -50,8 +54,13 @@ public enum BaseResponseStatus {
     DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
 
-    //[PATCH] /users/{userIdx}
-    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
+    //[PATCH] /users
+    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정에 실패였습니다."),
+    NEED_NEW_USER_NAME(false,4015,"새로운 이름을 입력해주세요."),
+    MODIFY_FAIL_USER_EMAIL(false,4016,"유저이메일 수정에 실패하였습니다."),
+    NEED_NEW_USER_EMAIL(false,4018,"새로운 이메일을 입력해주세요."),
+    MODIFY_FAIL_USER_PHONE(false, 4019, "유저 휴대폰번호 수정 실패"),
+    NEED_NEW_USER_PHONE(false,4018,"새로운 휴대폰번호를 입력해주세요."),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
