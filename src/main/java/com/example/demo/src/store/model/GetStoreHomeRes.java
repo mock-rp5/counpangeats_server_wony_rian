@@ -9,6 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GetStoreHomeRes {
     private String store_name;
-    private String isCheetah_delivery;
+    private String is_cheetah_delivery;
     private String store_main_image_url;
+    private Integer RCnt;
+    private Float RAvg;
 }

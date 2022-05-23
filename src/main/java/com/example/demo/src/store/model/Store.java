@@ -24,7 +24,7 @@ public class Store {
     private String business_hours;
     private String store_description;
     private String store_main_image_url;
-    private String isCheetah;
+    private String is_cheetah_delivery;
     private String status;
     private Timestamp created_at;
     private Timestamp updated_at;
