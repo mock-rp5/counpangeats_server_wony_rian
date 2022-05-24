@@ -6,12 +6,10 @@ import com.example.demo.src.orders.model.DeleteCartReq;
 import com.example.demo.src.orders.model.GetCartRes;
 import com.example.demo.src.orders.model.PatchCartReq;
 import com.example.demo.src.orders.model.PostCartReq;
-import com.example.demo.src.store.model.GetStoreHomeRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -32,18 +30,21 @@ public class OrderController {
     //카트 생성
     @ResponseBody
     @PostMapping("/cart")
-    public BaseResponse<String> createCart(@RequestParam(required = false) int store_id,
-                                           @RequestParam(required = false) int menu_id, @RequestBody PostCartReq postCartReq) throws BaseException {
+    public BaseResponse<String> createCart(@RequestParam int store_id,
+                                           @RequestParam int menu_id, @RequestBody PostCartReq postCartReq) throws BaseException {
         try {
-            // user 다 만들어지면 jwt 이용
-            //int userIdx= jwtService.getUserIdx();
+            int userIdx= jwtService.getUserIdx();
 
-            int user_id = 1;
-            int checkCartStore = orderService.checkCart(user_id);
+            //같은 메뉴 있는 지 확인
+            int sameMenu = orderService.checkCartMenu(menu_id, userIdx, postCartReq);
+            if(sameMenu != 0){
+                return new BaseResponse<>("카트에 담겼습니다.");
+            }
+            int checkCartStore = orderService.checkCart(userIdx);
             if (checkCartStore != 0 && store_id != checkCartStore) {
                 return new BaseResponse<>(FAIL_DUPLICATE_CART);
             }
-            orderService.createCart(user_id, store_id, menu_id, postCartReq);
+            orderService.createCart(userIdx, store_id, menu_id, postCartReq);
             return new BaseResponse<>("카드에 담겼습니다.");
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -54,8 +55,7 @@ public class OrderController {
     @ResponseBody
     @GetMapping("/cart")
     public BaseResponse<GetCartRes> getCartList() throws BaseException {
-        //int userIdx= jwtService.getUserIdx();
-        int userIdx = 1;
+        int userIdx= jwtService.getUserIdx();
 
         GetCartRes cart = orderService.getCart(userIdx);
         return new BaseResponse<>(cart);
@@ -64,11 +64,9 @@ public class OrderController {
     //카트 수정
     @ResponseBody
     @PatchMapping("/cart")
-    public BaseResponse<String> modifyCart(@RequestParam(required = false) int store_id,
-                                           @RequestParam(required = false) int cart_id, @RequestBody PatchCartReq patchCartReq) throws BaseException {
-        // user 다 만들어지면 jwt 이용
-        //int userIdx= jwtService.getUserIdx();
-        int user_id = 1;
+    public BaseResponse<String> modifyCart(@RequestParam int store_id,
+                                           @RequestParam int cart_id, @RequestBody PatchCartReq patchCartReq) throws BaseException {
+        int userIdx= jwtService.getUserIdx();
 
         if (store_id == 0 || cart_id == 0) {
             return new BaseResponse<>(PATCH_MODIFY_CART_EMPTY);
@@ -84,9 +82,7 @@ public class OrderController {
     @ResponseBody
     @PatchMapping("/cart/status")
     public BaseResponse<String> deleteCart(@RequestBody DeleteCartReq deleteCartReq) throws BaseException {
-        // user 다 만들어지면 jwt 이용
-        //int userIdx= jwtService.getUserIdx();
-        int user_id = 1;
+        int user_id= jwtService.getUserIdx();
 
         if(orderService.checkCartExists(deleteCartReq.getCart_id()) == 0){
             return new BaseResponse<>(FAIL_MODIFY_CART_EMPTY);
