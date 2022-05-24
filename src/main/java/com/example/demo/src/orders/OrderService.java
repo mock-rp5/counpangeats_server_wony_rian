@@ -30,9 +30,9 @@ public class OrderService {
         }
     }
 
-    public void modifyCart(int userIdx, int storeIdx, int menuIdx, PatchCartReq patchCartReq) throws BaseException {
+    public void modifyCart(int store_id, int cart_id, PatchCartReq patchCartReq) throws BaseException {
         try {
-            int result = orderDao.modifyCart(userIdx, storeIdx, menuIdx, patchCartReq);
+            int result = orderDao.modifyCart(store_id, cart_id, patchCartReq);
             if (result == FAIL){
                 throw new BaseException(FAIL_CREATE_CART);
             }
@@ -48,6 +48,28 @@ public class OrderService {
             return cart;
         } catch (Exception exception) {
             System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public void deleteCart(int cart_id, int user_id) throws BaseException {
+        try {
+            orderDao.deleteCart(user_id, cart_id);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public int checkCart(int user_id) throws BaseException {
+        try {
+            return orderDao.checkCartStore(user_id);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public int checkCartExists(int cart_id) throws BaseException {
+        try {
+            return orderDao.checkCartExists(cart_id);
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }

@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GetCartRes {
     private String store_name;
-    private String is_cheetah;
-    private Integer total_price;
-   // private List<CartMenu> cart;
+    private String is_cheetah_delivery;
+    private List<CartMenu> cartMenu;
 }

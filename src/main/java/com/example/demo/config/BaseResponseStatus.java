@@ -31,10 +31,11 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
 
-    // [POST]/order
+    // /cart
     FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
-    FAIL_MODIFY_CART(false, 2019, "카트를 수정할 수 없습니다."),
-
+    PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
+    FAIL_DUPLICATE_CART(false, 2020, "카트에 담긴 가게가 중복되었습니다."),
+    FAIL_MODIFY_CART_EMPTY(false, 2021, "카트가 비었습니다."),
 
     /**
      * 3000 : Response 오류

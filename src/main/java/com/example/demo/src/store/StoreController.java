@@ -6,14 +6,12 @@ import com.example.demo.src.store.model.GetStoreHomeRes;
 import com.example.demo.src.store.model.GetStoreRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/store")
 public class StoreController {
 
     @Autowired
