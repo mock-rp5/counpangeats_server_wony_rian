@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a99d625e-0237-4d6a-bff1-237d80533dd0" name="CoupangEats" url="http://3.39.172.74">
+        <fileTransfer rootFolder="/var/www/counpangeats_server_wony_rian" accessType="SFTP" host="3.39.172.74" port="22" sshConfigId="3e269726-8fcd-436d-9293-9ef082cfa0b9" sshConfig="ubuntu@3.39.172.74:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

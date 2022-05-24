@@ -2,8 +2,13 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.Req.GetUserEmailReq;
+import com.example.demo.src.user.model.Req.GetUserPasswordReq;
 import com.example.demo.src.user.model.Req.PostLoginReq;
 import com.example.demo.src.user.model.Req.PostUserReq;
+import com.example.demo.src.user.model.Res.GetMyEatsRes;
+import com.example.demo.src.user.model.Res.GetUserEmailRes;
+import com.example.demo.src.user.model.Res.GetUserPasswordRes;
 import com.example.demo.src.user.model.Res.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -59,6 +64,16 @@ public class UserDao {
                         rs.getString("password")),
                 getUserParams);
     }
+
+    public GetMyEatsRes getMyEats(int userIdx){
+        String getMyEatsQuery = "select user_name,user_phone from User where user_id = ?";
+        int getMyEatsParams = userIdx;
+        return this.jdbcTemplate.queryForObject(getMyEatsQuery,
+                (rs, rowNum) -> new GetMyEatsRes(
+                        rs.getString("user_name"),
+                        rs.getString("user_phone")),
+                getMyEatsParams);
+    }
     
 
     public int createUser(PostUserReq postUserReq){
@@ -99,6 +114,13 @@ public class UserDao {
 
         return this.jdbcTemplate.update(modifyUserPhoneQuery,modifyUserPhoneParams);
     }
+    public int modifyUserPassword(User user){
+        String modifyUserPasswordQuery = "update User set user_password = ? where user_id = ? ";
+        Object[] modifyUserPasswordParams = new Object[]{user.getUser_password(), user.getUser_id()};
+
+        return this.jdbcTemplate.update(modifyUserPasswordQuery,modifyUserPasswordParams);
+    }
+
 
     public User getPwd(PostLoginReq postLoginReq){
         String getPwdQuery = "select user_id,user_email, user_password,user_name,user_phone from User where user_email=?";
@@ -114,8 +136,21 @@ public class UserDao {
                 ),
                 getPwdParams
                 );
-
     }
+
+    public Boolean isExistEmail(String email){
+        String isExistEmailQuery="select exists(\n" +
+                "    select * from User\n" +
+                "    where user_email=?\n" +
+                "           ) as isExist;";
+        String isExistEmailParam=email;
+        return this.jdbcTemplate.queryForObject(isExistEmailQuery,
+                Boolean.class,
+                isExistEmailParam
+                );
+    }
+
+
     public String getUserEmail(int userId){
         String getEmailQuery="select user_email from User where user_id=?";
         int getEmailParams=userId;
@@ -138,6 +173,59 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(getPhoneQuery,
                 String.class,
                 getPhoneParams);
+    }
+    public String getUserPassword(int userId){
+        String getPasswordQuery="select user_password from User where user_id=?";
+        int getPasswordParams=userId;
+        return this.jdbcTemplate.queryForObject(getPasswordQuery,
+                String.class,
+                getPasswordParams);
+    }
+
+    public int deleteUser(int userIdx){
+        String deleteUserQuery = "update User set status = 'N' where user_id = ? ";
+        int deleteUserParams=userIdx;
+        return this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
+    }
+
+    public GetUserEmailRes findUserEmail(GetUserEmailReq getUserEmailReq){
+        String getUserEmailQuery = "select user_email from User\n" +
+                "where user_name=? and user_phone=?;";
+        Object[]  getUserEmailParams= new Object[]{getUserEmailReq.getUser_name(),getUserEmailReq.getUser_phone()};
+        return this.jdbcTemplate.queryForObject(getUserEmailQuery,
+                (rs, rowNum) -> new GetUserEmailRes(
+                        rs.getString("user_email")),
+                getUserEmailParams);
+    }
+
+    public GetUserPasswordRes findUserPassword(GetUserPasswordReq getUserPasswordReq){
+        String getUserPasswordQuery = "select user_password from User\n" +
+                "where user_name=? and user_email=?;";
+        Object[]  getUserPasswordParams= new Object[]{getUserPasswordReq.getUser_name(),getUserPasswordReq.getUser_email()};
+        return this.jdbcTemplate.queryForObject(getUserPasswordQuery,
+                 (rs, rowNum) -> new GetUserPasswordRes(
+                        rs.getString("user_password")),
+                getUserPasswordParams);
+    }
+
+    public int createAddress(Address address){
+        System.out.println("main_address: "+address.getMain_address());
+        System.out.println("detail_address: "+address.getDetail_address());
+        System.out.println("address_guide: "+address.getAddress_guide());
+        System.out.println("user_id: "+address.getUser_id());
+        System.out.println("address_longitude: "+address.getLongitude());
+        System.out.println("address_latitude: "+address.getLatitude());
+        System.out.println("address_name: "+address.getAddress_name());
+
+        String createAddressQuery = "insert into Address( main_address, detail_address, address_guide, user_id, address_longitude, address_latitude, address_name)\n" +
+                "values (?,?,?,?,?,?,?);";
+        Object[] createAddressParams = new Object[]{
+                address.getMain_address(),address.getDetail_address(),address.getAddress_guide(),address.getUser_id(),address.getLongitude(),address.getLatitude(),address.getAddress_name()
+        };
+        this.jdbcTemplate.update(createAddressQuery, createAddressParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
 }

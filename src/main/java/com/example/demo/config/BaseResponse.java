@@ -33,5 +33,12 @@ public class BaseResponse<T> {
         this.message = status.getMessage();
         this.code = status.getCode();
     }
+
+    // @valid 처리
+    public BaseResponse(BaseResponseStatus status, String detail){
+        this.isSuccess=status.isSuccess();
+        this.message=detail;
+        this.code=status.getCode();
+    }
 }
 

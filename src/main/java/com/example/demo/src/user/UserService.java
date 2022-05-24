@@ -5,6 +5,7 @@ package com.example.demo.src.user;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.*;
 import com.example.demo.src.user.model.Req.PostUserReq;
+import com.example.demo.src.user.model.Res.PostAddressRes;
 import com.example.demo.src.user.model.Res.PostUserRes;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
@@ -37,7 +38,7 @@ public class UserService {
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         //이메일 중복 검사
         if(userProvider.checkEmail(postUserReq.getUser_email()) ==1){
-            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+            throw new BaseException(DUPLICATED_EMAIL);
         }
 
         String pwd;
@@ -102,12 +103,69 @@ public class UserService {
             throw new BaseException(NEED_NEW_USER_PHONE);
         }
 
+
         try{
             int result = userDao.modifyUserPhone(user);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_USER_PHONE);
             }
         } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public void modifyUserPassword(User user) throws BaseException {
+
+        String encryptPwd;
+        try {
+            encryptPwd = new SHA256().encrypt(user.getUser_password());
+        } catch (Exception ignored) {
+            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+        }
+
+        //기존과 다른 패스워드인지 검사
+        String originPassword=userDao.getUserPassword(user.getUser_id());
+        System.out.println("originPassword: "+originPassword);
+        System.out.println("encryptPwd: "+encryptPwd);
+        if(originPassword.equals(encryptPwd)){
+            throw new BaseException(NEED_NEW_USER_PASSWORD);
+        }
+        String pwd;
+        try{
+            //비밀번호 변경할 때도 암호화해서 저장
+            pwd = new SHA256().encrypt(user.getUser_password());
+            user.setUser_password(pwd);
+
+        } catch (Exception ignored) {
+            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+        }
+        try{
+            int result = userDao.modifyUserPassword(user);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USER_PASSWORD);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    //유저 삭제
+    public void deleteUser(int userIdx) throws BaseException {
+        try{
+            int result = userDao.deleteUser(userIdx);
+            if(result == 0){
+                throw new BaseException(DELETE_FAIL_USER);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //POST 새 주소 추가
+    public PostAddressRes createAddress(Address address) throws BaseException {
+
+        try{
+            int addressIdx = userDao.createAddress(address);
+            return new PostAddressRes(addressIdx);
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
