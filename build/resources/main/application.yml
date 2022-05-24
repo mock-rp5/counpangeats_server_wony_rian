@@ -7,8 +7,15 @@ spring:
 
   datasource:
     platform: mysql
+<<<<<<< HEAD
     url: jdbc:mysql://somyeong-mysql.cpien4nft9ig.ap-northeast-2.rds.amazonaws.com/CoupangEats?autoReconnect=true # 변경해주세요
     username: admin # 변경해주세요
     password: thaud8009  # 변경해주세요
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     # driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
+=======
+    url: jdbc:mysql://somyeong-mysql.cpien4nft9ig.ap-northeast-2.rds.amazonaws.com/CoupangEats?autoReconnect=true
+    username: admin #변경해주세요 (마스터 이름)
+    password: thaud8009 #변경해주세요
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+>>>>>>> 4227fec53e01c4fdf1a090ff170a087baf56bb70

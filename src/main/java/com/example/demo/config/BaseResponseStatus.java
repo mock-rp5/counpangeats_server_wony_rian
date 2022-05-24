@@ -43,6 +43,11 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_PHONE(false, 2020, "휴대폰 번호를 입력해주세요."),
     POST_USERS_INVALID_PHONE(false, 2021, "휴대폰 번호 형식을 확인해주세요."),
 
+    // /cart
+    FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
+    PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
+    FAIL_DUPLICATE_CART(false, 2020, "카트에 담긴 가게가 중복되었습니다."),
+    FAIL_MODIFY_CART_EMPTY(false, 2021, "카트가 비었습니다."),
 
     /**
      * 3000 : Response 오류
