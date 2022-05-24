@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCartReq {
+public class CartMenu {
+    private Integer cart_id;
     private Integer menu_count;
+    private String total_price;
     private Integer menu_option_id;
 }
