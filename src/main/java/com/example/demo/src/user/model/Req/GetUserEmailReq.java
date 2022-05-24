@@ -10,7 +10,11 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostLoginReq {
-    private String user_email;
-    private String user_password;
+public class GetUserEmailReq {
+    @NotBlank(message="유저 이름을 입력하세요.")
+    private String user_name;
+
+    @NotBlank(message="휴대폰 번호를 입력하세요.")
+    private String user_phone;
+
 }
