@@ -68,12 +68,12 @@ com/example/demo/src/orders/model/Res/PostOrderRes.java
  com.example.demo.src.orders.model.Res.PostOrderRes
 com/example/demo/src/payment/Res/GetPaymentRes.java
  com.example.demo.src.payment.Res.GetPaymentRes
+com/example/demo/src/payment/WayDao.java
+ com.example.demo.src.payment.WayDao
 com/example/demo/src/payment/WayService.java
  com.example.demo.src.payment.WayService
 com/example/demo/src/orders/OrderService.java
  com.example.demo.src.orders.OrderService
-com/example/demo/src/payment/WayDao.java
- com.example.demo.src.payment.WayDao
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
 com/example/demo/src/user/UserController.java
