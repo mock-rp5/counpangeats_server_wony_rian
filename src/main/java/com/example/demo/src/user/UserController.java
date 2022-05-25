@@ -3,10 +3,7 @@ package com.example.demo.src.user;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.Address;
-import com.example.demo.src.user.model.Req.GetUserEmailReq;
-import com.example.demo.src.user.model.Req.GetUserPasswordReq;
-import com.example.demo.src.user.model.Req.PostLoginReq;
-import com.example.demo.src.user.model.Req.PostUserReq;
+import com.example.demo.src.user.model.Req.*;
 import com.example.demo.src.user.model.Res.*;
 import com.example.demo.src.user.model.User;
 import com.example.demo.utils.JwtService;
@@ -353,16 +350,38 @@ public class UserController {
     @ResponseBody
     @PostMapping("/address")
     public BaseResponse<PostAddressRes> createAddress(@RequestBody @Valid Address address) {
+
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             Address new_address = new Address(address.getAddress_id(), address.getMain_address(), address.getDetail_address(),
-                    address.getAddress_guide(),userIdxByJwt,address.getLongitude(),address.getLatitude(),address.getAddress_name());
+                    address.getAddress_guide(),userIdxByJwt,address.getLongitude(),address.getLatitude(),address.getAddress_name(),address.getStatus());
 
             PostAddressRes postAddressRes= userService.createAddress(new_address);
 
             String result = "새 주소가 추가되었습니다.";
             return new BaseResponse<>(postAddressRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 주소 수정
+     * [PATCH] /users/address/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/address/{addressIdx}")
+    public BaseResponse<String> modifyAddress(@PathVariable("addressIdx") int addressIdx, @RequestBody @Valid PatchAddressReq patchAddressReq) {
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            PatchAddressReq new_patchAddressReq = new PatchAddressReq(userIdxByJwt, patchAddressReq.getDetail_address(), patchAddressReq.getAddress_guide(), patchAddressReq.getStatus(), patchAddressReq.getAddress_name());
+            userService.modifyAddress(addressIdx,new_patchAddressReq);
+
+            String result = "주소 상세 정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

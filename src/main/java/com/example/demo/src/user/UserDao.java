@@ -2,10 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.src.user.model.*;
-import com.example.demo.src.user.model.Req.GetUserEmailReq;
-import com.example.demo.src.user.model.Req.GetUserPasswordReq;
-import com.example.demo.src.user.model.Req.PostLoginReq;
-import com.example.demo.src.user.model.Req.PostUserReq;
+import com.example.demo.src.user.model.Req.*;
 import com.example.demo.src.user.model.Res.GetMyEatsRes;
 import com.example.demo.src.user.model.Res.GetUserEmailRes;
 import com.example.demo.src.user.model.Res.GetUserPasswordRes;
@@ -216,16 +213,27 @@ public class UserDao {
         System.out.println("address_longitude: "+address.getLongitude());
         System.out.println("address_latitude: "+address.getLatitude());
         System.out.println("address_name: "+address.getAddress_name());
+        System.out.println("address_address: "+address.getStatus());
 
-        String createAddressQuery = "insert into Address( main_address, detail_address, address_guide, user_id, address_longitude, address_latitude, address_name)\n" +
-                "values (?,?,?,?,?,?,?);";
+        String createAddressQuery = "insert into Address( main_address, detail_address, address_guide, user_id, address_longitude, address_latitude, address_name,status)\n" +
+                "values (?,?,?,?,?,?,?,?);";
         Object[] createAddressParams = new Object[]{
-                address.getMain_address(),address.getDetail_address(),address.getAddress_guide(),address.getUser_id(),address.getLongitude(),address.getLatitude(),address.getAddress_name()
+                address.getMain_address(),address.getDetail_address(),address.getAddress_guide(),address.getUser_id(),address.getLongitude(),address.getLatitude(),address.getAddress_name(),address.getStatus()
         };
         this.jdbcTemplate.update(createAddressQuery, createAddressParams);
 
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+
+    public int modifyAddress(int addressIdx, PatchAddressReq patchAddressReq){
+        String modifyAddressQuery = "update Address\n" +
+                "set detail_address=?, address_guide=?, status=?, address_name=?\n" +
+                "where address_id=?;";
+        Object[] modifyAddressParams = new Object[]{patchAddressReq.getDetail_address(),patchAddressReq.getAddress_guide(),
+        patchAddressReq.getStatus(), patchAddressReq.getAddress_name(),addressIdx};
+
+        return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
 }

@@ -26,4 +26,6 @@ public class Address {
 
     @NotBlank(message="주소 별칭을 입력하세요.")
     private String address_name;
+
+    private String status;
 }

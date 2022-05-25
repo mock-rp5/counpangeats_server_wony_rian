@@ -4,6 +4,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.Req.PatchAddressReq;
 import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.PostAddressRes;
 import com.example.demo.src.user.model.Res.PostUserRes;
@@ -167,6 +168,16 @@ public class UserService {
             return new PostAddressRes(addressIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //PATCH 주소
+    public void modifyAddress(int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+
+        try {
+            int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
+        } catch (Exception ignored) {
+            throw new BaseException(FAILED_MODIFY_ADDRESS);
         }
     }
 }

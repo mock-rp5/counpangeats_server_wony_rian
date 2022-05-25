@@ -90,7 +90,11 @@ public enum BaseResponseStatus {
     //[GET] /users/email
     FAILED_FIND_EMAIL(false,4021,"이메일 찾기에 실패하였습니다. "),
     //[GET] /users/password
-    FAILED_FIND_PASSWORD(false,4022,"비밀번호 찾기에 실패하였습니다");
+    FAILED_FIND_PASSWORD(false,4022,"비밀번호 찾기에 실패하였습니다"),
+
+    FAILED_MODIFY_ADDRESS(false,4023,"주소 변경에 실패하였습니다.");
+
+
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

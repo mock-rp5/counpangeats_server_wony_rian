@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-com/example/demo/src/store/model/GetStoreHomeRes.java
- com.example.demo.src.store.model.GetStoreHomeRes
->>>>>>> 4227fec53e01c4fdf1a090ff170a087baf56bb70
+com/example/demo/src/user/model/User.java
+ com.example.demo.src.user.model.User
 com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
-<<<<<<< HEAD
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/user/model/Req/GetUserEmailReq.java
@@ -16,14 +12,14 @@ com/example/demo/src/user/model/Res/GetUserEmailRes.java
  com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/user/model/Res/PostUserRes.java
  com.example.demo.src.user.model.Res.PostUserRes
-com/example/demo/config/BaseResponseStatus.java
- com.example.demo.config.BaseResponseStatus
+com/example/demo/src/orders/model/PatchCartReq.java
+ com.example.demo.src.orders.model.PatchCartReq
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
-com/example/demo/config/ExceptionController.java
- com.example.demo.config.ExceptionController
+com/example/demo/src/user/model/Res/GetUserPasswordRes.java
+ com.example.demo.src.user.model.Res.GetUserPasswordRes
 com/example/demo/src/user/model/Req/PostLoginReq.java
  com.example.demo.src.user.model.Req.PostLoginReq
 com/example/demo/src/user/model/Req/PostUserReq.java
@@ -32,10 +28,10 @@ com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
-com/example/demo/config/BaseResponse.java
- com.example.demo.config.BaseResponse
+com/example/demo/src/store/model/GetStoreRes.java
+ com.example.demo.src.store.model.GetStoreRes
+com/example/demo/src/user/model/Res/PostAddressRes.java
+ com.example.demo.src.user.model.Res.PostAddressRes
 com/example/demo/src/user/model/Req/GetUserPasswordReq.java
  com.example.demo.src.user.model.Req.GetUserPasswordReq
 com/example/demo/src/user/model/Res/GetUserRes.java
@@ -44,69 +40,51 @@ com/example/demo/src/user/model/Res/GetMyEatsRes.java
  com.example.demo.src.user.model.Res.GetMyEatsRes
 com/example/demo/src/user/model/Req/PatchUserReq.java
  com.example.demo.src.user.model.Req.PatchUserReq
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
+com/example/demo/src/store/model/GetStoreHomeRes.java
+ com.example.demo.src.store.model.GetStoreHomeRes
 com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
-com/example/demo/src/user/model/Res/GetUserPasswordRes.java
- com.example.demo.src.user.model.Res.GetUserPasswordRes
-com/example/demo/src/user/model/User.java
- com.example.demo.src.user.model.User
-com/example/demo/src/user/model/Res/PostAddressRes.java
- com.example.demo.src.user.model.Res.PostAddressRes
+com/example/demo/src/orders/model/DeleteCartReq.java
+ com.example.demo.src.orders.model.DeleteCartReq
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/orders/model/CartMenu.java
+ com.example.demo.src.orders.model.CartMenu
 com/example/demo/src/user/model/Address.java
  com.example.demo.src.user.model.Address
+com/example/demo/src/store/model/Store.java
+ com.example.demo.src.store.model.Store
+com/example/demo/src/orders/model/PostCartReq.java
+ com.example.demo.src.orders.model.PostCartReq
+com/example/demo/src/orders/model/GetCartRes.java
+ com.example.demo.src.orders.model.GetCartRes
+com/example/demo/src/orders/OrderDao.java
+ com.example.demo.src.orders.OrderDao
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
+com/example/demo/config/BaseResponse.java
+ com.example.demo.config.BaseResponse
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
+com/example/demo/config/ExceptionController.java
+ com.example.demo.config.ExceptionController
+com/example/demo/config/BaseResponseStatus.java
+ com.example.demo.config.BaseResponseStatus
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/user/model/Req/PatchAddressReq.java
+ com.example.demo.src.user.model.Req.PatchAddressReq
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
-=======
-com/example/demo/src/store/model/Store.java
- com.example.demo.src.store.model.Store
-com/example/demo/config/secret/Secret.java
- com.example.demo.config.secret.Secret
-com/example/demo/DemoApplication.java
- com.example.demo.DemoApplication
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
-com/example/demo/utils/ValidationRegex.java
- com.example.demo.utils.ValidationRegex
-com/example/demo/src/store/model/GetStoreRes.java
- com.example.demo.src.store.model.GetStoreRes
-com/example/demo/src/WebSecurityConfig.java
- com.example.demo.src.WebSecurityConfig
-com/example/demo/src/orders/model/GetCartRes.java
- com.example.demo.src.orders.model.GetCartRes
-com/example/demo/src/test/TestController.java
- com.example.demo.src.test.TestController
-com/example/demo/src/orders/model/CartMenu.java
- com.example.demo.src.orders.model.CartMenu
-com/example/demo/src/orders/model/PostCartReq.java
- com.example.demo.src.orders.model.PostCartReq
-com/example/demo/src/orders/model/PatchCartReq.java
- com.example.demo.src.orders.model.PatchCartReq
-com/example/demo/src/store/StoreService.java
- com.example.demo.src.store.StoreService
-com/example/demo/config/BaseResponse.java
- com.example.demo.config.BaseResponse
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
-com/example/demo/config/BaseResponseStatus.java
- com.example.demo.config.BaseResponseStatus
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
-com/example/demo/src/store/StoreController.java
- com.example.demo.src.store.StoreController
-com/example/demo/src/orders/model/DeleteCartReq.java
- com.example.demo.src.orders.model.DeleteCartReq
-com/example/demo/src/orders/OrderDao.java
- com.example.demo.src.orders.OrderDao
-com/example/demo/src/orders/OrderController.java
- com.example.demo.src.orders.OrderController
-com/example/demo/src/orders/OrderService.java
- com.example.demo.src.orders.OrderService
->>>>>>> 4227fec53e01c4fdf1a090ff170a087baf56bb70
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
