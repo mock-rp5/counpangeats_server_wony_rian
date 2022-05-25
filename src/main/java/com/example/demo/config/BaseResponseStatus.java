@@ -44,10 +44,27 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_PHONE(false, 2036, "휴대폰 번호 형식을 확인해주세요."),
 
     // /cart
+<<<<<<< HEAD
     FAIL_CREATE_CART(false, 2037, "카트를 생성할 수 없습니다."),
     PATCH_MODIFY_CART_EMPTY(false, 2038, "입력한 카트가 없습니다."),
     FAIL_DUPLICATE_CART(false, 2039, "카트에 담긴 가게가 중복되었습니다."),
     FAIL_MODIFY_CART_EMPTY(false, 20240 "카트가 비었습니다."),
+=======
+    FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
+    PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
+    FAIL_DUPLICATE_CART(false, 2020, "카트에 담긴 가게가 중복되었습니다."),
+    FAIL_CART_EMPTY(false, 2021, "카트가 비었습니다."),
+
+    // /order
+    ADDRESS_ID_EMPTY(false, 2050, "주소 식별자를 입력해주세요."),
+    STORE_ID_EMPTY(false, 2051, "가게 식별자를 입력해주세요."),
+
+    // /payment
+    PAYMENT_NAME_EMPTY(false, 2070, "결제 방식 은행을 입력해주세요."),
+    PAYMENT_NUMBER_EMPTY(false, 2071, "계좌 또는 카드 번호를 입력해주세요."),
+    PAYMENT_TYPE_EMPTY(false, 2072, "결제 방식 종류를 입력해주세요."),
+    PAYMENT_ID_EMPTY(false, 2073, "결제 방식 식별자를 입력해주세요."),
+>>>>>>> ef7afdc373b76ac9ea64d68595e7281254299493
 
     /**
      * 3000 : Response 오류

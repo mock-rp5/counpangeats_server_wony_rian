@@ -2,13 +2,17 @@ package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
 import com.example.demo.src.orders.model.GetCartRes;
-import com.example.demo.src.orders.model.PatchCartReq;
-import com.example.demo.src.orders.model.PostCartReq;
+import com.example.demo.src.orders.model.Req.PatchCartReq;
+import com.example.demo.src.orders.model.Req.PostCartReq;
+import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class OrderDao {
@@ -27,7 +31,8 @@ public class OrderDao {
                 "                on M.menu_id = MO.menu_id\n" +
                 "                inner join Cart as C\n" +
                 "                on C.menu_id = M.menu_id\n" +
-                "where M.menu_id = ? and MO.menu_option_id = ? ";
+                "where M.menu_id = ? and MO.menu_option_id = ? " +
+                "limit 1;";
         Integer order_price = this.jdbcTemplate.queryForObject(getPriceQuery, int.class, menu_id, postCartReq.getMenu_option_id());
 
         String createCartQuery = "insert into Cart (user_id, store_id, menu_id, menu_count, order_price, menu_option_id) VALUES (?,?,?,?,?,?)";
@@ -48,7 +53,7 @@ public class OrderDao {
                 "from Store as S\n" +
                 "inner join Cart as C\n" +
                 "on C.store_id = S.store_id\n" +
-                "where S.store_id = ? and S.status = 'Y' \n" +
+                "where S.store_id = ? and C.user_id = ? and S.status = 'Y' \n" +
                 "group by C.user_id";
 
         String menuQuery = "select MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
@@ -70,7 +75,7 @@ public class OrderDao {
                                         rs1.getInt("option_price"),
                                         rs1.getInt("price")
                                 ), user_id)
-                        ), store_id);
+                        ), store_id, user_id);
     }
 
     //카트 수량 수정
@@ -86,6 +91,12 @@ public class OrderDao {
         return this.jdbcTemplate.update(Query, cart_id, user_id);
     }
 
+    //주문 생성
+    public int createOrder(int user_id, PostOrderReq postOrderReq){
+        String checkQuery = "";
+        return 1;
+    }
+
     //카트에 담긴 가게 확인
     public int checkCartStore(int user_id) {
         String checkQuery = "select exists(select * from Cart where user_id = ? and status = \"Y\")";
@@ -93,12 +104,36 @@ public class OrderDao {
 
         if(store_id == 0) return store_id;
 
-        String getCartQuery = "SELECT store_id FROM Cart WHERE status='Y' AND user_id=? LIMIT 1";
+        String getCartQuery = "SELECT store_id FROM Cart WHERE status=\"Y\" AND user_id=? LIMIT 1";
         return this.jdbcTemplate.queryForObject(getCartQuery, int.class, user_id);
     }
 
+    //카트에 동일한 메뉴 존재 확인
+    public int checkCartMenu(int menu_id, int user_id, PostCartReq postCartReq) {
+        String checkQuery = "select exists(select menu_id from Cart where menu_id = ? and user_id = ? and menu_option_id = ? and status = \"Y\")";
+        Integer menu_id_exist = this.jdbcTemplate.queryForObject(checkQuery, int.class, menu_id, user_id, postCartReq.getMenu_option_id());
+        if(menu_id_exist == 0) return menu_id_exist;
+
+        String cartId = "select cart_id from Cart where menu_id = ? and user_id = ? and status = \"Y\" ";
+        Integer cart_id = this.jdbcTemplate.queryForObject(cartId, int.class, menu_id, user_id);
+
+        String orderCount = "SELECT menu_count FROM Cart WHERE cart_id=?";
+        int menu_count = this.jdbcTemplate.queryForObject(orderCount, int.class, cart_id) + postCartReq.getMenu_count();
+
+        String Query = "UPDATE Cart SET menu_count = ? WHERE cart_id = ?";
+        return this.jdbcTemplate.update(Query, menu_count, cart_id);
+    }
+
     public int checkCartExists(int cart_id){
-        String checkQuery = "select exists( select * from Cart where cart_id = ? and status = 'Y')";
+        String checkQuery = "select exists( select * from Cart where cart_id = ? and status = \"Y\" )";
         return this.jdbcTemplate.queryForObject(checkQuery, int.class, cart_id);
+    }
+
+    public List<PostOrderRes> checkCartExistsUser(int user_id){
+        String cartQuery = " select cart_id from Cart where user_id = ? and status = \"Y\" ";
+        return this.jdbcTemplate.query(cartQuery,
+                (rs, rowNum) -> new PostOrderRes(
+                        rs.getInt("cart_id")
+                ), user_id);
     }
 }
