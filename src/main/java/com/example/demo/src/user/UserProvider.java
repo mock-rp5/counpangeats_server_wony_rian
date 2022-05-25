@@ -112,7 +112,7 @@ public class UserProvider {
             GetUserEmailRes getUserEmailRes=userDao.findUserEmail(getUserEmailReq);
             return getUserEmailRes;
         }catch(Exception exception){
-            throw new BaseException(FAILED_FIND_EMAIL);
+            throw new BaseException(FAIL_FIND_EMAIL);
         }
     }
 
@@ -121,8 +121,18 @@ public class UserProvider {
             GetUserPasswordRes getUserPasswordRes=userDao.findUserPassword(getUserPasswordReq);
             return getUserPasswordRes;
         }catch(Exception exception){
-            throw new BaseException(FAILED_FIND_PASSWORD);
+            throw new BaseException(FAIL_FIND_PASSWORD);
         }
     }
+
+//    public List<GetAddressSimpleRes> getAddress(int userIdx) throws BaseException{
+//        try{
+//            List<GetAddressSimpleRes> getAddressSimpleResList= userDao.getAddress(userIdx);
+//            return getAddressSimpleResList;
+//        }
+//        catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
 
 }

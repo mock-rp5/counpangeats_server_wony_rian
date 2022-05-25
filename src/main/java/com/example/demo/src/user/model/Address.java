@@ -16,7 +16,6 @@ public class Address {
     @NotBlank(message="메인 주소를 입력하세요.")
     private String main_address;
 
-    @NotBlank(message="상세 주소를 입력하세요.")
     private String detail_address;
     private String address_guide;
     private int user_id;
@@ -26,4 +25,6 @@ public class Address {
 
     @NotBlank(message="주소 별칭을 입력하세요.")
     private String address_name;
+
+    private String status;
 }

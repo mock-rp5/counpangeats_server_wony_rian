@@ -4,6 +4,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.Req.PatchAddressReq;
 import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.PostAddressRes;
 import com.example.demo.src.user.model.Res.PostUserRes;
@@ -166,7 +167,27 @@ public class UserService {
             int addressIdx = userDao.createAddress(address);
             return new PostAddressRes(addressIdx);
         } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(FAIL_CREATE_ADDRESS);
+        }
+    }
+
+    //PATCH 주소 변경
+    public void modifyAddress(int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+
+        try {
+            int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
+        } catch (Exception ignored) {
+            throw new BaseException(FAIL_MODIFY_ADDRESS);
+        }
+    }
+
+    //PATCH 주소 삭제
+    public void deleteAddress(int addressIdx, int userIdx) throws BaseException {
+
+        try {
+            int delete_addressIdx = userDao.deleteAddress(addressIdx, userIdx);
+        } catch (Exception ignored) {
+            throw new BaseException(FAIL_DELETE_ADDRESS);
         }
     }
 }

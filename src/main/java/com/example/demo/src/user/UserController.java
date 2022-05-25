@@ -3,10 +3,7 @@ package com.example.demo.src.user;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.Address;
-import com.example.demo.src.user.model.Req.GetUserEmailReq;
-import com.example.demo.src.user.model.Req.GetUserPasswordReq;
-import com.example.demo.src.user.model.Req.PostLoginReq;
-import com.example.demo.src.user.model.Req.PostUserReq;
+import com.example.demo.src.user.model.Req.*;
 import com.example.demo.src.user.model.Res.*;
 import com.example.demo.src.user.model.User;
 import com.example.demo.utils.JwtService;
@@ -353,11 +350,12 @@ public class UserController {
     @ResponseBody
     @PostMapping("/address")
     public BaseResponse<PostAddressRes> createAddress(@RequestBody @Valid Address address) {
+
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             Address new_address = new Address(address.getAddress_id(), address.getMain_address(), address.getDetail_address(),
-                    address.getAddress_guide(),userIdxByJwt,address.getLongitude(),address.getLatitude(),address.getAddress_name());
+                    address.getAddress_guide(),userIdxByJwt,address.getLongitude(),address.getLatitude(),address.getAddress_name(),address.getStatus());
 
             PostAddressRes postAddressRes= userService.createAddress(new_address);
 
@@ -367,6 +365,70 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 주소 수정
+     * [PATCH] /users/address/status/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/address/status/{addressIdx}")
+    public BaseResponse<String> deleteAddress(@PathVariable("addressIdx") int addressIdx) {
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            userService.deleteAddress(userIdxByJwt,addressIdx);
+
+            String result ="주소가 삭제되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 주소 수정
+     * [PATCH] /users/address/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/address/{addressIdx}")
+    public BaseResponse<String> modifyAddress(@PathVariable("addressIdx") int addressIdx, @RequestBody @Valid PatchAddressReq patchAddressReq) {
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            PatchAddressReq new_patchAddressReq = new PatchAddressReq(userIdxByJwt, patchAddressReq.getDetail_address(), patchAddressReq.getAddress_guide(), patchAddressReq.getStatus(), patchAddressReq.getAddress_name(),
+                    patchAddressReq.getLongitude(),patchAddressReq.getLatitude());
+            userService.modifyAddress(addressIdx,new_patchAddressReq);
+
+            String result = "주소 상세 정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
+     * 회원 주소목록 조회 API
+     * [GET] /users/address
+     *  유저 주소 목록 - status, 메인주소, 주소 이름
+     * @return BaseResponse<List<GetUserPostRes>>
+     */
+//    // Path-variable
+//    @ResponseBody
+//    @GetMapping("/address")
+//    public BaseResponse<List<GetAddressSimpleRes>> getAddress() {
+//        try{
+//
+//            int userIdx = jwtService.getUserIdx();
+//
+//            // Get Users
+//            List<GetAddressSimpleRes> getAddressSimpleResList = userProvider.getAddress(userIdx);
+//            return new BaseResponse<>(getAddressSimpleResList);
+//        } catch(BaseException exception){
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
+
 
 
 }
