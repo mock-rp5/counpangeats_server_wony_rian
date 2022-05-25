@@ -165,9 +165,12 @@ public class UserService {
 
         try{
             int addressIdx = userDao.createAddress(address);
+            if(addressIdx==0){
+                throw new BaseException(FAIL_CREATE_ADDRESS);
+            }
             return new PostAddressRes(addressIdx);
         } catch (Exception exception) {
-            throw new BaseException(FAIL_CREATE_ADDRESS);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 
@@ -176,8 +179,11 @@ public class UserService {
 
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
+            if(modify_addressIdx==0){
+                throw new BaseException(FAIL_MODIFY_ADDRESS);
+            }
         } catch (Exception ignored) {
-            throw new BaseException(FAIL_MODIFY_ADDRESS);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 
@@ -186,8 +192,12 @@ public class UserService {
 
         try {
             int delete_addressIdx = userDao.deleteAddress(addressIdx, userIdx);
+
+            if(delete_addressIdx==0){
+                throw new BaseException(FAIL_DELETE_ADDRESS);
+            }
         } catch (Exception ignored) {
-            throw new BaseException(FAIL_DELETE_ADDRESS);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 }
