@@ -125,4 +125,14 @@ public class UserProvider {
         }
     }
 
+//    public List<GetAddressSimpleRes> getAddress(int userIdx) throws BaseException{
+//        try{
+//            List<GetAddressSimpleRes> getAddressSimpleResList= userDao.getAddress(userIdx);
+//            return getAddressSimpleResList;
+//        }
+//        catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
+
 }

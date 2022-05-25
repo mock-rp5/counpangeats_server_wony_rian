@@ -407,6 +407,28 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    /**
+     * 회원 주소목록 조회 API
+     * [GET] /users/address
+     *  유저 주소 목록 - status, 메인주소, 주소 이름
+     * @return BaseResponse<List<GetUserPostRes>>
+     */
+//    // Path-variable
+//    @ResponseBody
+//    @GetMapping("/address")
+//    public BaseResponse<List<GetAddressSimpleRes>> getAddress() {
+//        try{
+//
+//            int userIdx = jwtService.getUserIdx();
+//
+//            // Get Users
+//            List<GetAddressSimpleRes> getAddressSimpleResList = userProvider.getAddress(userIdx);
+//            return new BaseResponse<>(getAddressSimpleResList);
+//        } catch(BaseException exception){
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
+
 
 
 }

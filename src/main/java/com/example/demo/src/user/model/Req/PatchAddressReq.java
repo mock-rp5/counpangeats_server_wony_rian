@@ -17,7 +17,6 @@ public class PatchAddressReq {
     // 우선 주소 생성할 때랑 마찬가지로 디비 설정값이 Not NULL인 값에 대해서  전부 NotEmpty 처리를 하도록 했다.!
     private int user_id;
 
-    @NotBlank(message="상세 주소를 입력해주세요.")
     private String detail_address;
 
     private String address_guide;
