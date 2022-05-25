@@ -32,24 +32,18 @@ public enum BaseResponseStatus {
 
 
     // users
-    USERS_EMPTY_USER_ID(false, 2030, "유저 아이디 값을 확인해주세요."),
+    USERS_EMPTY_USER_ID(false, 2011, "유저 아이디 값을 확인해주세요."),
 
     // [POST] /users
-    POST_USERS_EMPTY_EMAIL(false, 2031, "이메일을 입력해주세요."),
-    POST_USERS_INVALID_EMAIL(false, 2032, "이메일 형식을 확인해주세요."),
+    POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
+    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
 
-    POST_USERS_EMPTY_NAME(false, 2033, "이름을 입력해주세요."),
-    POST_USERS_EMPTY_PASSWORD(false, 2034, "비밀번호를 입력해주세요."),
-    POST_USERS_EMPTY_PHONE(false, 2035, "휴대폰 번호를 입력해주세요."),
-    POST_USERS_INVALID_PHONE(false, 2036, "휴대폰 번호 형식을 확인해주세요."),
+    POST_USERS_EMPTY_NAME(false, 2018, "이름을 입력해주세요."),
+    POST_USERS_EMPTY_PASSWORD(false, 2019, "비밀번호를 입력해주세요."),
+    POST_USERS_EMPTY_PHONE(false, 2020, "휴대폰 번호를 입력해주세요."),
+    POST_USERS_INVALID_PHONE(false, 2021, "휴대폰 번호 형식을 확인해주세요."),
 
     // /cart
-<<<<<<< HEAD
-    FAIL_CREATE_CART(false, 2037, "카트를 생성할 수 없습니다."),
-    PATCH_MODIFY_CART_EMPTY(false, 2038, "입력한 카트가 없습니다."),
-    FAIL_DUPLICATE_CART(false, 2039, "카트에 담긴 가게가 중복되었습니다."),
-    FAIL_MODIFY_CART_EMPTY(false, 20240 "카트가 비었습니다."),
-=======
     FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
     PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
     FAIL_DUPLICATE_CART(false, 2020, "카트에 담긴 가게가 중복되었습니다."),
@@ -64,7 +58,6 @@ public enum BaseResponseStatus {
     PAYMENT_NUMBER_EMPTY(false, 2071, "계좌 또는 카드 번호를 입력해주세요."),
     PAYMENT_TYPE_EMPTY(false, 2072, "결제 방식 종류를 입력해주세요."),
     PAYMENT_ID_EMPTY(false, 2073, "결제 방식 식별자를 입력해주세요."),
->>>>>>> ef7afdc373b76ac9ea64d68595e7281254299493
 
     /**
      * 3000 : Response 오류
