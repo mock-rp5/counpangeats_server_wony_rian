@@ -7,6 +7,7 @@ import com.example.demo.src.user.model.*;
 import com.example.demo.src.user.model.Req.PatchAddressReq;
 import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.PostAddressRes;
+import com.example.demo.src.user.model.Res.PostBookmarkRes;
 import com.example.demo.src.user.model.Res.PostUserRes;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
@@ -175,14 +176,29 @@ public class UserService {
     }
 
     //PATCH 주소 변경
-    public void modifyAddress(int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+    public void modifyAddress(int userIdx,int  addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+//
+//        //Home을 새로 지정하면, 이전 Home인 주소의 stauts는 E(기타)로 변경.
+//        if(patchAddressReq.getStatus().equals("H")){
+//            int HaddressId=userDao.findHaddressId(userIdx);
+//            userDao.modifyStatusToE(userIdx,addressIdx);
+//        }
+//
+//        //Company를 새로 지정하면, 이전 Company인 주소의 status는 E(기타)로 변경.
+//        if(patchAddressReq.getStatus().equals("C")){
+//            try {
+//                userDao.modifyStatusToE(userIdx, addressIdx);
+//            }catch(Exception ignored){
+//
+//            }
+//        }
 
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
             if(modify_addressIdx==0){
                 throw new BaseException(FAIL_MODIFY_ADDRESS);
             }
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -196,8 +212,22 @@ public class UserService {
             if(delete_addressIdx==0){
                 throw new BaseException(FAIL_DELETE_ADDRESS);
             }
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    //북마크 추가
+    public PostBookmarkRes createBookmark(int userIdx,int storeIdx) throws BaseException{
+        try{
+            int bookmarkIdx=userDao.createBookmark(userIdx, storeIdx);
+            if(bookmarkIdx==0){
+                throw new BaseException(FAIL_POST_BOOKMARK);
+            }
+            return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }

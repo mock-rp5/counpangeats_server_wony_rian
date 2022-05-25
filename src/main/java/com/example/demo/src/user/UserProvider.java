@@ -89,6 +89,12 @@ public class UserProvider {
             throw new BaseException(NO_EXIST_EMAIL);
         }
 
+        String isExistUserStatus = userDao.isExistUserStatus(email);
+        System.out.println("isExistUserStatus : "+ isExistUserStatus);
+        if(isExistUserStatus.equals("N")){
+            throw new BaseException(DELETED_USER);
+        }
+
         User user = userDao.getPwd(postLoginReq);
         String encryptPwd;
         try {
@@ -129,6 +135,16 @@ public class UserProvider {
         try{
             List<GetAddressSimpleRes> getAddressSimpleResList= userDao.getAddress(userIdx);
             return getAddressSimpleResList;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetAddressRes getAddressOne(int addressIdx) throws BaseException{
+        try{
+            GetAddressRes getAddressRes= userDao.getAddressOne(addressIdx);
+            return getAddressRes;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

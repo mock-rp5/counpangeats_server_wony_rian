@@ -145,6 +145,17 @@ public class UserDao {
                 );
     }
 
+    public String isExistUserStatus(String email){
+        String isExistUserStatusQuery="select status\n" +
+                "from User\n" +
+                "where user_email=?";
+        String isExistUserStatusParam=email;
+        return this.jdbcTemplate.queryForObject(isExistUserStatusQuery,
+                String.class,
+                isExistUserStatusParam
+        );
+    }
+
 
     public String getUserEmail(int userId){
         String getEmailQuery="select user_email from User where user_id=?";
@@ -234,6 +245,13 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
+    public void modifyStatusToE(int userIdx, int addressIdx){
+        String modifyHtoEQuery = "update Address set status='E'\n" +
+                "where user_id=? and address_id=?";
+        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
+        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
+    }
+
     public int deleteAddress(int addressIdx, int userIdx){
         String deleteAddressQuery = "update Address\n" +
                 "set status='N'\n" +
@@ -246,7 +264,7 @@ public class UserDao {
     public List<GetAddressSimpleRes> getAddress(int user_id){
         String getAddressesQuery = "select status, address_name, main_address, detail_address\n" +
                 "from Address\n" +
-                "where user_id=?;";
+                "where user_id=? and status != 'N';";
         int getAddressesParams = user_id;
         return this.jdbcTemplate.query(getAddressesQuery,
                 (rs, rowNum) -> {
@@ -255,8 +273,32 @@ public class UserDao {
                     String main_address = rs.getString("main_address");
                     String detail_address=rs.getString("detail_address");
                     return new GetAddressSimpleRes(
-                            status,address_name,main_address,detail_address);
+                            address_name,main_address,detail_address,status);
                 },
                 getAddressesParams);
+    }
+
+    public GetAddressRes getAddressOne(int addressIdx){
+        String getAddressesOneQuery = "select main_address, detail_address, address_guide, status, address_name\n" +
+                "from Address\n" +
+                "where address_id=?;";
+        int getAddressesOneParams = addressIdx;
+        return this.jdbcTemplate.queryForObject(getAddressesOneQuery,
+                (rs, rowNum) -> new GetAddressRes(
+                        rs.getString("main_address"),
+                        rs.getString("detail_address"),
+                        rs.getString("address_guide"),
+                        rs.getString("status"),
+                        rs.getString("address_name")),
+                getAddressesOneParams);
+    }
+
+    public int createBookmark(int userIdx, int storeIdx){
+        String postBookmarkQuery="insert into Book_Mark(user_id,store_id) values(?,?);";
+        Object[] postBookmarkParams=new Object[]{userIdx,storeIdx};
+        this.jdbcTemplate.update(postBookmarkQuery,postBookmarkParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 }
