@@ -80,8 +80,8 @@ com/example/demo/src/user/model/Res/PostAddressRes.java
  com.example.demo.src.user.model.Res.PostAddressRes
 com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
 com/example/demo/src/user/model/User.java
@@ -104,5 +104,5 @@ com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
-com/example/demo/src/user/model/Res/GetUserEmailRes.java
- com.example.demo.src.user.model.Res.GetUserEmailRes
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController

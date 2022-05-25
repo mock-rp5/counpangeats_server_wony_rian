@@ -20,6 +20,7 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 import static com.example.demo.utils.ValidationRegex.isRegexPhone;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:9000")
 @RequestMapping("/users")
 public class UserController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -367,7 +368,7 @@ public class UserController {
     }
 
     /**
-     * 주소 수정
+     * 주소 삭제
      * [PATCH] /users/address/status/:addressIdx
      * @return BaseResponse<String>
      */
@@ -463,6 +464,26 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+//    /**
+//     * 즐겨찾기 삭제
+//     * [POST] /users/bookmark/status/
+//     * @return BaseResponse<reuslt>
+//     */
+//    @ResponseBody
+//    @PostMapping("/bookmark/STA")
+//    public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
+//
+//        try {
+//            //jwt에서 idx 추출.
+//            int userIdx = jwtService.getUserIdx();
+//            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx,storeIdx);
+//
+//            return new BaseResponse<>(postBookmarkRes);
+//        } catch (BaseException exception) {
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
 
 
 
