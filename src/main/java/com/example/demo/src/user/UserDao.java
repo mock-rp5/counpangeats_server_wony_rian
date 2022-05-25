@@ -270,4 +270,20 @@ public class UserDao {
                 },
                 getAddressesParams);
     }
+
+    public GetAddressRes getAddressOne(int addressIdx){
+        String getAddressesOneQuery = "select main_address, detail_address, address_guide, status, address_name\n" +
+                "from Address\n" +
+                "where address_id=?;";
+        int getAddressesOneParams = addressIdx;
+        return this.jdbcTemplate.queryForObject(getAddressesOneQuery,
+                (rs, rowNum) -> new GetAddressRes(
+                        rs.getString("main_address"),
+                        rs.getString("detail_address"),
+                        rs.getString("address_guide"),
+                        rs.getString("status"),
+                        rs.getString("address_name")),
+                getAddressesOneParams);
+
+    }
 }

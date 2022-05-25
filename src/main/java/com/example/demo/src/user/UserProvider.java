@@ -141,4 +141,14 @@ public class UserProvider {
         }
     }
 
+    public GetAddressRes getAddressOne(int addressIdx) throws BaseException{
+        try{
+            GetAddressRes getAddressRes= userDao.getAddressOne(addressIdx);
+            return getAddressRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

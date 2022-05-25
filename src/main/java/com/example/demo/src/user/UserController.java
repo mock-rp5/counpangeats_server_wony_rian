@@ -411,7 +411,7 @@ public class UserController {
      * 회원 주소목록 조회 API
      * [GET] /users/address
      *  유저 주소 목록 - status, 메인주소, 주소 이름
-     * @return BaseResponse<List<GetUserPostRes>>
+     * @return BaseResponse<List<GetAddressSimpletRes>>
      */
     // Path-variable
     @ResponseBody
@@ -422,6 +422,23 @@ public class UserController {
 
             List<GetAddressSimpleRes> getAddressSimpleResList = userProvider.getAddress(userIdx);
             return new BaseResponse<>(getAddressSimpleResList);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
+     * 주소 상세조회 API
+     * [GET] /users/address
+     * 상세조회 탭 - 메인주소, 상세주소, 길안내, Status, 주소 이름
+     * @return BaseResponse<GetAddressRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/address/{addressIdx}")
+    public BaseResponse<GetAddressRes> getAddressOne(@PathVariable("addressIdx") int addressIdx) {
+        try{
+            GetAddressRes getAddressRes = userProvider.getAddressOne(addressIdx);
+            return new BaseResponse<>(getAddressRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
