@@ -167,7 +167,7 @@ public class UserService {
             int addressIdx = userDao.createAddress(address);
             return new PostAddressRes(addressIdx);
         } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(FAIL_CREATE_ADDRESS);
         }
     }
 
@@ -177,7 +177,7 @@ public class UserService {
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
         } catch (Exception ignored) {
-            throw new BaseException(FAILED_MODIFY_ADDRESS);
+            throw new BaseException(FAIL_MODIFY_ADDRESS);
         }
     }
 }

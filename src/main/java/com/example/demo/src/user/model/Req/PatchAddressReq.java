@@ -28,5 +28,8 @@ public class PatchAddressReq {
     @NotBlank(message="주소 별칭을 입력해주세요.")
     private String address_name;
 
+    private double longitude;
+    private double latitude;
+
 
 }

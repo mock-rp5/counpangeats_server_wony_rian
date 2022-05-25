@@ -88,11 +88,14 @@ public enum BaseResponseStatus {
     DELETE_FAIL_USER(false, 4020, "유저 삭제에 실패하였습니다."),
 
     //[GET] /users/email
-    FAILED_FIND_EMAIL(false,4021,"이메일 찾기에 실패하였습니다. "),
+    FAIL_FIND_EMAIL(false,4021,"이메일 찾기에 실패하였습니다. "),
     //[GET] /users/password
-    FAILED_FIND_PASSWORD(false,4022,"비밀번호 찾기에 실패하였습니다"),
+    FAIL_FIND_PASSWORD(false,4022,"비밀번호 찾기에 실패하였습니다"),
 
-    FAILED_MODIFY_ADDRESS(false,4023,"주소 변경에 실패하였습니다.");
+    //[POST] /users/address
+    FAIL_CREATE_ADDRESS(false,4023,"주소 추고에 실패하였습니다."),
+    //[PATCH] /users/address/:addressIdx
+    FAIL_MODIFY_ADDRESS(false,4024,"주소 변경에 실패하였습니다.");
 
 
 

@@ -228,10 +228,10 @@ public class UserDao {
 
     public int modifyAddress(int addressIdx, PatchAddressReq patchAddressReq){
         String modifyAddressQuery = "update Address\n" +
-                "set detail_address=?, address_guide=?, status=?, address_name=?\n" +
+                "set detail_address=?, address_guide=?, status=?, address_name=?, address_longitude=?, address_latitude=?\n" +
                 "where address_id=?;";
         Object[] modifyAddressParams = new Object[]{patchAddressReq.getDetail_address(),patchAddressReq.getAddress_guide(),
-        patchAddressReq.getStatus(), patchAddressReq.getAddress_name(),addressIdx};
+        patchAddressReq.getStatus(), patchAddressReq.getAddress_name(),patchAddressReq.getLongitude(), patchAddressReq.getLatitude(),addressIdx};
 
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
