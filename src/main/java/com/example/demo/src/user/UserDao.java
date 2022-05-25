@@ -245,6 +245,13 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
+    public void modifyStatusToE(int userIdx, int addressIdx){
+        String modifyHtoEQuery = "update Address set status='E'\n" +
+                "where user_id=? and address_id=?";
+        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
+        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
+    }
+
     public int deleteAddress(int addressIdx, int userIdx){
         String deleteAddressQuery = "update Address\n" +
                 "set status='N'\n" +

@@ -399,7 +399,7 @@ public class UserController {
             int userIdxByJwt = jwtService.getUserIdx();
             PatchAddressReq new_patchAddressReq = new PatchAddressReq(userIdxByJwt, patchAddressReq.getDetail_address(), patchAddressReq.getAddress_guide(), patchAddressReq.getStatus(), patchAddressReq.getAddress_name(),
                     patchAddressReq.getLongitude(),patchAddressReq.getLatitude());
-            userService.modifyAddress(addressIdx,new_patchAddressReq);
+            userService.modifyAddress(userIdxByJwt,addressIdx,new_patchAddressReq);
 
             String result = "주소 상세 정보가 수정되었습니다.";
             return new BaseResponse<>(result);
