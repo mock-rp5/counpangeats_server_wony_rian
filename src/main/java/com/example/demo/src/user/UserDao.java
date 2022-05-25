@@ -255,7 +255,7 @@ public class UserDao {
                     String main_address = rs.getString("main_address");
                     String detail_address=rs.getString("detail_address");
                     return new GetAddressSimpleRes(
-                            status,address_name,main_address,detail_address);
+                            address_name,main_address,detail_address,status);
                 },
                 getAddressesParams);
     }
