@@ -171,13 +171,23 @@ public class UserService {
         }
     }
 
-    //PATCH 주소
+    //PATCH 주소 변경
     public void modifyAddress(int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
 
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
         } catch (Exception ignored) {
             throw new BaseException(FAIL_MODIFY_ADDRESS);
+        }
+    }
+
+    //PATCH 주소 삭제
+    public void deleteAddress(int addressIdx, int userIdx) throws BaseException {
+
+        try {
+            int delete_addressIdx = userDao.deleteAddress(addressIdx, userIdx);
+        } catch (Exception ignored) {
+            throw new BaseException(FAIL_DELETE_ADDRESS);
         }
     }
 }

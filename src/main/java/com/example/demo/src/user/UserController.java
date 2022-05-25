@@ -368,6 +368,26 @@ public class UserController {
 
     /**
      * 주소 수정
+     * [PATCH] /users/address/status/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/address/status/{addressIdx}")
+    public BaseResponse<String> deleteAddress(@PathVariable("addressIdx") int addressIdx) {
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            userService.deleteAddress(userIdxByJwt,addressIdx);
+
+            String result ="주소가 삭제되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 주소 수정
      * [PATCH] /users/address/:addressIdx
      * @return BaseResponse<String>
      */

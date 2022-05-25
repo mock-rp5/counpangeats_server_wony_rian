@@ -93,9 +93,13 @@ public enum BaseResponseStatus {
     FAIL_FIND_PASSWORD(false,4022,"비밀번호 찾기에 실패하였습니다"),
 
     //[POST] /users/address
-    FAIL_CREATE_ADDRESS(false,4023,"주소 추고에 실패하였습니다."),
+    FAIL_CREATE_ADDRESS(false,4023,"새 주소 추가에 실패하였습니다."),
+
     //[PATCH] /users/address/:addressIdx
-    FAIL_MODIFY_ADDRESS(false,4024,"주소 변경에 실패하였습니다.");
+    FAIL_MODIFY_ADDRESS(false,4024,"주소 변경에 실패하였습니다."),
+
+    //[PATCH] /users/address/status/:addressIdx
+    FAIL_DELETE_ADDRESS(false,4025,"주소 삭제에 실패하였습니다.");
 
 
 

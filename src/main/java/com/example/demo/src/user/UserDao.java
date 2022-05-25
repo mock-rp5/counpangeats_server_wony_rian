@@ -236,4 +236,12 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
+    public int deleteAddress(int addressIdx, int userIdx){
+        String deleteAddressQuery = "update Address\n" +
+                "set status='N'\n" +
+                "where user_id=? and address_id=?;";
+        Object[] deleteAddressParams = new Object[]{userIdx, addressIdx};
+
+        return this.jdbcTemplate.update(deleteAddressQuery,deleteAddressParams);
+    }
 }
