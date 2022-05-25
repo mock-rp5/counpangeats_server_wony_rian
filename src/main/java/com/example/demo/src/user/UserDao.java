@@ -1,12 +1,10 @@
 package com.example.demo.src.user;
 
 
-import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.Address;
 import com.example.demo.src.user.model.Req.*;
-import com.example.demo.src.user.model.Res.GetMyEatsRes;
-import com.example.demo.src.user.model.Res.GetUserEmailRes;
-import com.example.demo.src.user.model.Res.GetUserPasswordRes;
-import com.example.demo.src.user.model.Res.GetUserRes;
+import com.example.demo.src.user.model.Res.*;
+import com.example.demo.src.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -243,5 +241,22 @@ public class UserDao {
         Object[] deleteAddressParams = new Object[]{userIdx, addressIdx};
 
         return this.jdbcTemplate.update(deleteAddressQuery,deleteAddressParams);
+    }
+
+    public List<GetAddressSimpleRes> getAddress(int user_id){
+        String getAddressesQuery = "select status, address_name, main_address, detail_address\n" +
+                "from Address\n" +
+                "where user_id=?;";
+        int getAddressesParams = user_id;
+        return this.jdbcTemplate.query(getAddressesQuery,
+                (rs, rowNum) -> {
+                    String status = rs.getString("status");
+                    String address_name = rs.getString("address_name");
+                    String main_address = rs.getString("main_address");
+                    String detail_address=rs.getString("detail_address");
+                    return new GetAddressSimpleRes(
+                            status,address_name,main_address,detail_address);
+                },
+                getAddressesParams);
     }
 }

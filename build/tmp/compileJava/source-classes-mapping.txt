@@ -76,18 +76,18 @@ com/example/demo/config/ExceptionController.java
  com.example.demo.config.ExceptionController
 com/example/demo/src/orders/OrderController.java
  com.example.demo.src.orders.OrderController
+com/example/demo/src/user/model/Res/GetAddressRes.java
+ com.example.demo.src.user.model.Res.GetAddressRes
+com/example/demo/src/user/model/Address.java
+ com.example.demo.src.user.model.Address
+com/example/demo/src/user/model/Req/PatchAddressReq.java
+ com.example.demo.src.user.model.Req.PatchAddressReq
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
-com/example/demo/src/user/model/Req/PatchAddressReq.java
- com.example.demo.src.user.model.Req.PatchAddressReq
-com/example/demo/src/user/model/Res/GetAddressRes.java
- com.example.demo.src.user.model.Res.GetAddressRes
 com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
  com.example.demo.src.user.model.Res.GetAddressSimpleRes
-com/example/demo/src/user/model/Address.java
- com.example.demo.src.user.model.Address
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/src/user/UserProvider.java
