@@ -411,7 +411,7 @@ public class UserController {
      * 회원 주소목록 조회 API
      * [GET] /users/address
      *  유저 주소 목록 - status, 메인주소, 주소 이름
-     * @return BaseResponse<List<GetAddressSimpletRes>>
+     * @return BaseResponse<List<GetAddressSimpleRes>>
      */
     // Path-variable
     @ResponseBody
