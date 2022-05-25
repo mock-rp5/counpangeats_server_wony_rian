@@ -89,6 +89,12 @@ public class UserProvider {
             throw new BaseException(NO_EXIST_EMAIL);
         }
 
+        String isExistUserStatus = userDao.isExistUserStatus(email);
+        System.out.println("isExistUserStatus : "+ isExistUserStatus);
+        if(isExistUserStatus.equals("N")){
+            throw new BaseException(DELETED_USER);
+        }
+
         User user = userDao.getPwd(postLoginReq);
         String encryptPwd;
         try {

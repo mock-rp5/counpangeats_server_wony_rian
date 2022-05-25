@@ -145,6 +145,17 @@ public class UserDao {
                 );
     }
 
+    public String isExistUserStatus(String email){
+        String isExistUserStatusQuery="select status\n" +
+                "from User\n" +
+                "where user_email=?";
+        String isExistUserStatusParam=email;
+        return this.jdbcTemplate.queryForObject(isExistUserStatusQuery,
+                String.class,
+                isExistUserStatusParam
+        );
+    }
+
 
     public String getUserEmail(int userId){
         String getEmailQuery="select user_email from User where user_id=?";
@@ -255,7 +266,7 @@ public class UserDao {
                     String main_address = rs.getString("main_address");
                     String detail_address=rs.getString("detail_address");
                     return new GetAddressSimpleRes(
-                            status,address_name,main_address,detail_address);
+                            address_name,main_address,detail_address,status);
                 },
                 getAddressesParams);
     }

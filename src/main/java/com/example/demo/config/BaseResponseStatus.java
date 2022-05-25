@@ -58,15 +58,16 @@ public enum BaseResponseStatus {
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 이메일이거나 비밀번호가 틀렸습니다."),
+    DELETED_USER(false,3015,"탈퇴한 유저의 접근입니다."),
 
     //[PATCH] /users
-    NEED_NEW_USER_NAME(false,3015,"새로운 이름을 입력해주세요."),
-    NEED_NEW_USER_EMAIL(false,3016,"새로운 이메일을 입력해주세요."),
-    NEED_NEW_USER_PHONE(false,3017,"새로운 휴대폰번호를 입력해주세요."),
-    NEED_NEW_USER_PASSWORD(false,3018,"새로운 비밀번호를 입력해주세요."),
+    NEED_NEW_USER_NAME(false,3020,"새로운 이름을 입력해주세요."),
+    NEED_NEW_USER_EMAIL(false,3021,"새로운 이메일을 입력해주세요."),
+    NEED_NEW_USER_PHONE(false,3022,"새로운 휴대폰번호를 입력해주세요."),
+    NEED_NEW_USER_PASSWORD(false,3023,"새로운 비밀번호를 입력해주세요."),
 
     //[POST] /users/login
-    NO_EXIST_EMAIL(false,3018,"존재하지 않는 이메일 입니다."),
+    NO_EXIST_EMAIL(false,3024,"존재하지 않는 이메일 입니다."),
 
 
     /**
