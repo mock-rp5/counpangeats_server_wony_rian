@@ -34,21 +34,21 @@ public class OrderController {
     //카트 생성
     @ResponseBody
     @PostMapping("/cart")
-    public BaseResponse<String> createCart(@RequestParam int store_id,
-                                           @RequestParam int menu_id, @RequestBody PostCartReq postCartReq) throws BaseException {
+    public BaseResponse<String> createCart(@RequestParam int storeIdx,
+                                           @RequestParam int menuIdx, @RequestBody PostCartReq postCartReq) throws BaseException {
         try {
             int userIdx= jwtService.getUserIdx();
 
             //같은 메뉴 있는 지 확인
-            int sameMenu = orderService.checkCartMenu(menu_id, userIdx, postCartReq);
+            int sameMenu = orderService.checkCartMenu(menuIdx, userIdx, postCartReq);
             if(sameMenu != 0){
                 return new BaseResponse<>("카트에 담겼습니다.");
             }
             int checkCartStore = orderService.checkCart(userIdx);
-            if (checkCartStore != 0 && store_id != checkCartStore) {
+            if (checkCartStore != 0 && storeIdx != checkCartStore) {
                 return new BaseResponse<>(FAIL_DUPLICATE_CART);
             }
-            orderService.createCart(userIdx, store_id, menu_id, postCartReq);
+            orderService.createCart(userIdx, storeIdx, menuIdx, postCartReq);
             return new BaseResponse<>("카드에 담겼습니다.");
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -68,17 +68,17 @@ public class OrderController {
     //카트 수정
     @ResponseBody
     @PatchMapping("/cart")
-    public BaseResponse<String> modifyCart(@RequestParam int store_id,
-                                           @RequestParam int cart_id, @RequestBody PatchCartReq patchCartReq) throws BaseException {
+    public BaseResponse<String> modifyCart(@RequestParam int storeIdx,
+                                           @RequestParam int cartIdx, @RequestBody PatchCartReq patchCartReq) throws BaseException {
         int userIdx= jwtService.getUserIdx();
 
-        if (store_id == 0 || cart_id == 0) {
+        if (storeIdx == 0 || cartIdx == 0) {
             return new BaseResponse<>(PATCH_MODIFY_CART_EMPTY);
         }
-        if (orderService.checkCartExists(cart_id) == 0) {
+        if (orderService.checkCartExists(cartIdx) == 0) {
             return new BaseResponse<>(FAIL_CART_EMPTY);
         }
-        orderService.modifyCart(store_id, cart_id, patchCartReq);
+        orderService.modifyCart(storeIdx, cartIdx, patchCartReq);
         return new BaseResponse<>("카트가 수정되었습니다.");
     }
 

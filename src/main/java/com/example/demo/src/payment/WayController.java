@@ -51,13 +51,13 @@ public class WayController {
     //결제 수단 삭제
     @ResponseBody
     @PatchMapping("/status")
-    public BaseResponse<String> deletePayment(@RequestParam Integer payment_method_id) throws BaseException {
+    public BaseResponse<String> deletePayment(@RequestParam Integer paymentIdx) throws BaseException {
         try {
             int userIdx= jwtService.getUserIdx();
-            if(payment_method_id == null){
+            if(paymentIdx == null){
                 return new BaseResponse<>(PAYMENT_ID_EMPTY);
             }
-            wayService.deletePayment(userIdx, payment_method_id);
+            wayService.deletePayment(userIdx, paymentIdx);
             return new BaseResponse<>("결제 수단이 삭제되었습니다.");
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

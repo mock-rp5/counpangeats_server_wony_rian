@@ -56,8 +56,8 @@ public enum BaseResponseStatus {
     // /payment
     PAYMENT_NAME_EMPTY(false, 2070, "결제 방식 은행을 입력해주세요."),
     PAYMENT_NUMBER_EMPTY(false, 2071, "계좌 또는 카드 번호를 입력해주세요."),
-    PAYMENT_TYPE_EMPTY(false, 2071, "결제 방식 종류를 입력해주세요."),
-    PAYMENT_ID_EMPTY(false, 2072, "결제 방식 식별자를 입력해주세요."),
+    PAYMENT_TYPE_EMPTY(false, 2072, "결제 방식 종류를 입력해주세요."),
+    PAYMENT_ID_EMPTY(false, 2073, "결제 방식 식별자를 입력해주세요."),
 
     /**
      * 3000 : Response 오류
