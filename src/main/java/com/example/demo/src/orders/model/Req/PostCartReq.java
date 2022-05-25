@@ -1,4 +1,4 @@
-package com.example.demo.src.orders.model;
+package com.example.demo.src.orders.model.Req;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

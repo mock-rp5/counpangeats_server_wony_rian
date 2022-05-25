@@ -2,9 +2,12 @@ package com.example.demo.src.orders;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.orders.model.GetCartRes;
-import com.example.demo.src.orders.model.PatchCartReq;
-import com.example.demo.src.orders.model.PostCartReq;
+import com.example.demo.src.orders.model.Req.PatchCartReq;
+import com.example.demo.src.orders.model.Req.PostCartReq;
+import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static sun.security.provider.certpath.BuildStep.FAIL;
@@ -25,7 +28,6 @@ public class OrderService {
                 throw new BaseException(FAIL_CREATE_CART);
             }
         } catch (Exception exception) {
-            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -37,17 +39,14 @@ public class OrderService {
                 throw new BaseException(FAIL_CREATE_CART);
             }
         } catch (Exception exception) {
-            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
     public GetCartRes getCart(int userIdx) throws BaseException {
         try {
-            GetCartRes cart = orderDao.getCart(userIdx);
-            return cart;
+            return orderDao.getCart(userIdx);
         } catch (Exception exception) {
-            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -55,7 +54,6 @@ public class OrderService {
         try {
             orderDao.deleteCart(user_id, cart_id);
         } catch (Exception exception) {
-            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -66,10 +64,25 @@ public class OrderService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    public int checkCartMenu(int menu_id, int user_id, PostCartReq postCartReq) throws BaseException {
+        try {
+            return orderDao.checkCartMenu(menu_id, user_id, postCartReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     public int checkCartExists(int cart_id) throws BaseException {
         try {
             return orderDao.checkCartExists(cart_id);
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public List<PostOrderRes> checkCartUserExists(int user_id) throws BaseException {
+        try {
+            return orderDao.checkCartExistsUser(user_id);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
