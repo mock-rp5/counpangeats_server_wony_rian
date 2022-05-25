@@ -2,13 +2,13 @@ package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.payment.Req.DeletePaymentReq;
 import com.example.demo.src.payment.Req.PostPaymentReq;
+import com.example.demo.src.payment.Res.GetPaymentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -50,13 +50,27 @@ public class WayController {
     }
     //결제 수단 삭제
     @ResponseBody
-    @PatchMapping
-    public BaseResponse<String> deletePayment(@RequestBody @Valid DeletePaymentReq deletePaymentReq) throws BaseException {
+    @PatchMapping("/status")
+    public BaseResponse<String> deletePayment(@RequestParam Integer payment_method_id) throws BaseException {
         try {
             int userIdx= jwtService.getUserIdx();
-
-            wayService.deletePayment(userIdx, deletePaymentReq);
+            if(payment_method_id == null){
+                return new BaseResponse<>(PAYMENT_ID_EMPTY);
+            }
+            wayService.deletePayment(userIdx, payment_method_id);
             return new BaseResponse<>("결제 수단이 삭제되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    //결제 수단 조회
+    @ResponseBody
+    @GetMapping
+    public BaseResponse<List<GetPaymentRes>> getPayment() throws BaseException {
+        try {
+            int userIdx= jwtService.getUserIdx();
+            List<GetPaymentRes> payment = wayService.getPayment(userIdx);
+            return new BaseResponse<>(payment);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

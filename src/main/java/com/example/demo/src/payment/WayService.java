@@ -1,9 +1,11 @@
 package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.payment.Req.DeletePaymentReq;
 import com.example.demo.src.payment.Req.PostPaymentReq;
+import com.example.demo.src.payment.Res.GetPaymentRes;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
 
@@ -23,10 +25,18 @@ public class WayService {
         }
     }
 
-    public void deletePayment(int userIdx, DeletePaymentReq deletePaymentReq) throws BaseException {
+    public void deletePayment(int userIdx, Integer payment_method_id) throws BaseException {
         try {
-            wayDao.deletePayment(userIdx, deletePaymentReq);
+            wayDao.deletePayment(userIdx, payment_method_id);
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetPaymentRes> getPayment(int user_id) throws BaseException {
+        try {
+            return wayDao.getPayment(user_id);
+        }catch (Exception e){
             throw new BaseException(DATABASE_ERROR);
         }
     }

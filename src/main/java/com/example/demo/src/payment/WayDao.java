@@ -1,12 +1,13 @@
 package com.example.demo.src.payment;
 
-import com.example.demo.src.payment.Req.DeletePaymentReq;
 import com.example.demo.src.payment.Req.PostPaymentReq;
+import com.example.demo.src.payment.Res.GetPaymentRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class WayDao {
@@ -28,9 +29,24 @@ public class WayDao {
     }
 
     //결제 방식 삭제
-    public int deletePayment(int user_id, DeletePaymentReq deletePaymentReq) {
+    public int deletePayment(int user_id, Integer payment_method_id) {
         String createPaymentQuery = "UPDATE Payment_Method SET status='N' WHERE payment_method_id=? AND user_id=?";
-        Object[] createPaymentParams = new Object[]{deletePaymentReq.getPayment_method_id(), user_id};
+        Object[] createPaymentParams = new Object[]{payment_method_id, user_id};
         return this.jdbcTemplate.update(createPaymentQuery, createPaymentParams);
+    }
+
+    //결제 방식 조회
+    public List<GetPaymentRes> getPayment(int user_id) {
+        System.out.println("user_id = " + user_id);
+        String getPaymentQuery = "select payment_name, payment_number, payment_type \n" +
+                "from Payment_Method \n" +
+                "where user_id = ? and status = 'Y';";
+
+        return this.jdbcTemplate.query(getPaymentQuery,
+                (rs, rowNum) -> new GetPaymentRes(
+                        rs.getString("payment_name"),
+                        rs.getString("payment_number"),
+                        rs.getString("payment_type")
+                ), user_id);
     }
 }
