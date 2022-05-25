@@ -78,7 +78,7 @@ public class OrderController {
         if (orderService.checkCartExists(cartIdx) == 0) {
             return new BaseResponse<>(FAIL_CART_EMPTY);
         }
-        orderService.modifyCart(storeIdx, cartIdxgit a, patchCartReq);
+        orderService.modifyCart(storeIdx, cartIdx, patchCartReq);
         return new BaseResponse<>("카트가 수정되었습니다.");
     }
 
