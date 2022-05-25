@@ -257,7 +257,7 @@ public class UserDao {
     public List<GetAddressSimpleRes> getAddress(int user_id){
         String getAddressesQuery = "select status, address_name, main_address, detail_address\n" +
                 "from Address\n" +
-                "where user_id=?;";
+                "where user_id=? and status != 'N';";
         int getAddressesParams = user_id;
         return this.jdbcTemplate.query(getAddressesQuery,
                 (rs, rowNum) -> {
