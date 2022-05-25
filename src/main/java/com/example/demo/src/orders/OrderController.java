@@ -2,14 +2,18 @@ package com.example.demo.src.orders;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.orders.model.DeleteCartReq;
+import com.example.demo.src.orders.model.Req.DeleteCartReq;
 import com.example.demo.src.orders.model.GetCartRes;
-import com.example.demo.src.orders.model.PatchCartReq;
-import com.example.demo.src.orders.model.PostCartReq;
+import com.example.demo.src.orders.model.Req.PatchCartReq;
+import com.example.demo.src.orders.model.Req.PostCartReq;
+import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.PostOrderRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -72,7 +76,7 @@ public class OrderController {
             return new BaseResponse<>(PATCH_MODIFY_CART_EMPTY);
         }
         if (orderService.checkCartExists(cart_id) == 0) {
-            return new BaseResponse<>(FAIL_MODIFY_CART_EMPTY);
+            return new BaseResponse<>(FAIL_CART_EMPTY);
         }
         orderService.modifyCart(store_id, cart_id, patchCartReq);
         return new BaseResponse<>("카트가 수정되었습니다.");
@@ -85,9 +89,34 @@ public class OrderController {
         int user_id= jwtService.getUserIdx();
 
         if(orderService.checkCartExists(deleteCartReq.getCart_id()) == 0){
-            return new BaseResponse<>(FAIL_MODIFY_CART_EMPTY);
+            return new BaseResponse<>(FAIL_CART_EMPTY);
         }
         orderService.deleteCart(deleteCartReq.getCart_id(), user_id);
         return new BaseResponse<>("카드가 삭제 되었습니다.");
+    }
+
+    //주문 생성 API
+    @ResponseBody
+    @PostMapping("")
+    public BaseResponse<String> createOrder(@RequestBody PostOrderReq postOrderReq){
+        try {
+            int user_id= jwtService.getUserIdx();
+            if(postOrderReq.getAddress_id() == null){
+                return new BaseResponse<>(ADDRESS_ID_EMPTY);
+            }
+            if(postOrderReq.getStore_id() == null){
+                return new BaseResponse<>(STORE_ID_EMPTY);
+            }
+            List<PostOrderRes> postOrderRes = orderService.checkCartUserExists(user_id);
+            if(postOrderRes.isEmpty()){
+                return new BaseResponse<>(STORE_ID_EMPTY);
+            }
+
+
+            return new BaseResponse<>("주문이 완료되었습니다.");
+
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 }

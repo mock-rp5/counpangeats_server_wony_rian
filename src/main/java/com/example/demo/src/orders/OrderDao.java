@@ -2,13 +2,17 @@ package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
 import com.example.demo.src.orders.model.GetCartRes;
-import com.example.demo.src.orders.model.PatchCartReq;
-import com.example.demo.src.orders.model.PostCartReq;
+import com.example.demo.src.orders.model.Req.PatchCartReq;
+import com.example.demo.src.orders.model.Req.PostCartReq;
+import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class OrderDao {
@@ -87,6 +91,12 @@ public class OrderDao {
         return this.jdbcTemplate.update(Query, cart_id, user_id);
     }
 
+    //주문 생성
+    public int createOrder(int user_id, PostOrderReq postOrderReq){
+        String checkQuery = "";
+        return 1;
+    }
+
     //카트에 담긴 가게 확인
     public int checkCartStore(int user_id) {
         String checkQuery = "select exists(select * from Cart where user_id = ? and status = \"Y\")";
@@ -94,9 +104,10 @@ public class OrderDao {
 
         if(store_id == 0) return store_id;
 
-        String getCartQuery = "SELECT store_id FROM Cart WHERE status='Y' AND user_id=? LIMIT 1";
+        String getCartQuery = "SELECT store_id FROM Cart WHERE status=\"Y\" AND user_id=? LIMIT 1";
         return this.jdbcTemplate.queryForObject(getCartQuery, int.class, user_id);
     }
+
     //카트에 동일한 메뉴 존재 확인
     public int checkCartMenu(int menu_id, int user_id, PostCartReq postCartReq) {
         String checkQuery = "select exists(select menu_id from Cart where menu_id = ? and user_id = ? and menu_option_id = ? and status = \"Y\")";
@@ -114,7 +125,15 @@ public class OrderDao {
     }
 
     public int checkCartExists(int cart_id){
-        String checkQuery = "select exists( select * from Cart where cart_id = ? and status = 'Y')";
+        String checkQuery = "select exists( select * from Cart where cart_id = ? and status = \"Y\" )";
         return this.jdbcTemplate.queryForObject(checkQuery, int.class, cart_id);
+    }
+
+    public List<PostOrderRes> checkCartExistsUser(int user_id){
+        String cartQuery = " select cart_id from Cart where user_id = ? and status = \"Y\" ";
+        return this.jdbcTemplate.query(cartQuery,
+                (rs, rowNum) -> new PostOrderRes(
+                        rs.getInt("cart_id")
+                ), user_id);
     }
 }

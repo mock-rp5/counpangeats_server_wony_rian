@@ -2,8 +2,9 @@ package com.example.demo.src.orders;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.orders.model.GetCartRes;
-import com.example.demo.src.orders.model.PatchCartReq;
-import com.example.demo.src.orders.model.PostCartReq;
+import com.example.demo.src.orders.model.Req.PatchCartReq;
+import com.example.demo.src.orders.model.Req.PostCartReq;
+import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,6 +75,14 @@ public class OrderService {
         try {
             return orderDao.checkCartExists(cart_id);
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public List<PostOrderRes> checkCartUserExists(int user_id) throws BaseException {
+        try {
+            return orderDao.checkCartExistsUser(user_id);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
