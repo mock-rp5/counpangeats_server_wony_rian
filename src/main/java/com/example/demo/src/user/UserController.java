@@ -444,6 +444,26 @@ public class UserController {
         }
     }
 
+    /**
+     * 즐겨찾기 추가
+     * [POST] /users/bookmark/:storeIdx
+     * @return BaseResponse<PostBookmarkRes>
+     */
+    @ResponseBody
+    @PostMapping("/bookmark/{storeIdx}")
+    public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx,storeIdx);
+
+            return new BaseResponse<>(postBookmarkRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 
 
 }

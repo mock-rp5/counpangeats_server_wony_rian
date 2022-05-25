@@ -100,7 +100,10 @@ public enum BaseResponseStatus {
     FAIL_MODIFY_ADDRESS(false,4024,"주소 변경에 실패하였습니다."),
 
     //[PATCH] /users/address/status/:addressIdx
-    FAIL_DELETE_ADDRESS(false,4025,"주소 삭제에 실패하였습니다.");
+    FAIL_DELETE_ADDRESS(false,4025,"주소 삭제에 실패하였습니다."),
+
+    //[POST] /users/bookmark/:storeIdx
+    FAIL_POST_BOOKMARK(false, 4036,"즐겨찾기 추가에 실패하였습니다.");
 
 
 

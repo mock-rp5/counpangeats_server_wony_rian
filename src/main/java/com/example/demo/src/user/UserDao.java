@@ -291,6 +291,14 @@ public class UserDao {
                         rs.getString("status"),
                         rs.getString("address_name")),
                 getAddressesOneParams);
+    }
 
+    public int createBookmark(int userIdx, int storeIdx){
+        String postBookmarkQuery="insert into Book_Mark(user_id,store_id) values(?,?);";
+        Object[] postBookmarkParams=new Object[]{userIdx,storeIdx};
+        this.jdbcTemplate.update(postBookmarkQuery,postBookmarkParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 }

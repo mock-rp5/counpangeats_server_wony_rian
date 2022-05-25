@@ -7,6 +7,7 @@ import com.example.demo.src.user.model.*;
 import com.example.demo.src.user.model.Req.PatchAddressReq;
 import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.PostAddressRes;
+import com.example.demo.src.user.model.Res.PostBookmarkRes;
 import com.example.demo.src.user.model.Res.PostUserRes;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
@@ -214,5 +215,19 @@ public class UserService {
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    //북마크 추가
+    public PostBookmarkRes createBookmark(int userIdx,int storeIdx) throws BaseException{
+        try{
+            int bookmarkIdx=userDao.createBookmark(userIdx, storeIdx);
+            if(bookmarkIdx==0){
+                throw new BaseException(FAIL_POST_BOOKMARK);
+            }
+            return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }
