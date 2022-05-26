@@ -245,12 +245,12 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
-    public void modifyStatusToE(int userIdx, int addressIdx){
-        String modifyHtoEQuery = "update Address set status='E'\n" +
-                "where user_id=? and address_id=?";
-        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
-        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
-    }
+//    public void modifyStatusToE(int userIdx, int addressIdx){
+//        String modifyHtoEQuery = "update Address set status='E'\n" +
+//                "where user_id=? and address_id=?";
+//        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
+//        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
+//    }
 
     public int deleteAddress(int addressIdx, int userIdx){
         String deleteAddressQuery = "update Address\n" +
@@ -300,5 +300,31 @@ public class UserDao {
 
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+
+    public int deleteBookmark(int userIdx, int storeIdx){
+        String deleteBookmarkQuery = "update Book_Mark set status='N'\n" +
+                "where user_id=? and store_id=?;";
+        Object[] deleteBookmarkParams = new Object[]{userIdx, storeIdx};
+        this.jdbcTemplate.update(deleteBookmarkQuery,deleteBookmarkParams);
+
+        String bookmarkIdxQuery="select bookmark_id from Book_Mark where user_id =? and store_id=?";
+        return this.jdbcTemplate.queryForObject(bookmarkIdxQuery,int.class,userIdx,storeIdx);
+    }
+
+    public String getBookmarkStatus(int userIdx, int storeIdx){
+        String getBookmarkStatusQuery="select status\n" +
+                "from Book_Mark\n" +
+                "where user_id=? and store_id=?;";
+        Object[] getBookmarkStatusParam=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(getBookmarkStatusQuery,String.class,getBookmarkStatusParam);
+    }
+
+    public int isAlreadyCreate(int userIdx,int storeIdx){
+        String getIsAlreadyCreateQuery="select exists(\n" +
+                "    select *from Book_Mark\n" +
+                "    where user_id=? and store_id=? and status='Y');";
+        Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
     }
 }

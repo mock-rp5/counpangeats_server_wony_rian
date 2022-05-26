@@ -79,6 +79,11 @@ public enum BaseResponseStatus {
     //[POST] /users/login
     NO_EXIST_EMAIL(false,3024,"존재하지 않는 이메일 입니다."),
 
+    //[POST] /users/bookmark
+    ALREADY_POST_BOOKMARK(false, 3025,"이미 추가한 즐겨찾기 입니다."),
+
+    //[PATCH] /users/bookmark/status/:storeIdx
+    ALREADY_DELETE_BOOKMARK(false,3026,"이미 삭제된 즐겨찾기 입니다"),
 
     /**
      * 4000 : Database, Server 오류
@@ -113,7 +118,11 @@ public enum BaseResponseStatus {
     FAIL_DELETE_ADDRESS(false,4025,"주소 삭제에 실패하였습니다."),
 
     //[POST] /users/bookmark/:storeIdx
-    FAIL_POST_BOOKMARK(false, 4036,"즐겨찾기 추가에 실패하였습니다.");
+    FAIL_POST_BOOKMARK(false, 4036,"즐겨찾기 추가에 실패하였습니다."),
+
+    //[PATCH] /users/bookmark/status/:storeIdx
+    FAIL_DELETE_BOOKMARK(false,4038,"즐겨찾기 삭제에 실패하였습니다");
+
 
 
 

@@ -465,25 +465,26 @@ public class UserController {
         }
     }
 
-//    /**
-//     * 즐겨찾기 삭제
-//     * [POST] /users/bookmark/status/
-//     * @return BaseResponse<reuslt>
-//     */
-//    @ResponseBody
-//    @PostMapping("/bookmark/STA")
-//    public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
-//
-//        try {
-//            //jwt에서 idx 추출.
-//            int userIdx = jwtService.getUserIdx();
-//            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx,storeIdx);
-//
-//            return new BaseResponse<>(postBookmarkRes);
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    /**
+     * 즐겨찾기 삭제
+     * [POST] /users/bookmark/status/:storeIdx
+     * @return BaseResponse<result>
+     */
+    @ResponseBody
+    @PatchMapping("/bookmark/status/{storeIdx}")
+    public BaseResponse<String> deleteBookmark(@PathVariable("storeIdx") int storeIdx) {
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            userService.deleteBookmark(userIdx,storeIdx);
+            String result = "즐겨찾기가 삭제 되었습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
 
