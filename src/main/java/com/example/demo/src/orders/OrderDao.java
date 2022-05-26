@@ -25,16 +25,14 @@ public class OrderDao {
 
     //카트 생성
     public int createCart(int user_id, int store_id, int menu_id, PostCartReq postCartReq) {
+        System.out.println("menu_id = " + menu_id);
         String getPriceQuery = "select (M.menu_price+MO.option_price) as order_price\n" +
-                "                from Menu M \n" +
-                "                inner join  Menu_Option as MO\n" +
-                "                on M.menu_id = MO.menu_id\n" +
-                "                inner join Cart as C\n" +
-                "                on C.menu_id = M.menu_id\n" +
-                "where M.menu_id = ? and MO.menu_option_id = ? " +
-                "limit 1;";
+                "                from Menu as M \n" +
+                "                inner join Menu_Option as MO\n" +
+                "                on M.menu_id = MO.menu_id\n"+
+                "where M.menu_id = ? and MO.menu_option_id = ? limit 1";
         Integer order_price = this.jdbcTemplate.queryForObject(getPriceQuery, int.class, menu_id, postCartReq.getMenu_option_id());
-
+        System.out.println("order_price = " + order_price);
         String createCartQuery = "insert into Cart (user_id, store_id, menu_id, menu_count, order_price, menu_option_id) VALUES (?,?,?,?,?,?)";
         Object[] createCartParams = new Object[]{user_id, store_id, menu_id, postCartReq.getMenu_count(),
                 order_price, postCartReq.getMenu_option_id()};
@@ -53,7 +51,7 @@ public class OrderDao {
                 "from Store as S\n" +
                 "inner join Cart as C\n" +
                 "on C.store_id = S.store_id\n" +
-                "where S.store_id = ? and C.user_id = ? and S.status = 'Y' \n" +
+                "where S.store_id = ? and C.user_id = ? and S.status = \"Y\" \n" +
                 "group by C.user_id";
 
         String menuQuery = "select MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
@@ -62,7 +60,7 @@ public class OrderDao {
                 "on MO.menu_option_id = C.menu_option_id\n" +
                 "inner join Menu as M \n" +
                 "on M.menu_id = C.menu_id " +
-                "where C.user_id = ? and C.status = 'Y'";
+                "where C.user_id = ? and C.status = \"Y\"";
 
         return this.jdbcTemplate.queryForObject(storeQuery,
                 (rs, rowNum) -> new GetCartRes(
@@ -107,7 +105,7 @@ public class OrderDao {
 
         String deleteCartQuery = "UPDATE Cart SET status='N' WHERE cart_id = ?";
         String insertOrderInfoQuery = "insert into Order_Info (user_id, store_id, total_price, payment_method_id, delivery_request, store_request) VALUES (?,?,?,?,?,?)";
-        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id) VALUES (?,?,?,?)";
+        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id, user_id) VALUES (?,?,?,?,?)";
         String selectCartMenuQuery = "select menu_id, menu_count, menu_option_id from Cart where cart_id = ?";
         String getTotalPriceQuery = "select menu_count*order_price as total_price from Cart where cart_id = ?";
 
@@ -120,7 +118,7 @@ public class OrderDao {
                             rs.getInt("menu_count"),
                             rs.getInt("menu_option_id")
                     ), k);
-            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id());
+            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id);
             this.jdbcTemplate.update(deleteCartQuery, k); //카트에서 삭제
         }
         System.out.println("selectCartMenuQuery = " + selectCartMenuQuery);

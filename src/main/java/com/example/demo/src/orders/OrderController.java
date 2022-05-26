@@ -119,4 +119,13 @@ public class OrderController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    //주문 조회 API
+    @ResponseBody
+    @GetMapping()
+    public BaseResponse<String> getOrder() throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+
+        return new BaseResponse<>("주문이 완료되었습니다.");
+    }
 }

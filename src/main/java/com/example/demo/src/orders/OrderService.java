@@ -37,6 +37,7 @@ public class OrderService {
                 throw new BaseException(FAIL_CREATE_CART);
             }
         } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
