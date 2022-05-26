@@ -30,6 +30,8 @@ com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
+com/example/demo/src/user/model/StoreSimple.java
+ com.example.demo.src.user.model.StoreSimple
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
 com/example/demo/config/BaseResponse.java
@@ -58,18 +60,16 @@ com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/src/user/model/Address.java
  com.example.demo.src.user.model.Address
-com/example/demo/src/user/model/Req/GetUserEmailReq.java
- com.example.demo.src.user.model.Req.GetUserEmailReq
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/orders/OrderDao.java
  com.example.demo.src.orders.OrderDao
+com/example/demo/src/user/model/MyEatsInfo.java
+ com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/orders/model/GetCartRes.java
  com.example.demo.src.orders.model.GetCartRes
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
-com/example/demo/src/user/model/Req/GetUserPasswordReq.java
- com.example.demo.src.user.model.Req.GetUserPasswordReq
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
 com/example/demo/src/user/model/Req/PostLoginReq.java
@@ -80,8 +80,8 @@ com/example/demo/src/user/model/Res/PostAddressRes.java
  com.example.demo.src.user.model.Res.PostAddressRes
 com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
-com/example/demo/src/user/model/Res/GetUserEmailRes.java
- com.example.demo.src.user.model.Res.GetUserEmailRes
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
 com/example/demo/src/user/model/User.java
@@ -90,8 +90,6 @@ com/example/demo/src/user/model/Req/PatchAddressReq.java
  com.example.demo.src.user.model.Req.PatchAddressReq
 com/example/demo/src/orders/OrderController.java
  com.example.demo.src.orders.OrderController
-com/example/demo/src/user/model/Res/GetMyEatsRes.java
- com.example.demo.src.user.model.Res.GetMyEatsRes
 com/example/demo/src/user/model/Req/PatchUserReq.java
  com.example.demo.src.user.model.Req.PatchUserReq
 com/example/demo/DemoApplication.java
@@ -102,7 +100,9 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+com/example/demo/src/user/model/Res/GetBookmarkRes.java
+ com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes

@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.src.user.model.Address;
+import com.example.demo.src.user.model.MyEatsInfo;
 import com.example.demo.src.user.model.Req.*;
 import com.example.demo.src.user.model.Res.*;
 import com.example.demo.src.user.model.User;
@@ -60,11 +61,11 @@ public class UserDao {
                 getUserParams);
     }
 
-    public GetMyEatsRes getMyEats(int userIdx){
+    public MyEatsInfo getMyEats(int userIdx){
         String getMyEatsQuery = "select user_name,user_phone from User where user_id = ?";
         int getMyEatsParams = userIdx;
         return this.jdbcTemplate.queryForObject(getMyEatsQuery,
-                (rs, rowNum) -> new GetMyEatsRes(
+                (rs, rowNum) -> new MyEatsInfo(
                         rs.getString("user_name"),
                         rs.getString("user_phone")),
                 getMyEatsParams);
@@ -194,20 +195,20 @@ public class UserDao {
         return this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
     }
 
-    public GetUserEmailRes findUserEmail(GetUserEmailReq getUserEmailReq){
+    public GetUserEmailRes findUserEmail(String user_name, String user_phone){
         String getUserEmailQuery = "select user_email from User\n" +
                 "where user_name=? and user_phone=?;";
-        Object[]  getUserEmailParams= new Object[]{getUserEmailReq.getUser_name(),getUserEmailReq.getUser_phone()};
+        Object[]  getUserEmailParams= new Object[]{user_name,user_phone};
         return this.jdbcTemplate.queryForObject(getUserEmailQuery,
                 (rs, rowNum) -> new GetUserEmailRes(
                         rs.getString("user_email")),
                 getUserEmailParams);
     }
 
-    public GetUserPasswordRes findUserPassword(GetUserPasswordReq getUserPasswordReq){
+    public GetUserPasswordRes findUserPassword(String user_name, String user_email){
         String getUserPasswordQuery = "select user_password from User\n" +
                 "where user_name=? and user_email=?;";
-        Object[]  getUserPasswordParams= new Object[]{getUserPasswordReq.getUser_name(),getUserPasswordReq.getUser_email()};
+        Object[]  getUserPasswordParams= new Object[]{user_name, user_email};
         return this.jdbcTemplate.queryForObject(getUserPasswordQuery,
                  (rs, rowNum) -> new GetUserPasswordRes(
                         rs.getString("user_password")),
@@ -245,12 +246,12 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
-    public void modifyStatusToE(int userIdx, int addressIdx){
-        String modifyHtoEQuery = "update Address set status='E'\n" +
-                "where user_id=? and address_id=?";
-        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
-        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
-    }
+//    public void modifyStatusToE(int userIdx, int addressIdx){
+//        String modifyHtoEQuery = "update Address set status='E'\n" +
+//                "where user_id=? and address_id=?";
+//        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
+//        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
+//    }
 
     public int deleteAddress(int addressIdx, int userIdx){
         String deleteAddressQuery = "update Address\n" +
@@ -301,4 +302,32 @@ public class UserDao {
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
+
+    public int deleteBookmark(int userIdx, int storeIdx){
+        String deleteBookmarkQuery = "update Book_Mark set status='N'\n" +
+                "where user_id=? and store_id=?;";
+        Object[] deleteBookmarkParams = new Object[]{userIdx, storeIdx};
+        this.jdbcTemplate.update(deleteBookmarkQuery,deleteBookmarkParams);
+
+        String bookmarkIdxQuery="select bookmark_id from Book_Mark where user_id =? and store_id=?";
+        return this.jdbcTemplate.queryForObject(bookmarkIdxQuery,int.class,userIdx,storeIdx);
+    }
+
+    public String getBookmarkStatus(int userIdx, int storeIdx){
+        String getBookmarkStatusQuery="select status\n" +
+                "from Book_Mark\n" +
+                "where user_id=? and store_id=?;";
+        Object[] getBookmarkStatusParam=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(getBookmarkStatusQuery,String.class,getBookmarkStatusParam);
+    }
+
+    public int isAlreadyCreate(int userIdx,int storeIdx){
+        String getIsAlreadyCreateQuery="select exists(\n" +
+                "    select *from Book_Mark\n" +
+                "    where user_id=? and store_id=? and status='Y');";
+        Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
+    }
+
+//    public List<GetBookmarkRes>
 }

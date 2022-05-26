@@ -3,6 +3,7 @@ package com.example.demo.src.user;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.Address;
+import com.example.demo.src.user.model.MyEatsInfo;
 import com.example.demo.src.user.model.Req.*;
 import com.example.demo.src.user.model.Res.*;
 import com.example.demo.src.user.model.User;
@@ -116,14 +117,14 @@ public class UserController {
      */
     @ResponseBody
     @GetMapping("/my-eats")
-    public BaseResponse<GetMyEatsRes> getMyEats() {
+    public BaseResponse<MyEatsInfo> getMyEats() {
 
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
 //            PatchUserReq patchUserReq = new PatchUserReq(userIdxByJwt,user.getUser_name());
             // Get MyEats
-            GetMyEatsRes getMyEatsRes = userProvider.getMyEats(userIdxByJwt);
+            MyEatsInfo getMyEatsRes = userProvider.getMyEats(userIdxByJwt);
             return new BaseResponse<>(getMyEatsRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -285,6 +286,7 @@ public class UserController {
     /**
      * 유저 탈퇴 API
      * [PATCH] /users/status
+     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -305,19 +307,28 @@ public class UserController {
     /**
      * 유저 이메일 찾기 API
      * [GET] /users/email
+     *
      * @return BaseResponse<GetUserEmailRes>
      */
     @ResponseBody
     @GetMapping("/email")
-    public BaseResponse<GetUserEmailRes> findUserEmail(@RequestBody @Valid GetUserEmailReq getUserEmailReq){
-        //휴대폰번호 정규표현 확
-        if (!isRegexPhone(getUserEmailReq.getUser_phone())) {
+    public BaseResponse<GetUserEmailRes> findUserEmail(@RequestParam("user_name") String user_name,
+                                                       @RequestParam("user_phone") String user_phone) {
+        if (user_phone == "") {
+            return new BaseResponse<>(GET_USERS_PHONE_EMPTY);
+        }
+        if (user_name == "") {
+            return new BaseResponse<>(GET_USERS_NAME_EMPTY);
+        }
+
+        //휴대폰번호 정규표현 확인
+        if (!isRegexPhone(user_phone)) {
             return new BaseResponse<>(POST_USERS_INVALID_PHONE);
         }
-        try{
-            GetUserEmailRes getUserEmailRes = userProvider.findUserEmail(getUserEmailReq);
+        try {
+            GetUserEmailRes getUserEmailRes = userProvider.findUserEmail(user_name, user_phone);
             return new BaseResponse<>(getUserEmailRes);
-        }catch(BaseException exception){
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
 
@@ -326,26 +337,38 @@ public class UserController {
     /**
      * 유저 비밀번호 찾기 API
      * [GET] /users/password
+     *
      * @return BaseResponse<GetUserPasswordRes>
      */
     @ResponseBody
     @GetMapping("/password")
-    public BaseResponse<GetUserPasswordRes> findUserPassword(@RequestBody @Valid GetUserPasswordReq getUserPasswordReq){
+    public BaseResponse<GetUserPasswordRes> findUserPassword(@RequestParam("user_name") String user_name,
+                                                             @RequestParam("user_email") String user_email) {
+
+        if (user_name == "") {
+            return new BaseResponse<>(GET_USERS_NAME_EMPTY);
+        }
+        if (user_email == "") {
+            return new BaseResponse<>(GET_USERS_EMAIL_EMPTY);
+        }
+
         //이메일 정규표현 확인
-        if (!isRegexEmail(getUserPasswordReq.getUser_email())){
+        if (!isRegexEmail(user_email)){
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
-        try{
-            GetUserPasswordRes getUserPasswordRes = userProvider.findUserPassword(getUserPasswordReq);
+        try {
+            GetUserPasswordRes getUserPasswordRes = userProvider.findUserPassword(user_name,user_email);
             return new BaseResponse<>(getUserPasswordRes);
-        }catch(BaseException exception){
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
 
     }
+
     /**
      * 유저 주소 추가
      * [POST] /users/password
+     *
      * @return BaseResponse<GetUserPasswordRes>
      */
     @ResponseBody
@@ -356,9 +379,9 @@ public class UserController {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             Address new_address = new Address(address.getAddress_id(), address.getMain_address(), address.getDetail_address(),
-                    address.getAddress_guide(),userIdxByJwt,address.getLongitude(),address.getLatitude(),address.getAddress_name(),address.getStatus());
+                    address.getAddress_guide(), userIdxByJwt, address.getLongitude(), address.getLatitude(), address.getAddress_name(), address.getStatus());
 
-            PostAddressRes postAddressRes= userService.createAddress(new_address);
+            PostAddressRes postAddressRes = userService.createAddress(new_address);
 
             String result = "새 주소가 추가되었습니다.";
             return new BaseResponse<>(postAddressRes);
@@ -370,6 +393,7 @@ public class UserController {
     /**
      * 주소 삭제
      * [PATCH] /users/address/status/:addressIdx
+     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -378,9 +402,9 @@ public class UserController {
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
-            userService.deleteAddress(userIdxByJwt,addressIdx);
+            userService.deleteAddress(userIdxByJwt, addressIdx);
 
-            String result ="주소가 삭제되었습니다.";
+            String result = "주소가 삭제되었습니다.";
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -390,6 +414,7 @@ public class UserController {
     /**
      * 주소 수정
      * [PATCH] /users/address/:addressIdx
+     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -399,8 +424,8 @@ public class UserController {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             PatchAddressReq new_patchAddressReq = new PatchAddressReq(userIdxByJwt, patchAddressReq.getDetail_address(), patchAddressReq.getAddress_guide(), patchAddressReq.getStatus(), patchAddressReq.getAddress_name(),
-                    patchAddressReq.getLongitude(),patchAddressReq.getLatitude());
-            userService.modifyAddress(userIdxByJwt,addressIdx,new_patchAddressReq);
+                    patchAddressReq.getLongitude(), patchAddressReq.getLatitude());
+            userService.modifyAddress(userIdxByJwt, addressIdx, new_patchAddressReq);
 
             String result = "주소 상세 정보가 수정되었습니다.";
             return new BaseResponse<>(result);
@@ -408,39 +433,43 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     /**
      * 회원 주소목록 조회 API
      * [GET] /users/address
-     *  유저 주소 목록 - status, 메인주소, 주소 이름
-     * @return BaseResponse<List<GetAddressSimpleRes>>
+     * 유저 주소 목록 - status, 메인주소, 주소 이름
+     *
+     * @return BaseResponse<List < GetAddressSimpleRes>>
      */
     // Path-variable
     @ResponseBody
     @GetMapping("/address")
     public BaseResponse<List<GetAddressSimpleRes>> getAddress() {
-        try{
+        try {
             int userIdx = jwtService.getUserIdx();
 
             List<GetAddressSimpleRes> getAddressSimpleResList = userProvider.getAddress(userIdx);
             return new BaseResponse<>(getAddressSimpleResList);
-        } catch(BaseException exception){
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     /**
      * 주소 상세조회 API
      * [GET] /users/address
      * 상세조회 탭 - 메인주소, 상세주소, 길안내, Status, 주소 이름
+     *
      * @return BaseResponse<GetAddressRes>
      */
     // Path-variable
     @ResponseBody
     @GetMapping("/address/{addressIdx}")
     public BaseResponse<GetAddressRes> getAddressOne(@PathVariable("addressIdx") int addressIdx) {
-        try{
+        try {
             GetAddressRes getAddressRes = userProvider.getAddressOne(addressIdx);
             return new BaseResponse<>(getAddressRes);
-        } catch(BaseException exception){
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -448,6 +477,7 @@ public class UserController {
     /**
      * 즐겨찾기 추가
      * [POST] /users/bookmark/:storeIdx
+     *
      * @return BaseResponse<PostBookmarkRes>
      */
     @ResponseBody
@@ -457,7 +487,7 @@ public class UserController {
         try {
             //jwt에서 idx 추출.
             int userIdx = jwtService.getUserIdx();
-            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx,storeIdx);
+            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx, storeIdx);
 
             return new BaseResponse<>(postBookmarkRes);
         } catch (BaseException exception) {
@@ -465,26 +495,47 @@ public class UserController {
         }
     }
 
+    /**
+     * 즐겨찾기 삭제
+     * [POST] /users/bookmark/status/:storeIdx
+     *
+     * @return BaseResponse<result>
+     */
+    @ResponseBody
+    @PatchMapping("/bookmark/status/{storeIdx}")
+    public BaseResponse<String> deleteBookmark(@PathVariable("storeIdx") int storeIdx) {
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            userService.deleteBookmark(userIdx, storeIdx);
+            String result = "즐겨찾기가 삭제 되었습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 //    /**
-//     * 즐겨찾기 삭제
-//     * [POST] /users/bookmark/status/
-//     * @return BaseResponse<reuslt>
+//     * 즐겨찾기 목록 조회
+//     * [GET] /users/bookmark
+//     * @return BaseResponse<GetBookmarkRes>
 //     */
 //    @ResponseBody
-//    @PostMapping("/bookmark/STA")
-//    public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
+//    @PatchMapping("/bookmark")
+//    public BaseResponse<List<GetBookmarkRes>> getBookmarkList() {
 //
 //        try {
 //            //jwt에서 idx 추출.
-//            int userIdx = jwtService.getUserIdx();
-//            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx,storeIdx);
+//             int userIdx = jwtService.getUserIdx();
+//            List<GetBookmarkRes> getBookmarkResList= userService.getBookmarkList(userIdx);
 //
-//            return new BaseResponse<>(postBookmarkRes);
+//            return new BaseResponse<>(getBookmarkResList);
 //        } catch (BaseException exception) {
 //            return new BaseResponse<>((exception.getStatus()));
 //        }
 //    }
-
 
 
 }
