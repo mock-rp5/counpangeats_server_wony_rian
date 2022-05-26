@@ -32,7 +32,7 @@ public enum BaseResponseStatus {
 
 
     // users
-    USERS_EMPTY_USER_ID(false, 2011, "유저 아이디 값을 확인해주세요."),
+    USERS_EMPTY_USER_ID(false, 2012, "유저 아이디 값을 확인해주세요."),
 
     // [POST] /users
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
@@ -42,6 +42,11 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_PASSWORD(false, 2019, "비밀번호를 입력해주세요."),
     POST_USERS_EMPTY_PHONE(false, 2020, "휴대폰 번호를 입력해주세요."),
     POST_USERS_INVALID_PHONE(false, 2021, "휴대폰 번호 형식을 확인해주세요."),
+
+    //[GET] /users/email (이메일,비밀번호 찾기)
+    GET_USERS_NAME_EMPTY(false, 2022,"회원 이름을 입력해주세요"),
+    GET_USERS_PHONE_EMPTY(false,2023,"회원 휴대폰 번호를 입력해주세요"),
+    GET_USERS_EMAIL_EMPTY(false,2024,"회원 이메일을 입력해주세요"),
 
     // /cart
     FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),

@@ -2,11 +2,10 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.user.model.*;
-import com.example.demo.src.user.model.Req.GetUserEmailReq;
-import com.example.demo.src.user.model.Req.GetUserPasswordReq;
+import com.example.demo.src.user.model.MyEatsInfo;
 import com.example.demo.src.user.model.Req.PostLoginReq;
 import com.example.demo.src.user.model.Res.*;
+import com.example.demo.src.user.model.User;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
 import org.slf4j.Logger;
@@ -62,9 +61,9 @@ public class UserProvider {
         }
     }
 
-    public GetMyEatsRes getMyEats(int userIdx) throws BaseException {
+    public MyEatsInfo getMyEats(int userIdx) throws BaseException {
         try {
-            GetMyEatsRes getMyEatsRes = userDao.getMyEats(userIdx);
+            MyEatsInfo getMyEatsRes = userDao.getMyEats(userIdx);
             return getMyEatsRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -113,18 +112,18 @@ public class UserProvider {
 
     }
 
-    public GetUserEmailRes findUserEmail(GetUserEmailReq getUserEmailReq) throws BaseException{
+    public GetUserEmailRes findUserEmail(String user_name, String user_phone) throws BaseException{
         try{
-            GetUserEmailRes getUserEmailRes=userDao.findUserEmail(getUserEmailReq);
+            GetUserEmailRes getUserEmailRes=userDao.findUserEmail(user_name,user_phone);
             return getUserEmailRes;
         }catch(Exception exception){
             throw new BaseException(FAIL_FIND_EMAIL);
         }
     }
 
-    public GetUserPasswordRes findUserPassword(GetUserPasswordReq getUserPasswordReq) throws BaseException{
+    public GetUserPasswordRes findUserPassword(String user_name, String user_email) throws BaseException{
         try{
-            GetUserPasswordRes getUserPasswordRes=userDao.findUserPassword(getUserPasswordReq);
+            GetUserPasswordRes getUserPasswordRes=userDao.findUserPassword(user_name, user_email);
             return getUserPasswordRes;
         }catch(Exception exception){
             throw new BaseException(FAIL_FIND_PASSWORD);
@@ -150,5 +149,16 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+//
+//    public List<GetBookmarkRes> getBookmarkResList(int userIdx) throws BaseException{
+//        try{
+//            List<GetBookmarkRes> getBookmarkResList=userDao.getBookmarkList(userIdx);
+//            return getBookmarkResList;
+//        }
+//        catch (Exception exception){
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
+
 
 }

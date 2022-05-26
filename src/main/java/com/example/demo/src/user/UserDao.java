@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.src.user.model.Address;
+import com.example.demo.src.user.model.MyEatsInfo;
 import com.example.demo.src.user.model.Req.*;
 import com.example.demo.src.user.model.Res.*;
 import com.example.demo.src.user.model.User;
@@ -60,11 +61,11 @@ public class UserDao {
                 getUserParams);
     }
 
-    public GetMyEatsRes getMyEats(int userIdx){
+    public MyEatsInfo getMyEats(int userIdx){
         String getMyEatsQuery = "select user_name,user_phone from User where user_id = ?";
         int getMyEatsParams = userIdx;
         return this.jdbcTemplate.queryForObject(getMyEatsQuery,
-                (rs, rowNum) -> new GetMyEatsRes(
+                (rs, rowNum) -> new MyEatsInfo(
                         rs.getString("user_name"),
                         rs.getString("user_phone")),
                 getMyEatsParams);
@@ -194,20 +195,20 @@ public class UserDao {
         return this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
     }
 
-    public GetUserEmailRes findUserEmail(GetUserEmailReq getUserEmailReq){
+    public GetUserEmailRes findUserEmail(String user_name, String user_phone){
         String getUserEmailQuery = "select user_email from User\n" +
                 "where user_name=? and user_phone=?;";
-        Object[]  getUserEmailParams= new Object[]{getUserEmailReq.getUser_name(),getUserEmailReq.getUser_phone()};
+        Object[]  getUserEmailParams= new Object[]{user_name,user_phone};
         return this.jdbcTemplate.queryForObject(getUserEmailQuery,
                 (rs, rowNum) -> new GetUserEmailRes(
                         rs.getString("user_email")),
                 getUserEmailParams);
     }
 
-    public GetUserPasswordRes findUserPassword(GetUserPasswordReq getUserPasswordReq){
+    public GetUserPasswordRes findUserPassword(String user_name, String user_email){
         String getUserPasswordQuery = "select user_password from User\n" +
                 "where user_name=? and user_email=?;";
-        Object[]  getUserPasswordParams= new Object[]{getUserPasswordReq.getUser_name(),getUserPasswordReq.getUser_email()};
+        Object[]  getUserPasswordParams= new Object[]{user_name, user_email};
         return this.jdbcTemplate.queryForObject(getUserPasswordQuery,
                  (rs, rowNum) -> new GetUserPasswordRes(
                         rs.getString("user_password")),
@@ -327,4 +328,6 @@ public class UserDao {
         Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
         return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
     }
+
+//    public List<GetBookmarkRes>
 }
