@@ -321,13 +321,16 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(getBookmarkStatusQuery,String.class,getBookmarkStatusParam);
     }
 
-    public int isAlreadyCreate(int userIdx,int storeIdx){
-        String getIsAlreadyCreateQuery="select exists(\n" +
-                "    select *from Book_Mark\n" +
-                "    where user_id=? and store_id=? and status='Y');";
-        Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
-        return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
-    }
-
-//    public List<GetBookmarkRes>
+//    public int isAlreadyCreate(int userIdx,int storeIdx){
+//        String getIsAlreadyCreateQuery="select exists(\n" +
+//                "    select *from Book_Mark\n" +
+//                "    where user_id=? and store_id=? and status='Y');";
+//        Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
+//        return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
+//    }
+//
+//    public List<GetBookmarkRes> getBookmarkResList(int storeIdx){
+//        String getBookmarkListQuery="";
+//
+//    }
 }

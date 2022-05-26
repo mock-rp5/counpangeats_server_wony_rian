@@ -517,11 +517,11 @@ public class UserController {
         }
     }
 
-//    /**
-//     * 즐겨찾기 목록 조회
-//     * [GET] /users/bookmark
-//     * @return BaseResponse<GetBookmarkRes>
-//     */
+    /**
+     * 즐겨찾기 목록 조회
+     * [GET] /users/bookmark
+     * @return BaseResponse<GetBookmarkRes>
+     */
 //    @ResponseBody
 //    @PatchMapping("/bookmark")
 //    public BaseResponse<List<GetBookmarkRes>> getBookmarkList() {

@@ -149,7 +149,7 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-//
+
 //    public List<GetBookmarkRes> getBookmarkResList(int userIdx) throws BaseException{
 //        try{
 //            List<GetBookmarkRes> getBookmarkResList=userDao.getBookmarkList(userIdx);
