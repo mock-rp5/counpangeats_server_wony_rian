@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.orders.model.GetCartRes;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
+import com.example.demo.src.orders.model.Req.PostOrderReq;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,14 @@ public class OrderService {
         this.orderDao = orderDao;
     }
 
+    public int createOrder(int userIdx, Integer[] cartList, PostOrderReq postOrderReq) throws BaseException {
+        try {
+            return orderDao.createOrder(userIdx, cartList, postOrderReq);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public void createCart(int userIdx, int storeIdx, int menuIdx, PostCartReq postCartReq) throws BaseException {
         try {
@@ -57,6 +66,7 @@ public class OrderService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     public int checkCart(int user_id) throws BaseException {
         try {
             return orderDao.checkCartStore(user_id);

@@ -2,6 +2,7 @@ package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
 import com.example.demo.src.orders.model.GetCartRes;
+import com.example.demo.src.orders.model.OrderDetail;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
@@ -11,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -92,11 +92,55 @@ public class OrderDao {
     }
 
     //주문 생성
-    public int createOrder(int user_id, PostOrderReq postOrderReq){
-        String checkQuery = "";
+    public int createOrder(int user_id, Integer[] cartList, PostOrderReq postOrderReq){
+        String getOrderInfoQuery = "SELECT MAX(order_info_id) FROM Order_Info;";
+        Integer orderInfoId = this.jdbcTemplate.queryForObject(getOrderInfoQuery, int.class);
+
+        Integer[] arr = new Integer[cartList.length];
+        int i = 0;
+        for(int k : cartList){
+            String checkQuery = "select menu_count*order_price as price\n" +
+                    "from Cart\n" +
+                    "where cart_id = ?";
+            arr[i++] =  this.jdbcTemplate.queryForObject(checkQuery, int.class, k);
+        }
+
+        String deleteCartQuery = "UPDATE Cart SET status='N' WHERE cart_id = ?";
+        String insertOrderInfoQuery = "insert into Order_Info (user_id, store_id, total_price, payment_method_id, delivery_request, store_request) VALUES (?,?,?,?,?,?)";
+        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id) VALUES (?,?,?,?)";
+        String selectCartMenuQuery = "select menu_id, menu_count, menu_option_id from Cart where cart_id = ?";
+        String getTotalPriceQuery = "select menu_count*order_price as total_price from Cart where cart_id = ?";
+
+        Integer sum = 0;
+        for(Integer k : cartList){
+            sum += this.jdbcTemplate.queryForObject(getTotalPriceQuery, int.class, k);
+            OrderDetail orderDetail = this.jdbcTemplate.queryForObject(selectCartMenuQuery,
+                    (rs, rowNum) -> new OrderDetail(
+                            rs.getInt("menu_id"),
+                            rs.getInt("menu_count"),
+                            rs.getInt("menu_option_id")
+                    ), k);
+            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id());
+            this.jdbcTemplate.update(deleteCartQuery, k); //카트에서 삭제
+        }
+        System.out.println("selectCartMenuQuery = " + selectCartMenuQuery);
+
+        System.out.println("totalPrice = " + sum);
+        return this.jdbcTemplate.update(insertOrderInfoQuery, user_id, postOrderReq.getStore_id(), sum, postOrderReq.getPayment_method_id(), postOrderReq.getDelivery_request(), postOrderReq.getStore_request());
+    }
+
+    public int getOrder(int user_id){
+        String getQuery = "";
         return 1;
     }
 
+//    public GetDeliveryRequestRes getRequestDelivery(){
+//        String query = "select request_name from Delivery_Request";
+//        return this.jdbcTemplate.queryForObject(query,
+//                (rs, rowNum) -> new GetDeliveryRequestRes(
+//                    rs.getString("request_name")
+//                ));
+//    }
     //카트에 담긴 가게 확인
     public int checkCartStore(int user_id) {
         String checkQuery = "select exists(select * from Cart where user_id = ? and status = \"Y\")";

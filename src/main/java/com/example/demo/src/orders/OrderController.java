@@ -78,7 +78,7 @@ public class OrderController {
         if (orderService.checkCartExists(cartIdx) == 0) {
             return new BaseResponse<>(FAIL_CART_EMPTY);
         }
-        orderService.modifyCart(storeIdx, cartIdxgit a, patchCartReq);
+        orderService.modifyCart(storeIdx, cartIdx, patchCartReq);
         return new BaseResponse<>("카트가 수정되었습니다.");
     }
 
@@ -98,7 +98,7 @@ public class OrderController {
     //주문 생성 API
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<String> createOrder(@RequestBody PostOrderReq postOrderReq){
+    public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @RequestBody PostOrderReq postOrderReq){
         try {
             int user_id= jwtService.getUserIdx();
             if(postOrderReq.getAddress_id() == null){
@@ -112,7 +112,7 @@ public class OrderController {
                 return new BaseResponse<>(STORE_ID_EMPTY);
             }
 
-
+            orderService.createOrder(user_id, cartList, postOrderReq);
             return new BaseResponse<>("주문이 완료되었습니다.");
 
         }catch (BaseException exception){
