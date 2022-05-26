@@ -522,20 +522,20 @@ public class UserController {
      * [GET] /users/bookmark
      * @return BaseResponse<GetBookmarkRes>
      */
-//    @ResponseBody
-//    @PatchMapping("/bookmark")
-//    public BaseResponse<List<GetBookmarkRes>> getBookmarkList() {
-//
-//        try {
-//            //jwt에서 idx 추출.
-//             int userIdx = jwtService.getUserIdx();
-//            List<GetBookmarkRes> getBookmarkResList= userService.getBookmarkList(userIdx);
-//
-//            return new BaseResponse<>(getBookmarkResList);
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    @ResponseBody
+    @GetMapping("/bookmark")
+    public BaseResponse<GetBookmarkRes> getBookmarkList() {
+
+        try {
+            //jwt에서 idx 추출.
+             int userIdx = jwtService.getUserIdx();
+            GetBookmarkRes getBookmarkRes = userProvider.getBookmarkList(userIdx);
+
+            return new BaseResponse<>(getBookmarkRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
 }

@@ -6,6 +6,8 @@ com/example/demo/src/user/model/Res/GetAddressRes.java
  com.example.demo.src.user.model.Res.GetAddressRes
 com/example/demo/src/orders/OrderService.java
  com.example.demo.src.orders.OrderService
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/user/model/Res/PostUserRes.java
@@ -38,8 +40,8 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/orders/model/Req/DeleteCartReq.java
  com.example.demo.src.orders.model.Req.DeleteCartReq
-com/example/demo/src/user/UserService.java
- com.example.demo.src.user.UserService
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/user/model/Res/PostBookmarkRes.java
  com.example.demo.src.user.model.Res.PostBookmarkRes
 com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
@@ -60,8 +62,8 @@ com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/src/user/model/Address.java
  com.example.demo.src.user.model.Address
-com/example/demo/src/user/UserDao.java
- com.example.demo.src.user.UserDao
+com/example/demo/src/user/model/Res/GetBookmarkRes.java
+ com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/orders/OrderDao.java
  com.example.demo.src.orders.OrderDao
 com/example/demo/src/user/model/MyEatsInfo.java
@@ -80,8 +82,8 @@ com/example/demo/src/user/model/Res/PostAddressRes.java
  com.example.demo.src.user.model.Res.PostAddressRes
 com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
 com/example/demo/src/user/model/User.java
@@ -96,13 +98,13 @@ com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
 com/example/demo/src/orders/model/CartMenu.java
  com.example.demo.src.orders.model.CartMenu
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
+com/example/demo/src/user/model/ReviewSimple.java
+ com.example.demo.src.user.model.ReviewSimple
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
-com/example/demo/src/user/model/Res/GetBookmarkRes.java
- com.example.demo.src.user.model.Res.GetBookmarkRes
-com/example/demo/src/user/model/Res/GetUserRes.java
- com.example.demo.src.user.model.Res.GetUserRes
-com/example/demo/src/user/model/Res/GetUserEmailRes.java
- com.example.demo.src.user.model.Res.GetUserEmailRes

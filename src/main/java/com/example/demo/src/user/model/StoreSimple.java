@@ -13,9 +13,7 @@ public class StoreSimple {
     private String store_main_image_url;
     private String store_name;
     private String is_cheetah_delivery;
-    private int review_avg;
-    private int review_cnt;
-    private double  distance;
+//    private double  distance;
     private int start_delivery_fee;
     private String is_takeout;
 }

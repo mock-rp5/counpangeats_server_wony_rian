@@ -1,11 +1,11 @@
 package com.example.demo.src.user;
 
 
-import com.example.demo.src.user.model.Address;
-import com.example.demo.src.user.model.MyEatsInfo;
-import com.example.demo.src.user.model.Req.*;
+import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.Req.PatchAddressReq;
+import com.example.demo.src.user.model.Req.PostLoginReq;
+import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.*;
-import com.example.demo.src.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -328,9 +328,38 @@ public class UserDao {
         Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
         return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
     }
+    // 주의 rs.getString("") -> 괄호안에 들어가는거 DTO이름이 아니라 mysql 컬럼명 이름이다!!
+    public GetBookmarkRes getBookmarkList(int userIdx){
+        String getCountBookmarkQuery="select count(*) as bookmark_count from Book_Mark where user_id=?;";
+        String getStoreSimpleQuery="select S.store_main_image_url, S.store_name, S.is_cheetah_delivery,SD.delivery_time,SD.start_delivery_fee,S.is_takeout\n" +
+                "from (select * from Book_Mark\n" +
+                "where user_id=?) BM\n" +
+                "inner join Store S on S.store_id=BM.store_id\n" +
+                "inner join Store_Delivery SD on SD.store_id=BM.store_id;";
+        String getReviewSimpleQuery="select round(avg(review_star),1) as star, count(R.review_id) as review_count\n" +
+                "from (select * from Book_Mark\n" +
+                "where user_id=?) BM\n" +
+                "inner join Review R on BM.store_id=R.store_id\n" +
+                "group by BM.store_id;";
 
-//    public List<GetBookmarkRes> getBookmarkResList(int storeIdx){
-//        String getBookmarkListQuery="";
-//
-//    }
+        return this.jdbcTemplate.queryForObject(getCountBookmarkQuery,
+                (rs, rowNum) -> new GetBookmarkRes(
+                        rs.getInt("bookmark_count"),
+                        this.jdbcTemplate.query(getStoreSimpleQuery,
+                                (rs1, rowNum1) -> {
+                            String store_main_image_url=rs1.getString("store_main_image_url");
+                                    String store_name=rs1.getString("store_name");
+                                    String is_cheetah_delivery=rs1.getString("is_cheetah_delivery");
+                                    int start_delivery_fee=rs1.getInt("start_delivery_fee");
+                                    String is_takeout=rs1.getString("is_takeout");
+                                    return new StoreSimple(store_main_image_url,store_name,is_cheetah_delivery,start_delivery_fee,is_takeout);
+                                },userIdx),
+                        this.jdbcTemplate.query(getReviewSimpleQuery,
+                                (rs2,rowNum2)-> {
+                                    Float review_avg = rs2.getFloat("star");
+                                    int review_cnt = rs2.getInt("review_count");
+                                    return new ReviewSimple(review_avg, review_cnt);
+                                },userIdx)
+                ), userIdx);
+    }
 }
