@@ -18,5 +18,7 @@ public class GetStoreOneRes {
     private Integer minimum_price;
     private Integer cnt;
     private Float average;
+    private Integer isBookMark;
     private List<?> review;
+    private List<MenuCategory> menuCategoryList;
 }

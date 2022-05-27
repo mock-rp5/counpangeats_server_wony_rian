@@ -1,9 +1,6 @@
 package com.example.demo.src.store;
 
-import com.example.demo.src.store.model.GetStoreHomeRes;
-import com.example.demo.src.store.model.GetStoreInfoRes;
-import com.example.demo.src.store.model.GetStoreOneRes;
-import com.example.demo.src.store.model.ReviewRes;
+import com.example.demo.src.store.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -49,7 +46,7 @@ public class StoreDao {
         );
         return result;
     }
-    public GetStoreOneRes storeOne(int store_id){
+    public GetStoreOneRes storeOne(int store_id, int userIdx){
         String storeQuery = "select S.store_name, S.is_cheetah_delivery, S.store_main_image_url, SD.delivery_time, SD.start_delivery_fee, SD.minimum_price, count(R.review_id) as cnt, avg(R.review_star) as average\n" +
                 "from Store S\n" +
                 "inner join Store_Delivery SD\n" +
@@ -66,6 +63,30 @@ public class StoreDao {
                 "order by R.created_at desc\n" +
                 "limit 3";
 
+        String isBookmarkQuery = "SELECT EXISTS(SELECT * FROM Book_Mark WHERE user_id= ? and store_id=? and status= 'Y');";
+        Integer isBookmark = this.jdbcTemplate.queryForObject(isBookmarkQuery, int.class, userIdx, store_id);
+
+        String menuKeywordQuery = "select MK.menu_keyword_name, MK.type\n" +
+                "from Menu_Keyword MK\n" +
+                "where MK.store_id = ? and MK.status = 'Y'";
+        String menuDetailQuery = "select M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
+                "from Menu_Keyword MK\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = MK.menu_id\n" +
+                "where MK.store_id = ? and MK.type = ? and MK.status = 'Y';";
+
+        List<MenuCategory> menuCategoryList = this.jdbcTemplate.query(menuKeywordQuery,
+                (rs, rowNum) -> new MenuCategory(
+                        rs.getString("menu_keyword_name"),
+                        this.jdbcTemplate.query(menuDetailQuery,
+                                (rs1, rowNum1) -> new MenuDetail(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("menu_img_url"),
+                                        rs1.getString("menu_description"),
+                                        rs1.getInt("menu_price")
+                                ), store_id, rs.getInt("type"))
+                ), store_id);
+
         return this.jdbcTemplate.queryForObject(storeQuery,
                 (rs, rowNum) -> new GetStoreOneRes(
                         rs.getString("store_name"),
@@ -76,12 +97,14 @@ public class StoreDao {
                         rs.getInt("minimum_price"),
                         rs.getInt("cnt"),
                         rs.getFloat("average"),
+                        isBookmark,
                         this.jdbcTemplate.query(reviewQuery,
                                 (rs1, rowNum1) -> new ReviewRes(
                                         rs1.getInt("review_star"),
                                         rs1.getString("review_image_url"),
                                         rs1.getString("review_content")
-                                ), store_id)
+                                ), store_id),
+                        menuCategoryList
                 ), store_id
         );
     }

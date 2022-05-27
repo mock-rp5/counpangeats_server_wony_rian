@@ -37,8 +37,8 @@ com/example/demo/src/orders/model/Res/PostOrderRes.java
  com.example.demo.src.orders.model.Res.PostOrderRes
 com/example/demo/src/payment/WayController.java
  com.example.demo.src.payment.WayController
-com/example/demo/src/store/model/Store.java
- com.example.demo.src.store.model.Store
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
 com/example/demo/config/ExceptionController.java
  com.example.demo.config.ExceptionController
 com/example/demo/src/orders/model/Req/PostCartReq.java
@@ -113,8 +113,8 @@ com/example/demo/src/orders/model/GetCartRes.java
  com.example.demo.src.orders.model.GetCartRes
 com/example/demo/src/user/model/MyEatsInfo.java
  com.example.demo.src.user.model.MyEatsInfo
-com/example/demo/src/store/model/GetStoreOneRes.java
- com.example.demo.src.store.model.GetStoreOneRes
+com/example/demo/src/user/model/Res/GetBookmarkRes.java
+ com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
 com/example/demo/src/test/TestController.java
@@ -173,14 +173,18 @@ com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
 com/example/demo/src/orders/model/CartMenu.java
  com.example.demo.src.orders.model.CartMenu
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
-com/example/demo/src/user/model/Res/GetBookmarkRes.java
- com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
+com/example/demo/src/store/model/GetStoreOneRes.java
+ com.example.demo.src.store.model.GetStoreOneRes
+com/example/demo/src/store/model/MenuCategory.java
+ com.example.demo.src.store.model.MenuCategory
+com/example/demo/src/store/model/MenuDetail.java
+ com.example.demo.src.store.model.MenuDetail
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
+com/example/demo/src/store/model/Store.java
+ com.example.demo.src.store.model.Store
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
 >>>>>>> 8bca3dd31055d5a2a10ef26f876b6fe317722f06
