@@ -32,9 +32,9 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public GetStoreOneRes getStoreOne(int storeId) throws BaseException {
+    public GetStoreOneRes getStoreOne(int storeId, int userIdx) throws BaseException {
         try {
-            return storeDao.storeOne(storeId);
+            return storeDao.storeOne(storeId, userIdx);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);

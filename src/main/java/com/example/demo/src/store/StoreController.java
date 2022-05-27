@@ -43,7 +43,8 @@ public class StoreController {
     @GetMapping("/{storeIdx}")
     public BaseResponse<GetStoreOneRes> getStore(@PathVariable("storeIdx") Integer storeIdx){
         try {
-            GetStoreOneRes storeOne = storeService.getStoreOne(storeIdx);
+            int userIdx= jwtService.getUserIdx();
+            GetStoreOneRes storeOne = storeService.getStoreOne(storeIdx, userIdx);
             return new BaseResponse<>(storeOne);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
