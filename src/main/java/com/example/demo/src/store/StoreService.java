@@ -2,6 +2,7 @@ package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.store.model.GetStoreHomeRes;
+import com.example.demo.src.store.model.GetStoreInfoRes;
 import com.example.demo.src.store.model.GetStoreOneRes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,16 @@ public class StoreService {
     public GetStoreOneRes getStoreOne(int storeId) throws BaseException {
         try {
             return storeDao.storeOne(storeId);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public GetStoreInfoRes getStoreInfo(int storeId) throws BaseException {
+        try {
+            return storeDao.getStoreInfo(storeId);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);

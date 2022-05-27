@@ -3,6 +3,7 @@ package com.example.demo.src.store;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.store.model.GetStoreHomeRes;
+import com.example.demo.src.store.model.GetStoreInfoRes;
 import com.example.demo.src.store.model.GetStoreOneRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,16 @@ public class StoreController {
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
+    }
+    @ResponseBody
+    @GetMapping("/info/{storeIdx}")
+    public BaseResponse<GetStoreInfoRes> getStoreInfo(@PathVariable("storeIdx") Integer storeIdx){
+        try {
+            GetStoreInfoRes storeInfo = storeService.getStoreInfo(storeIdx);
+            return new BaseResponse<>(storeInfo);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
     }
 }

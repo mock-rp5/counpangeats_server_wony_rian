@@ -102,12 +102,14 @@ com/example/demo/src/orders/model/CartMenu.java
  com.example.demo.src.orders.model.CartMenu
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
-com/example/demo/src/store/model/ReviewRes.java
- com.example.demo.src.store.model.ReviewRes
 com/example/demo/src/store/model/GetStoreOneRes.java
  com.example.demo.src.store.model.GetStoreOneRes
+com/example/demo/src/store/model/ReviewRes.java
+ com.example.demo.src.store.model.ReviewRes
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/store/model/GetStoreInfoRes.java
+ com.example.demo.src.store.model.GetStoreInfoRes
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
 com/example/demo/src/store/StoreService.java
