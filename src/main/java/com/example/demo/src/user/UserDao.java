@@ -294,6 +294,14 @@ public class UserDao {
                 getAddressesOneParams);
     }
 
+    public String getAddressStatus(int addressIdx){
+        String getAddressStatusQuery="select status\n" +
+                "from Address\n" +
+                "where address_id=?;";
+        int getAddressStatusParam=addressIdx;
+        return this.jdbcTemplate.queryForObject(getAddressStatusQuery,String.class,getAddressStatusParam);
+    }
+
     public int createBookmark(int userIdx, int storeIdx){
         String postBookmarkQuery="insert into Book_Mark(user_id,store_id) values(?,?);";
         Object[] postBookmarkParams=new Object[]{userIdx,storeIdx};

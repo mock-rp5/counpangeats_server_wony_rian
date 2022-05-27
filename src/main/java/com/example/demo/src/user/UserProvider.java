@@ -141,6 +141,12 @@ public class UserProvider {
     }
 
     public GetAddressRes getAddressOne(int addressIdx) throws BaseException{
+        String status=userDao.getAddressStatus(addressIdx);
+
+        if(userDao.getAddressStatus(addressIdx).equals("N")) {
+            throw new BaseException(NO_EXIST_ADDRESS);
+        }
+        
         try{
             GetAddressRes getAddressRes= userDao.getAddressOne(addressIdx);
             return getAddressRes;
