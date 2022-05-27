@@ -90,6 +90,9 @@ public enum BaseResponseStatus {
     //[PATCH] /users/bookmark/status/:storeIdx
     ALREADY_DELETE_BOOKMARK(false,3026,"이미 삭제된 즐겨찾기 입니다"),
 
+    //[GET] /users/address/:addressIdx
+    NO_EXIST_ADDRESS(false,3030,"존재하지 않거나 삭제된 주소입니다."),
+
     /**
      * 4000 : Database, Server 오류
      */

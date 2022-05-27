@@ -141,6 +141,12 @@ public class UserProvider {
     }
 
     public GetAddressRes getAddressOne(int addressIdx) throws BaseException{
+        String status=userDao.getAddressStatus(addressIdx);
+
+        if(userDao.getAddressStatus(addressIdx).equals("N")) {
+            throw new BaseException(NO_EXIST_ADDRESS);
+        }
+        
         try{
             GetAddressRes getAddressRes= userDao.getAddressOne(addressIdx);
             return getAddressRes;
@@ -150,15 +156,17 @@ public class UserProvider {
         }
     }
 
-//    public List<GetBookmarkRes> getBookmarkResList(int userIdx) throws BaseException{
-//        try{
-//            List<GetBookmarkRes> getBookmarkResList=userDao.getBookmarkList(userIdx);
-//            return getBookmarkResList;
-//        }
-//        catch (Exception exception){
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
+    public GetBookmarkRes getBookmarkList(int userIdx) throws BaseException{
+        try{
+            GetBookmarkRes getBookmarkResList=userDao.getBookmarkList(userIdx);
+            return getBookmarkResList;
+        }
+        catch (Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+            
+        }
+    }
 
 
 }

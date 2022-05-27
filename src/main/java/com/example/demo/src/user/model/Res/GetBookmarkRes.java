@@ -1,5 +1,6 @@
 package com.example.demo.src.user.model.Res;
 
+import com.example.demo.src.user.model.ReviewSimple;
 import com.example.demo.src.user.model.StoreSimple;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,4 +17,5 @@ import java.util.List;
 public class GetBookmarkRes {
         private int bookmark_count;
         private List<StoreSimple> storeSimpleList;
+        private List<ReviewSimple> reviewSimpleList;
 }
