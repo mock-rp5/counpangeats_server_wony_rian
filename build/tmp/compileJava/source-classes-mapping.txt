@@ -1,5 +1,5 @@
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/user/UserProvider.java
@@ -30,8 +30,8 @@ com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
-com/example/demo/src/store/StoreController.java
- com.example.demo.src.store.StoreController
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/orders/model/Req/DeleteCartReq.java
@@ -84,8 +84,8 @@ com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
-com/example/demo/src/store/StoreService.java
- com.example.demo.src.store.StoreService
+com/example/demo/src/orders/OrderDao.java
+ com.example.demo.src.orders.OrderDao
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/user/model/Res/GetUserEmailRes.java
@@ -102,9 +102,13 @@ com/example/demo/src/orders/model/CartMenu.java
  com.example.demo.src.orders.model.CartMenu
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
-com/example/demo/src/orders/OrderDao.java
- com.example.demo.src.orders.OrderDao
-com/example/demo/src/orders/OrderController.java
- com.example.demo.src.orders.OrderController
-com/example/demo/src/orders/OrderService.java
- com.example.demo.src.orders.OrderService
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/store/model/ReviewRes.java
+ com.example.demo.src.store.model.ReviewRes
+com/example/demo/src/store/model/GetStoreOneRes.java
+ com.example.demo.src.store.model.GetStoreOneRes
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
