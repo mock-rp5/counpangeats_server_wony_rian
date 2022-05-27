@@ -56,13 +56,13 @@ public class StoreDao {
                 "on SD.store_id = S.store_id\n" +
                 "inner join Review R\n" +
                 "on R.store_id = S.store_id\n" +
-                "where S.store_id = ? and R.review_image_url is not null \n" +
+                "where S.store_id = ?  \n" +
                 "group by S.store_id \n";
         String reviewQuery = "select R.review_star, R.review_image_url, R.review_content\n" +
                 "from Review R\n" +
                 "inner join Store\n" +
                 "on Store.store_id = R.store_id\n" +
-                "where Store.store_id = ? \n" +
+                "where Store.store_id = ? and R.review_image_url is not null \n" +
                 "order by R.created_at desc\n" +
                 "limit 3";
 
