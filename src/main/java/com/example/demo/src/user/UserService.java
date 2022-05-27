@@ -220,11 +220,35 @@ public class UserService {
     //북마크 추가
     public PostBookmarkRes createBookmark(int userIdx,int storeIdx) throws BaseException{
         try{
+            //이미 추가한 북마크인지 확인
+            int isAlreadyCreate = userDao.isAlreadyCreate(userIdx,storeIdx);
+            if(isAlreadyCreate==1){
+                throw new BaseException(ALREADY_POST_BOOKMARK);
+            }
+
             int bookmarkIdx=userDao.createBookmark(userIdx, storeIdx);
             if(bookmarkIdx==0){
                 throw new BaseException(FAIL_POST_BOOKMARK);
             }
             return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    //북마크 삭제
+    public void deleteBookmark(int userIdx,int storeIdx) throws BaseException{
+        try{
+            //이미 삭제된 북마크인지 확인
+            String bookmarkIdxStatus=userDao.getBookmarkStatus(userIdx,storeIdx);
+            if(bookmarkIdxStatus.equals("N")){
+                throw new BaseException(ALREADY_DELETE_BOOKMARK);
+            }
+            int bookmarkIdx=userDao.deleteBookmark(userIdx, storeIdx);
+            if(bookmarkIdx==0) {
+                throw new BaseException(FAIL_DELETE_BOOKMARK);
+            }
         }catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

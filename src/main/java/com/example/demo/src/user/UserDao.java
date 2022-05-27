@@ -1,10 +1,11 @@
 package com.example.demo.src.user;
 
 
-import com.example.demo.src.user.model.Address;
-import com.example.demo.src.user.model.Req.*;
+import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.Req.PatchAddressReq;
+import com.example.demo.src.user.model.Req.PostLoginReq;
+import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.*;
-import com.example.demo.src.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -60,11 +61,11 @@ public class UserDao {
                 getUserParams);
     }
 
-    public GetMyEatsRes getMyEats(int userIdx){
+    public MyEatsInfo getMyEats(int userIdx){
         String getMyEatsQuery = "select user_name,user_phone from User where user_id = ?";
         int getMyEatsParams = userIdx;
         return this.jdbcTemplate.queryForObject(getMyEatsQuery,
-                (rs, rowNum) -> new GetMyEatsRes(
+                (rs, rowNum) -> new MyEatsInfo(
                         rs.getString("user_name"),
                         rs.getString("user_phone")),
                 getMyEatsParams);
@@ -194,20 +195,20 @@ public class UserDao {
         return this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
     }
 
-    public GetUserEmailRes findUserEmail(GetUserEmailReq getUserEmailReq){
+    public GetUserEmailRes findUserEmail(String user_name, String user_phone){
         String getUserEmailQuery = "select user_email from User\n" +
                 "where user_name=? and user_phone=?;";
-        Object[]  getUserEmailParams= new Object[]{getUserEmailReq.getUser_name(),getUserEmailReq.getUser_phone()};
+        Object[]  getUserEmailParams= new Object[]{user_name,user_phone};
         return this.jdbcTemplate.queryForObject(getUserEmailQuery,
                 (rs, rowNum) -> new GetUserEmailRes(
                         rs.getString("user_email")),
                 getUserEmailParams);
     }
 
-    public GetUserPasswordRes findUserPassword(GetUserPasswordReq getUserPasswordReq){
+    public GetUserPasswordRes findUserPassword(String user_name, String user_email){
         String getUserPasswordQuery = "select user_password from User\n" +
                 "where user_name=? and user_email=?;";
-        Object[]  getUserPasswordParams= new Object[]{getUserPasswordReq.getUser_name(),getUserPasswordReq.getUser_email()};
+        Object[]  getUserPasswordParams= new Object[]{user_name, user_email};
         return this.jdbcTemplate.queryForObject(getUserPasswordQuery,
                  (rs, rowNum) -> new GetUserPasswordRes(
                         rs.getString("user_password")),
@@ -245,12 +246,12 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
-    public void modifyStatusToE(int userIdx, int addressIdx){
-        String modifyHtoEQuery = "update Address set status='E'\n" +
-                "where user_id=? and address_id=?";
-        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
-        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
-    }
+//    public void modifyStatusToE(int userIdx, int addressIdx){
+//        String modifyHtoEQuery = "update Address set status='E'\n" +
+//                "where user_id=? and address_id=?";
+//        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
+//        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
+//    }
 
     public int deleteAddress(int addressIdx, int userIdx){
         String deleteAddressQuery = "update Address\n" +
@@ -293,6 +294,14 @@ public class UserDao {
                 getAddressesOneParams);
     }
 
+    public String getAddressStatus(int addressIdx){
+        String getAddressStatusQuery="select status\n" +
+                "from Address\n" +
+                "where address_id=?;";
+        int getAddressStatusParam=addressIdx;
+        return this.jdbcTemplate.queryForObject(getAddressStatusQuery,String.class,getAddressStatusParam);
+    }
+
     public int createBookmark(int userIdx, int storeIdx){
         String postBookmarkQuery="insert into Book_Mark(user_id,store_id) values(?,?);";
         Object[] postBookmarkParams=new Object[]{userIdx,storeIdx};
@@ -300,5 +309,65 @@ public class UserDao {
 
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+
+    public int deleteBookmark(int userIdx, int storeIdx){
+        String deleteBookmarkQuery = "update Book_Mark set status='N'\n" +
+                "where user_id=? and store_id=?;";
+        Object[] deleteBookmarkParams = new Object[]{userIdx, storeIdx};
+        this.jdbcTemplate.update(deleteBookmarkQuery,deleteBookmarkParams);
+
+        String bookmarkIdxQuery="select bookmark_id from Book_Mark where user_id =? and store_id=?";
+        return this.jdbcTemplate.queryForObject(bookmarkIdxQuery,int.class,userIdx,storeIdx);
+    }
+
+    public String getBookmarkStatus(int userIdx, int storeIdx){
+        String getBookmarkStatusQuery="select status\n" +
+                "from Book_Mark\n" +
+                "where user_id=? and store_id=?;";
+        Object[] getBookmarkStatusParam=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(getBookmarkStatusQuery,String.class,getBookmarkStatusParam);
+    }
+
+    public int isAlreadyCreate(int userIdx,int storeIdx){
+        String getIsAlreadyCreateQuery="select exists(\n" +
+                "    select *from Book_Mark\n" +
+                "    where user_id=? and store_id=? and status='Y');";
+        Object[] getIsAlreadyCreateParams=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(getIsAlreadyCreateQuery,int.class,getIsAlreadyCreateParams);
+    }
+    // 주의 rs.getString("") -> 괄호안에 들어가는거 DTO이름이 아니라 mysql 컬럼명 이름이다!!
+    public GetBookmarkRes getBookmarkList(int userIdx){
+        String getCountBookmarkQuery="select count(*) as bookmark_count from Book_Mark where user_id=?;";
+        String getStoreSimpleQuery="select S.store_main_image_url, S.store_name, S.is_cheetah_delivery,SD.delivery_time,SD.start_delivery_fee,S.is_takeout\n" +
+                "from (select * from Book_Mark\n" +
+                "where user_id=?) BM\n" +
+                "inner join Store S on S.store_id=BM.store_id\n" +
+                "inner join Store_Delivery SD on SD.store_id=BM.store_id;";
+        String getReviewSimpleQuery="select round(avg(review_star),1) as star, count(R.review_id) as review_count\n" +
+                "from (select * from Book_Mark\n" +
+                "where user_id=?) BM\n" +
+                "inner join Review R on BM.store_id=R.store_id\n" +
+                "group by BM.store_id;";
+
+        return this.jdbcTemplate.queryForObject(getCountBookmarkQuery,
+                (rs, rowNum) -> new GetBookmarkRes(
+                        rs.getInt("bookmark_count"),
+                        this.jdbcTemplate.query(getStoreSimpleQuery,
+                                (rs1, rowNum1) -> {
+                            String store_main_image_url=rs1.getString("store_main_image_url");
+                                    String store_name=rs1.getString("store_name");
+                                    String is_cheetah_delivery=rs1.getString("is_cheetah_delivery");
+                                    int start_delivery_fee=rs1.getInt("start_delivery_fee");
+                                    String is_takeout=rs1.getString("is_takeout");
+                                    return new StoreSimple(store_main_image_url,store_name,is_cheetah_delivery,start_delivery_fee,is_takeout);
+                                },userIdx),
+                        this.jdbcTemplate.query(getReviewSimpleQuery,
+                                (rs2,rowNum2)-> {
+                                    Float review_avg = rs2.getFloat("star");
+                                    int review_cnt = rs2.getInt("review_count");
+                                    return new ReviewSimple(review_avg, review_cnt);
+                                },userIdx)
+                ), userIdx);
     }
 }

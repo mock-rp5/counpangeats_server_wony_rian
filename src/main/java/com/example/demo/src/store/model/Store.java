@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Store {
+public class    Store {
     private Integer store_id;
     private String store_name;
     private String store_address;
