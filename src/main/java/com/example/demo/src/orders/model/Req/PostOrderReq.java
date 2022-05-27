@@ -16,6 +16,7 @@ public class PostOrderReq {
     private Integer address_id;
     @NotNull(message = "store_id를 입력해주세요")
     private Integer store_id;
-
+    private Integer payment_method_id;
+    private Integer delivery_request;
     private String store_request;
 }

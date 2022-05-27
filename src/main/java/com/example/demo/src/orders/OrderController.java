@@ -98,7 +98,7 @@ public class OrderController {
     //주문 생성 API
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<String> createOrder(@RequestBody PostOrderReq postOrderReq){
+    public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @RequestBody PostOrderReq postOrderReq){
         try {
             int user_id= jwtService.getUserIdx();
             if(postOrderReq.getAddress_id() == null){
@@ -112,11 +112,20 @@ public class OrderController {
                 return new BaseResponse<>(STORE_ID_EMPTY);
             }
 
-
+            orderService.createOrder(user_id, cartList, postOrderReq);
             return new BaseResponse<>("주문이 완료되었습니다.");
 
         }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
+    }
+    //주문 조회 API
+    @ResponseBody
+    @GetMapping()
+    public BaseResponse<String> getOrder() throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+
+        return new BaseResponse<>("주문이 완료되었습니다.");
     }
 }
