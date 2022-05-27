@@ -86,7 +86,7 @@ public class StoreDao {
         );
     }
     public GetStoreInfoRes getStoreInfo(int storeIdx){
-        String storeInfo = "select S.store_name, S.store_address, S.store_phone, S.store_ceo_name, S.business_number, S.search_business_name, S.find_store_tip, S.store_description\n" +
+        String storeInfo = "select S.store_name, S.store_address, S.store_phone, S.store_ceo_name, S.business_number, S.search_business_name, S.find_store_tip, S.business_hours, S.store_description\n" +
                 "from Store S\n" +
                 "where S.store_id = ?";
         return this.jdbcTemplate.queryForObject(storeInfo,
@@ -98,6 +98,7 @@ public class StoreDao {
                         rs.getString("business_number"),
                         rs.getString("search_business_name"),
                         rs.getString("find_store_tip"),
+                        rs.getString("business_hours"),
                         rs.getString("store_description")
                 ), storeIdx);
     }

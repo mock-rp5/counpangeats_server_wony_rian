@@ -15,5 +15,6 @@ public class GetStoreInfoRes {
     private String business_number;
     private String search_business_name;
     private String find_store_tip;
+    private String business_hours;
     private String store_description;
 }
