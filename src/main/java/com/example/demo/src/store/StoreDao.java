@@ -1,11 +1,16 @@
 package com.example.demo.src.store;
 
 import com.example.demo.src.store.model.*;
+import com.example.demo.src.store.model.Res.GetMenuRes;
+import com.example.demo.src.store.model.Res.GetStoreHomeRes;
+import com.example.demo.src.store.model.Res.GetStoreInfoRes;
+import com.example.demo.src.store.model.Res.GetStoreOneRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -124,5 +129,30 @@ public class StoreDao {
                         rs.getString("business_hours"),
                         rs.getString("store_description")
                 ), storeIdx);
+    }
+
+    public GetMenuRes menuInfo(int storeIdx, int menuIdx){
+        String getMenu= "select M.menu_name, M.menu_img_url, M.menu_price\n" +
+                "from Menu M \n" +
+                "inner join Store S\n" +
+                "on S.store_id = M.store_id \n" +
+                "where M.menu_id = ? and S.store_id = ?";
+
+        String getMenuOption = "select MO.option_name, MO.option_price \n" +
+                "from Menu_Option MO\n" +
+                "where MO.menu_id = ?";
+
+        return this.jdbcTemplate.queryForObject(getMenu,
+                (rs, rowNum) -> new GetMenuRes(
+                        rs.getString("menu_name"),
+                        rs.getString("menu_img_url"),
+                        rs.getInt("menu_price"),
+                        this.jdbcTemplate.query(getMenuOption,
+                                (rs1, rowNum1) -> new MenuOption(
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("option_price")
+                                ), menuIdx)
+                        ),menuIdx, storeIdx
+                );
     }
 }

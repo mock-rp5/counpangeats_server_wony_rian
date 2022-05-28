@@ -2,9 +2,10 @@ package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.store.model.GetStoreHomeRes;
-import com.example.demo.src.store.model.GetStoreInfoRes;
-import com.example.demo.src.store.model.GetStoreOneRes;
+import com.example.demo.src.store.model.Res.GetMenuRes;
+import com.example.demo.src.store.model.Res.GetStoreHomeRes;
+import com.example.demo.src.store.model.Res.GetStoreInfoRes;
+import com.example.demo.src.store.model.Res.GetStoreOneRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,15 @@ public class StoreController {
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
-
+    }
+    @ResponseBody
+    @GetMapping("/{storeIdx}/{menuIdx}")
+    public BaseResponse<GetMenuRes> getMenuInfo(@PathVariable("storeIdx") Integer storeIdx, @PathVariable("menuIdx") Integer menuIdx){
+        try {
+            GetMenuRes menuInfo = storeService.getMenuInfo(storeIdx, menuIdx);
+            return new BaseResponse<>(menuInfo);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 }
