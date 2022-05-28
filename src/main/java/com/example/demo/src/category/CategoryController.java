@@ -49,7 +49,6 @@ public class CategoryController {
      * [POST] /category/search
      * @return BaseResponse<String>
      */
-
     @ResponseBody
     @PostMapping("/search")
     public BaseResponse<PostSearchRes> createSearch(@RequestBody PostSearchReq postSearchReq) {
@@ -64,5 +63,25 @@ public class CategoryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+//    /**
+//     * 최근검색목록 조회 API
+//     * [GET] /category/search
+//     * @return BaseResponse<String>
+//     */
+//    @ResponseBody
+//    @PostMapping("/search")
+//    public BaseResponse<PostSearchRes> createSearch(@RequestBody PostSearchReq postSearchReq) {
+//
+//        try {
+//            //jwt에서 idx 추출.
+//            int userIdx = jwtService.getUserIdx();
+//            PostSearchRes postSearchRes= categoryService.createSearch(userIdx, postSearchReq);
+//
+//            return new BaseResponse<>(postSearchRes);
+//        } catch (BaseException exception) {
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
 
 }

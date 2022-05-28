@@ -1,7 +1,6 @@
 package com.example.demo.src.user;
 
 
-
 import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.*;
 import com.example.demo.src.user.model.Req.PatchAddressReq;
@@ -39,12 +38,12 @@ public class UserService {
     //POST 회원가입
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         //이메일 중복 검사
-        if(userProvider.checkEmail(postUserReq.getUser_email()) ==1){
+        if (userProvider.checkEmail(postUserReq.getUser_email()) == 1) {
             throw new BaseException(DUPLICATED_EMAIL);
         }
 
         String pwd;
-        try{
+        try {
             //암호화
             pwd = new SHA256().encrypt(postUserReq.getUser_password());
             postUserReq.setUser_password(pwd);
@@ -52,7 +51,7 @@ public class UserService {
         } catch (Exception ignored) {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
-        try{
+        try {
             int userIdx = userDao.createUser(postUserReq);
             //jwt 발급.
 //            String jwt = jwtService.createJwt(userIdx);
@@ -64,17 +63,17 @@ public class UserService {
 
     public void modifyUserName(User user) throws BaseException {
         //기존과 다른 이름인지 검사
-        String originName=userDao.getUserName(user.getUser_id());
-        if(originName.equals(user.getUser_name())){
+        String originName = userDao.getUserName(user.getUser_id());
+        if (originName.equals(user.getUser_name())) {
             throw new BaseException(NEED_NEW_USER_NAME);
         }
 
-        try{
+        try {
             int result = userDao.modifyUserName(user);
-            if(result == 0){
+            if (result == 0) {
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
-        } catch(Exception exception){
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -82,17 +81,17 @@ public class UserService {
     public void modifyUserEmail(User user) throws BaseException {
 
         //기존과 다른 이메일인지 검사
-        String originEmail=userDao.getUserEmail(user.getUser_id());
-        if(originEmail.equals(user.getUser_email())){
+        String originEmail = userDao.getUserEmail(user.getUser_id());
+        if (originEmail.equals(user.getUser_email())) {
             throw new BaseException(NEED_NEW_USER_EMAIL);
         }
 
-        try{
+        try {
             int result = userDao.modifyUserEmail(user);
-            if(result == 0){
+            if (result == 0) {
                 throw new BaseException(MODIFY_FAIL_USER_EMAIL);
             }
-        } catch(Exception exception){
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -100,21 +99,22 @@ public class UserService {
     public void modifyUserPhone(User user) throws BaseException {
 
         //기존과 다른 휴대폰번호인지 검사
-        String originPhone=userDao.getUserPhone(user.getUser_id());
-        if(originPhone.equals(user.getUser_phone())){
+        String originPhone = userDao.getUserPhone(user.getUser_id());
+        if (originPhone.equals(user.getUser_phone())) {
             throw new BaseException(NEED_NEW_USER_PHONE);
         }
 
 
-        try{
+        try {
             int result = userDao.modifyUserPhone(user);
-            if(result == 0){
+            if (result == 0) {
                 throw new BaseException(MODIFY_FAIL_USER_PHONE);
             }
-        } catch(Exception exception){
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     public void modifyUserPassword(User user) throws BaseException {
 
         String encryptPwd;
@@ -125,14 +125,14 @@ public class UserService {
         }
 
         //기존과 다른 패스워드인지 검사
-        String originPassword=userDao.getUserPassword(user.getUser_id());
-        System.out.println("originPassword: "+originPassword);
-        System.out.println("encryptPwd: "+encryptPwd);
-        if(originPassword.equals(encryptPwd)){
+        String originPassword = userDao.getUserPassword(user.getUser_id());
+        System.out.println("originPassword: " + originPassword);
+        System.out.println("encryptPwd: " + encryptPwd);
+        if (originPassword.equals(encryptPwd)) {
             throw new BaseException(NEED_NEW_USER_PASSWORD);
         }
         String pwd;
-        try{
+        try {
             //비밀번호 변경할 때도 암호화해서 저장
             pwd = new SHA256().encrypt(user.getUser_password());
             user.setUser_password(pwd);
@@ -140,23 +140,24 @@ public class UserService {
         } catch (Exception ignored) {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
-        try{
+        try {
             int result = userDao.modifyUserPassword(user);
-            if(result == 0){
+            if (result == 0) {
                 throw new BaseException(MODIFY_FAIL_USER_PASSWORD);
             }
-        } catch(Exception exception){
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     //유저 삭제
     public void deleteUser(int userIdx) throws BaseException {
-        try{
+        try {
             int result = userDao.deleteUser(userIdx);
-            if(result == 0){
+            if (result == 0) {
                 throw new BaseException(DELETE_FAIL_USER);
             }
-        } catch(Exception exception){
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -164,9 +165,9 @@ public class UserService {
     //POST 새 주소 추가
     public PostAddressRes createAddress(Address address) throws BaseException {
 
-        try{
+        try {
             int addressIdx = userDao.createAddress(address);
-            if(addressIdx==0){
+            if (addressIdx == 0) {
                 throw new BaseException(FAIL_CREATE_ADDRESS);
             }
             return new PostAddressRes(addressIdx);
@@ -176,7 +177,7 @@ public class UserService {
     }
 
     //PATCH 주소 변경
-    public void modifyAddress(int userIdx,int  addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+    public void modifyAddress(int userIdx, int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
 //
 //        //Home을 새로 지정하면, 이전 Home인 주소의 stauts는 E(기타)로 변경.
 //        if(patchAddressReq.getStatus().equals("H")){
@@ -195,7 +196,7 @@ public class UserService {
 
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
-            if(modify_addressIdx==0){
+            if (modify_addressIdx == 0) {
                 throw new BaseException(FAIL_MODIFY_ADDRESS);
             }
         } catch (Exception exception) {
@@ -209,7 +210,7 @@ public class UserService {
         try {
             int delete_addressIdx = userDao.deleteAddress(addressIdx, userIdx);
 
-            if(delete_addressIdx==0){
+            if (delete_addressIdx == 0) {
                 throw new BaseException(FAIL_DELETE_ADDRESS);
             }
         } catch (Exception exception) {
@@ -218,40 +219,45 @@ public class UserService {
     }
 
     //북마크 추가
-    public PostBookmarkRes createBookmark(int userIdx,int storeIdx) throws BaseException{
-        try{
-            //이미 추가한 북마크인지 확인
-            int isAlreadyCreate = userDao.isAlreadyCreate(userIdx,storeIdx);
-            if(isAlreadyCreate==1){
-                throw new BaseException(ALREADY_POST_BOOKMARK);
-            }
-
-            int bookmarkIdx=userDao.createBookmark(userIdx, storeIdx);
-            if(bookmarkIdx==0){
+    public PostBookmarkRes createBookmark(int userIdx, int storeIdx) throws BaseException {
+        //이미 추가한 북마크인지 확인
+        int isAlreadyCreate = userDao.isAlreadyCreate(userIdx, storeIdx);
+        int bookmarkIdx = 0;
+        if (isAlreadyCreate == 1) {
+            throw new BaseException(ALREADY_POST_BOOKMARK);
+        }
+        if (userDao.isExist(userIdx, storeIdx)==1) { //예전에 삭제 기록이 있으면 그 기록의 상탯값 변경
+            bookmarkIdx = userDao.modifyStatus(userIdx, storeIdx);
+        } else { //삭제기록이 없으면 데이터 새로 생성
+            bookmarkIdx = userDao.createBookmark(userIdx, storeIdx);
+        }
+        try {
+            if (bookmarkIdx == 0) {
                 throw new BaseException(FAIL_POST_BOOKMARK);
             }
-            return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
-        }catch(Exception exception){
-            throw new BaseException(DATABASE_ERROR);
+                return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
+
+            }catch(Exception exception){
+                throw new BaseException(DATABASE_ERROR);
+            }
+
         }
 
-    }
-
-    //북마크 삭제
-    public void deleteBookmark(int userIdx,int storeIdx) throws BaseException{
-        try{
+        //북마크 삭제
+        public void deleteBookmark ( int userIdx, int storeIdx) throws BaseException {
             //이미 삭제된 북마크인지 확인
-            String bookmarkIdxStatus=userDao.getBookmarkStatus(userIdx,storeIdx);
-            if(bookmarkIdxStatus.equals("N")){
+            String bookmarkIdxStatus = userDao.getBookmarkStatus(userIdx, storeIdx);
+            if (bookmarkIdxStatus.equals("N")) {
                 throw new BaseException(ALREADY_DELETE_BOOKMARK);
             }
-            int bookmarkIdx=userDao.deleteBookmark(userIdx, storeIdx);
-            if(bookmarkIdx==0) {
-                throw new BaseException(FAIL_DELETE_BOOKMARK);
+            try {
+                int bookmarkIdx = userDao.deleteBookmark(userIdx, storeIdx);
+                if (bookmarkIdx == 0) {
+                    throw new BaseException(FAIL_DELETE_BOOKMARK);
+                }
+            } catch (Exception exception) {
+                throw new BaseException(DATABASE_ERROR);
             }
-        }catch(Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
 
+        }
     }
-}
