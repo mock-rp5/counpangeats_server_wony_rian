@@ -1,5 +1,5 @@
-com/example/demo/src/user/model/Res/GetUserEmailRes.java
- com.example.demo.src.user.model.Res.GetUserEmailRes
+com/example/demo/src/category/CategoryController.java
+ com.example.demo.src.category.CategoryController
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/config/Constant.java
@@ -10,6 +10,10 @@ com/example/demo/src/orders/OrderService.java
  com.example.demo.src.orders.OrderService
 com/example/demo/src/store/model/GetStoreInfoRes.java
  com.example.demo.src.store.model.GetStoreInfoRes
+com/example/demo/src/store/model/MenuCategory.java
+ com.example.demo.src.store.model.MenuCategory
+com/example/demo/src/store/model/MenuDetail.java
+ com.example.demo.src.store.model.MenuDetail
 com/example/demo/src/user/model/ReviewSimple.java
  com.example.demo.src.user.model.ReviewSimple
 com/example/demo/utils/ValidationRegex.java
@@ -34,8 +38,8 @@ com/example/demo/src/payment/WayService.java
  com.example.demo.src.payment.WayService
 com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
-com/example/demo/src/user/model/Res/GetUserRes.java
- com.example.demo.src.user.model.Res.GetUserRes
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/user/model/StoreSimple.java
@@ -84,8 +88,8 @@ com/example/demo/src/user/model/MyEatsInfo.java
  com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/orders/model/GetCartRes.java
  com.example.demo.src.orders.model.GetCartRes
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
+com/example/demo/src/category/model/Req/PostSearchReq.java
+ com.example.demo.src.category.model.Req.PostSearchReq
 com/example/demo/src/store/model/GetStoreOneRes.java
  com.example.demo.src.store.model.GetStoreOneRes
 com/example/demo/src/WebSecurityConfig.java
@@ -124,9 +128,9 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
-com/example/demo/src/category/CategoryController.java
- com.example.demo.src.category.CategoryController
-com/example/demo/src/category/CategoryService.java
- com.example.demo.src.category.CategoryService
-com/example/demo/src/category/model/Req/PostSearchReq.java
- com.example.demo.src.category.model.Req.PostSearchReq
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
