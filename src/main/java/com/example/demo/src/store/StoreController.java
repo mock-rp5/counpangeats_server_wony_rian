@@ -2,6 +2,7 @@ package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.store.model.Req.PostReviewReq;
 import com.example.demo.src.store.model.Res.GetMenuRes;
 import com.example.demo.src.store.model.Res.GetStoreHomeRes;
 import com.example.demo.src.store.model.Res.GetStoreInfoRes;
@@ -10,6 +11,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -70,5 +72,13 @@ public class StoreController {
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
+    }
+
+    @ResponseBody
+    @PostMapping("/review")
+    public BaseResponse<String> createReview(@Valid @RequestBody PostReviewReq postReviewReq) throws BaseException {
+        int userIdx= jwtService.getUserIdx();
+        storeService.createReview(userIdx, postReviewReq);
+        return new BaseResponse<>("리뷰 등록이 되었습니다.");
     }
 }

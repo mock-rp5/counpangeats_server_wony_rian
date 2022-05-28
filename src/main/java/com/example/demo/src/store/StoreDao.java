@@ -1,16 +1,13 @@
 package com.example.demo.src.store;
 
 import com.example.demo.src.store.model.*;
-import com.example.demo.src.store.model.Res.GetMenuRes;
-import com.example.demo.src.store.model.Res.GetStoreHomeRes;
-import com.example.demo.src.store.model.Res.GetStoreInfoRes;
-import com.example.demo.src.store.model.Res.GetStoreOneRes;
+import com.example.demo.src.store.model.Req.PostReviewReq;
+import com.example.demo.src.store.model.Res.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -154,5 +151,23 @@ public class StoreDao {
                                 ), menuIdx)
                         ),menuIdx, storeIdx
                 );
+    }
+
+    public int createReview(int user_id, PostReviewReq postReviewReq){
+        String storeGet = "select store_id from Order_Info where order_info_id = ?";
+        Integer store_id = this.jdbcTemplate.queryForObject(storeGet, int.class, postReviewReq.getOrder_info_id());
+
+//        String getMenu = "select menu_id\n" +
+//                "from Order_Detail\n" +
+//                "where order_info_id = ? ";
+//
+//        String isGoodQuery = "select isGood from Menu where menu_id = ?";
+
+        String create = "insert into Review (order_info_id, user_id, review_star, review_image_url, review_content, store_id, is_delivery_good) VALUES (?,?,?,?,?,?,?)";
+        Object[] createReviewParams = new Object[]{postReviewReq.getOrder_info_id(), user_id, postReviewReq.getReview_star(),
+                postReviewReq.getReview_image_url(), postReviewReq.getReview_content(), store_id, postReviewReq.getIs_delivery_good()};
+
+        int update = this.jdbcTemplate.update(create, createReviewParams);
+        return update;
     }
 }

@@ -72,8 +72,8 @@ com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
-com/example/demo/src/store/model/ReviewRes.java
- com.example.demo.src.store.model.ReviewRes
+com/example/demo/src/store/model/Res/GetStoreHomeRes.java
+ com.example.demo.src.store.model.Res.GetStoreHomeRes
 com/example/demo/src/user/model/Address.java
  com.example.demo.src.user.model.Address
 com/example/demo/src/user/UserDao.java
@@ -126,8 +126,10 @@ com/example/demo/src/store/model/Res/GetStoreOneRes.java
  com.example.demo.src.store.model.Res.GetStoreOneRes
 com/example/demo/src/store/model/Res/GetMenuRes.java
  com.example.demo.src.store.model.Res.GetMenuRes
-com/example/demo/src/store/model/Res/GetStoreHomeRes.java
- com.example.demo.src.store.model.Res.GetStoreHomeRes
+com/example/demo/src/store/model/Res/ReviewRes.java
+ com.example.demo.src.store.model.Res.ReviewRes
+com/example/demo/src/store/model/Req/PostReviewReq.java
+ com.example.demo.src.store.model.Req.PostReviewReq
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/src/store/StoreController.java
