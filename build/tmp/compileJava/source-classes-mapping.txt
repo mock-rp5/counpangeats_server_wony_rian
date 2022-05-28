@@ -84,8 +84,8 @@ com/example/demo/src/user/model/MyEatsInfo.java
  com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/orders/model/GetCartRes.java
  com.example.demo.src.orders.model.GetCartRes
-com/example/demo/src/category/model/Req/PostSearchReq.java
- com.example.demo.src.category.model.Req.PostSearchReq
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
 com/example/demo/src/store/model/GetStoreOneRes.java
  com.example.demo.src.store.model.GetStoreOneRes
 com/example/demo/src/WebSecurityConfig.java
@@ -124,9 +124,9 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
 com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
 com/example/demo/src/category/CategoryService.java
  com.example.demo.src.category.CategoryService
+com/example/demo/src/category/model/Req/PostSearchReq.java
+ com.example.demo.src.category.model.Req.PostSearchReq
