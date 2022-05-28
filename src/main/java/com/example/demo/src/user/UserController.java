@@ -352,11 +352,11 @@ public class UserController {
         }
 
         //이메일 정규표현 확인
-        if (!isRegexEmail(user_email)){
+        if (!isRegexEmail(user_email)) {
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
         try {
-            GetUserPasswordRes getUserPasswordRes = userProvider.findUserPassword(user_name,user_email);
+            GetUserPasswordRes getUserPasswordRes = userProvider.findUserPassword(user_name, user_email);
             return new BaseResponse<>(getUserPasswordRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -486,8 +486,8 @@ public class UserController {
         try {
             //jwt에서 idx 추출.
             int userIdx = jwtService.getUserIdx();
-            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx, storeIdx);
 
+            PostBookmarkRes postBookmarkRes = userService.createBookmark(userIdx, storeIdx);
             return new BaseResponse<>(postBookmarkRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -519,6 +519,7 @@ public class UserController {
     /**
      * 즐겨찾기 목록 조회
      * [GET] /users/bookmark
+     *
      * @return BaseResponse<GetBookmarkRes>
      */
     @ResponseBody
@@ -527,7 +528,7 @@ public class UserController {
 
         try {
             //jwt에서 idx 추출.
-             int userIdx = jwtService.getUserIdx();
+            int userIdx = jwtService.getUserIdx();
             GetBookmarkRes getBookmarkRes = userProvider.getBookmarkList(userIdx);
 
             return new BaseResponse<>(getBookmarkRes);

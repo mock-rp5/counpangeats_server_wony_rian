@@ -311,6 +311,25 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
+    public int isExist(int userIdx, int storeIdx){
+        String isExistQuery="select exists(select * from Book_Mark\n" +
+                "where user_id =? and store_id=?);";
+        Object[] isExistParams=new Object[]{userIdx,storeIdx};
+        return this.jdbcTemplate.queryForObject(isExistQuery,int.class,isExistParams);
+    }
+
+    //즐겨찾기 추가API에서, 회원이 해당 store에 대한 즐겨찾기를 이미 삭제한 기록이 있을 시, 새로생성하지 않고 기존 데이터 상태값 변경
+    public int modifyStatus(int userIdx, int storeIdx){
+        String modifyStatusQuery="update Book_Mark set status='Y'\n" +
+                "where user_id=? and store_id=?;";
+        Object[] modifyStatusParmas=new Object[]{userIdx,storeIdx};
+        this.jdbcTemplate.update(modifyStatusQuery,modifyStatusParmas);
+
+        String getBookmarkIdxQuery="select bookmark_id from Book_Mark\n" +
+                "where user_id=? and store_id=?;";
+        return this.jdbcTemplate.queryForObject(getBookmarkIdxQuery,int.class,modifyStatusParmas);
+    }
+
     public int deleteBookmark(int userIdx, int storeIdx){
         String deleteBookmarkQuery = "update Book_Mark set status='N'\n" +
                 "where user_id=? and store_id=?;";
@@ -320,6 +339,8 @@ public class UserDao {
         String bookmarkIdxQuery="select bookmark_id from Book_Mark where user_id =? and store_id=?";
         return this.jdbcTemplate.queryForObject(bookmarkIdxQuery,int.class,userIdx,storeIdx);
     }
+
+
 
     public String getBookmarkStatus(int userIdx, int storeIdx){
         String getBookmarkStatusQuery="select status\n" +
