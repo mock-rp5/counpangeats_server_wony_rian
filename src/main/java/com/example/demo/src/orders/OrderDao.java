@@ -1,7 +1,7 @@
 package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
-import com.example.demo.src.orders.model.GetCartRes;
+import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.OrderDetail;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
@@ -47,14 +47,14 @@ public class OrderDao {
         String getCartQuery = "SELECT store_id FROM Cart WHERE status='Y' AND user_id=? LIMIT 1";
         int store_id = this.jdbcTemplate.queryForObject(getCartQuery, int.class, user_id);
 
-        String storeQuery = "select S.store_name, S.is_cheetah_delivery\n" +
+        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery\n" +
                 "from Store as S\n" +
                 "inner join Cart as C\n" +
                 "on C.store_id = S.store_id\n" +
                 "where S.store_id = ? and C.user_id = ? and S.status = \"Y\" \n" +
                 "group by C.user_id";
 
-        String menuQuery = "select MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
+        String menuQuery = "select MO.menu_option_id, MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
                 "from Cart as C \n" +
                 "inner join Menu_Option as MO\n" +
                 "on MO.menu_option_id = C.menu_option_id\n" +
@@ -64,10 +64,12 @@ public class OrderDao {
 
         return this.jdbcTemplate.queryForObject(storeQuery,
                 (rs, rowNum) -> new GetCartRes(
+                        rs.getInt("store_id"),
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
                         this.jdbcTemplate.query(menuQuery,
                                 (rs1, rowNum1) -> new CartMenu(
+                                        rs1.getInt("menu_option_id"),
                                         rs1.getString("option_name"),
                                         rs1.getString("menu_name"),
                                         rs1.getInt("option_price"),

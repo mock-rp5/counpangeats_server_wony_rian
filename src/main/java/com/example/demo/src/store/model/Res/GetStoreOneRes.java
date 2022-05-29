@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class GetStoreOneRes {
+    private Integer store_id;
     private String store_name;
     private String is_cheetah_delivery;
     private String store_main_image_url;

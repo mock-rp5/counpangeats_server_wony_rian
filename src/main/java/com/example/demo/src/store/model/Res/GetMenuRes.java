@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class GetMenuRes {
+    private Integer menu_id;
     private String menu_name;
     private String menu_img_url;
     private Integer menu_price;

@@ -37,13 +37,13 @@ public class WayDao {
 
     //결제 방식 조회
     public List<GetPaymentRes> getPayment(int user_id) {
-        System.out.println("user_id = " + user_id);
-        String getPaymentQuery = "select payment_name, payment_number, payment_type \n" +
+        String getPaymentQuery = "select payment_method_id, payment_name, payment_number, payment_type \n" +
                 "from Payment_Method \n" +
                 "where user_id = ? and status = 'Y';";
 
         return this.jdbcTemplate.query(getPaymentQuery,
                 (rs, rowNum) -> new GetPaymentRes(
+                        rs.getInt("payment_method_id"),
                         rs.getString("payment_name"),
                         rs.getString("payment_number"),
                         rs.getString("payment_type")
