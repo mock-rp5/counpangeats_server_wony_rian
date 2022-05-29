@@ -42,6 +42,8 @@ public class CategoryDao {
 
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
+<<<<<<< HEAD
+=======
 
     }
 
@@ -90,6 +92,44 @@ public class CategoryDao {
         this.jdbcTemplate.update(deleteSearchOneQuery,deleteSearchOneParams);
 
         return jdbcTemplate.queryForObject(deleteSearchIdQuery,int.class,deleteSearchOneParams);
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 
+    }
+
+<<<<<<< HEAD
+    public void deleteAllSearch(int userIdx){
+        String deleteAllSearchQuery="update Search set status='N'\n" +
+                "where user_id=?;";
+        this.jdbcTemplate.update(deleteAllSearchQuery,userIdx);
+
+=======
+    public GetSearchRes getSearchList(int userIdx) {
+        String getUpdatedPopularQuery = "SELECT date_format(UPDATE_TIME,'%m.%d') as update_time\n" +
+                "FROM INFORMATION_SCHEMA.TABLES\n" +
+                "WHERE table_name='Popular_Search';";
+        String getPopularSearchListQuery = "select p_search_id,search_rank,category_name from Popular_Search\n" +
+                "where status='Y'\n" +
+                "order by search_rank;";
+        String getSearchListQuery = "select search_id, category_name, date_format(created_at,'%m.%d') as created_at\n" +
+                "from Search\n" +
+                "where user_id=? and status='Y'\n" +
+                "order by created_at DESC;";
+        int getSearchListParam = userIdx;
+
+        return this.jdbcTemplate.queryForObject(getUpdatedPopularQuery,
+                (rs, rowNum) -> new GetSearchRes(
+                        rs.getString("update_time"),
+                        this.jdbcTemplate.query(getPopularSearchListQuery,
+                                (rs1, rowNum1) -> new PopularSearch(
+                                        rs1.getInt("p_search_id"),
+                                        rs1.getInt("search_rank"),
+                                        rs1.getString("category_name"))),
+                        this.jdbcTemplate.query(getSearchListQuery,
+                                (rs2, rowNum2) -> new Search(
+                                        rs2.getInt("search_id"),
+                                        rs2.getString("category_name"),
+                                        rs2.getString("created_at")), getSearchListParam))
+        );
+>>>>>>> main
     }
 }
