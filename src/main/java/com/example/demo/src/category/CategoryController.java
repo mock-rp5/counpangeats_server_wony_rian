@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.category.model.CategorySimple;
 import com.example.demo.src.category.model.Req.PostSearchReq;
+import com.example.demo.src.category.model.Res.GetSearchRes;
 import com.example.demo.src.category.model.Res.PostSearchRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -64,24 +65,46 @@ public class CategoryController {
         }
     }
 
-//    /**
-//     * 최근검색목록 조회 API
-//     * [GET] /category/search
-//     * @return BaseResponse<String>
-//     */
-//    @ResponseBody
-//    @PostMapping("/search")
-//    public BaseResponse<PostSearchRes> createSearch(@RequestBody PostSearchReq postSearchReq) {
-//
-//        try {
-//            //jwt에서 idx 추출.
-//            int userIdx = jwtService.getUserIdx();
-//            PostSearchRes postSearchRes= categoryService.createSearch(userIdx, postSearchReq);
-//
-//            return new BaseResponse<>(postSearchRes);
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    /**
+     * 최근검색목록 조회 API
+     * [GET] /category/search
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @GetMapping("/search")
+    public BaseResponse<GetSearchRes> getSearchList() {
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            GetSearchRes getSearchRes= categoryService.getSearchList(userIdx);
+
+            return new BaseResponse<>(getSearchRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 검색어 한개 삭제 API
+     * [GET] /category/search/:searchIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/search/{searchIdx}")
+    public BaseResponse<String> deleteOneSearch(@PathVariable("searchIdx") int searchIdx ){
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            categoryService.deleteOneSearch(userIdx,searchIdx);
+            String result=searchIdx+"번 검색어가 삭제되었습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
 
 }
