@@ -2,6 +2,7 @@ package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.store.model.Req.PatchReviewReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
 import com.example.demo.src.store.model.Res.GetMenuRes;
 import com.example.demo.src.store.model.Res.GetStoreHomeRes;
@@ -79,6 +80,22 @@ public class StoreController {
     public BaseResponse<String> createReview(@Valid @RequestBody PostReviewReq postReviewReq) throws BaseException {
         int userIdx= jwtService.getUserIdx();
         storeService.createReview(userIdx, postReviewReq);
-        return new BaseResponse<>("리뷰 등록이 되었습니다.");
+        return new BaseResponse<>("리뷰가 등록되었습니다.");
+    }
+
+    @ResponseBody
+    @PatchMapping("/review/{reviewIdx}")
+    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") Integer reviewIdx, @Valid @RequestBody PatchReviewReq patchReviewReq) throws BaseException {
+        int userIdx= jwtService.getUserIdx();
+        storeService.modifyReview(userIdx, reviewIdx, patchReviewReq);
+        return new BaseResponse<>("리뷰가 수정되었습니다.");
+    }
+
+    @ResponseBody
+    @PatchMapping("/review/status/{reviewIdx}")
+    public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") Integer reviewIdx) throws BaseException {
+        int userIdx= jwtService.getUserIdx();
+        storeService.deleteReview(userIdx, reviewIdx);
+        return new BaseResponse<>("리뷰가 삭제되었습니다.");
     }
 }

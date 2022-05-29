@@ -1,6 +1,7 @@
 package com.example.demo.src.store;
 
 import com.example.demo.src.store.model.*;
+import com.example.demo.src.store.model.Req.PatchReviewReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
 import com.example.demo.src.store.model.Res.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,7 +168,20 @@ public class StoreDao {
         Object[] createReviewParams = new Object[]{postReviewReq.getOrder_info_id(), user_id, postReviewReq.getReview_star(),
                 postReviewReq.getReview_image_url(), postReviewReq.getReview_content(), store_id, postReviewReq.getIs_delivery_good()};
 
-        int update = this.jdbcTemplate.update(create, createReviewParams);
-        return update;
+        return this.jdbcTemplate.update(create, createReviewParams);
+    }
+
+    public int modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq){
+        String updateStar = "UPDATE Review SET review_star=? WHERE review_id=? and user_id=?";
+        String updateContent = "UPDATE Review SET review_content=? WHERE review_id=? and user_id=?";
+        Object[] patchStarParams = new Object[]{patchReviewReq.getReview_star(), reviewIdx, userIdx};
+        Object[] patchContentParams = new Object[]{patchReviewReq.getReview_content(), reviewIdx, userIdx};
+        this.jdbcTemplate.update(updateStar, patchStarParams);
+        return this.jdbcTemplate.update(updateContent, patchContentParams);
+    }
+
+    public int deleteReview(int userIdx, int reviewIdx){
+        String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
+        return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
     }
 }

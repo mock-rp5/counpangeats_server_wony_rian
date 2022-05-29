@@ -130,6 +130,8 @@ com/example/demo/src/store/model/Res/ReviewRes.java
  com.example.demo.src.store.model.Res.ReviewRes
 com/example/demo/src/store/model/Req/PostReviewReq.java
  com.example.demo.src.store.model.Req.PostReviewReq
+com/example/demo/src/store/model/Req/PatchReviewReq.java
+ com.example.demo.src.store.model.Req.PatchReviewReq
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/src/store/StoreController.java
