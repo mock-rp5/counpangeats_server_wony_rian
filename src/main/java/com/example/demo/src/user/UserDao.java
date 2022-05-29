@@ -359,15 +359,15 @@ public class UserDao {
     }
     // 주의 rs.getString("") -> 괄호안에 들어가는거 DTO이름이 아니라 mysql 컬럼명 이름이다!!
     public GetBookmarkRes getBookmarkList(int userIdx){
-        String getCountBookmarkQuery="select count(*) as bookmark_count from Book_Mark where user_id=?;";
+        String getCountBookmarkQuery="select count(*) as bookmark_count from Book_Mark where user_id=? and status='Y';";
         String getStoreSimpleQuery="select S.store_main_image_url, S.store_name, S.is_cheetah_delivery,SD.delivery_time,SD.start_delivery_fee,S.is_takeout\n" +
                 "from (select * from Book_Mark\n" +
-                "where user_id=?) BM\n" +
+                "where user_id=? and status='Y') BM\n" +
                 "inner join Store S on S.store_id=BM.store_id\n" +
                 "inner join Store_Delivery SD on SD.store_id=BM.store_id;";
         String getReviewSimpleQuery="select round(avg(review_star),1) as star, count(R.review_id) as review_count\n" +
                 "from (select * from Book_Mark\n" +
-                "where user_id=?) BM\n" +
+                "where user_id=? and status='Y') BM\n" +
                 "inner join Review R on BM.store_id=R.store_id\n" +
                 "group by BM.store_id;";
 
