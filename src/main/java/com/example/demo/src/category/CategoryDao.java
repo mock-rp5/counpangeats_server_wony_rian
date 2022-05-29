@@ -30,4 +30,15 @@ public class CategoryDao {
                 ));
 
     }
+
+    public int createSearch(int userIdx, String category_name){
+        String createSearchQuery="insert into Search(user_id, category_name) values (?,?);";
+        Object[] createSearchParams=new Object[]{userIdx,category_name};
+
+        this.jdbcTemplate.update(createSearchQuery,createSearchParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+
+    }
 }
