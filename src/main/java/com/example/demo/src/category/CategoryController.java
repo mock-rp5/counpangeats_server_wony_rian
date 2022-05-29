@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.category.model.CategorySimple;
 import com.example.demo.src.category.model.Req.PostSearchReq;
+import com.example.demo.src.category.model.Res.GetSearchRes;
 import com.example.demo.src.category.model.Res.PostSearchRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -64,24 +65,24 @@ public class CategoryController {
         }
     }
 
-//    /**
-//     * 최근검색목록 조회 API
-//     * [GET] /category/search
-//     * @return BaseResponse<String>
-//     */
-//    @ResponseBody
-//    @PostMapping("/search")
-//    public BaseResponse<PostSearchRes> createSearch(@RequestBody PostSearchReq postSearchReq) {
-//
-//        try {
-//            //jwt에서 idx 추출.
-//            int userIdx = jwtService.getUserIdx();
-//            PostSearchRes postSearchRes= categoryService.createSearch(userIdx, postSearchReq);
-//
-//            return new BaseResponse<>(postSearchRes);
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    /**
+     * 최근검색목록 조회 API
+     * [GET] /category/search
+     * @return BaseResponse<GetSearchRes>
+     */
+    @ResponseBody
+    @GetMapping("/search")
+    public BaseResponse<GetSearchRes> getSearchList() {
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            GetSearchRes getSearchResList=categoryService.getSearchList(userIdx);
+
+            return new BaseResponse<>(getSearchResList);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 }
