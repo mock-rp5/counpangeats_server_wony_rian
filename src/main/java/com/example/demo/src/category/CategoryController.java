@@ -68,7 +68,11 @@ public class CategoryController {
     /**
      * 최근검색목록 조회 API
      * [GET] /category/search
+<<<<<<< HEAD
      * @return BaseResponse<GetSearchRes>
+=======
+     * @return BaseResponse<String>
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
      */
     @ResponseBody
     @GetMapping("/search")
@@ -77,12 +81,43 @@ public class CategoryController {
         try {
             //jwt에서 idx 추출.
             int userIdx = jwtService.getUserIdx();
+<<<<<<< HEAD
             GetSearchRes getSearchResList=categoryService.getSearchList(userIdx);
 
             return new BaseResponse<>(getSearchResList);
+=======
+            GetSearchRes getSearchRes= categoryService.getSearchList(userIdx);
+
+            return new BaseResponse<>(getSearchRes);
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * 검색어 한개 삭제 API
+     * [GET] /category/search/:searchIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/search/{searchIdx}")
+    public BaseResponse<String> deleteOneSearch(@PathVariable("searchIdx") int searchIdx ){
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            categoryService.deleteOneSearch(userIdx,searchIdx);
+            String result=searchIdx+"번 검색어가 삭제되었습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class CategoryService {
@@ -52,8 +52,28 @@ public class CategoryService {
 
     public GetSearchRes getSearchList(int userIdx) throws BaseException{
         try{
+<<<<<<< HEAD
             GetSearchRes getSearchResList = categoryDao.getSearchList(userIdx);
             return getSearchResList;
+=======
+            GetSearchRes getSearchRes=categoryDao.getSearchList(userIdx);
+            return getSearchRes;
+        }
+        catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteOneSearch(int userIdx, int searchIdx) throws BaseException{
+        if(categoryDao.getSearchStatus(userIdx, searchIdx).equals("N")) {
+            throw new BaseException(ALREADY_DELETED_SEARCH);
+        }
+
+        try{
+            int search_id=categoryDao.deleteOneSearch(userIdx, searchIdx);
+            if(search_id==0)
+                throw new BaseException(FAIL_DELETE_SEARCH_ONE);
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
         }
         catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);

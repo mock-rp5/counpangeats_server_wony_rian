@@ -76,7 +76,7 @@ public class StoreDao {
                 "from Menu_Keyword MK\n" +
                 "where MK.store_id = ? and MK.status = 'Y'" +
                 "group by MK.menu_keyword_name";
-        String menuDetailQuery = "select M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
+        String menuDetailQuery = "select MK.type, M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
                 "from Menu_Keyword MK\n" +
                 "inner join Menu M\n" +
                 "on M.menu_id = MK.menu_id\n" +
@@ -87,6 +87,7 @@ public class StoreDao {
                         rs.getString("menu_keyword_name"),
                         this.jdbcTemplate.query(menuDetailQuery,
                                 (rs1, rowNum1) -> new MenuDetail(
+                                        rs1.getInt("type"),
                                         rs1.getString("menu_name"),
                                         rs1.getString("menu_img_url"),
                                         rs1.getString("menu_description"),

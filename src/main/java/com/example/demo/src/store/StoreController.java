@@ -68,7 +68,7 @@ public class StoreController {
     }
     @ResponseBody
     @GetMapping("/{storeIdx}/{menuIdx}")
-    public BaseResponse<GetMenuRes> getMenuInfo(@PathVariable("storeIdx") Integer storeIdx, @PathVariable("menuIdx") Integer menuIdx){
+    public BaseResponse<GetMenuRes> getMenuInfo(@PathVariable("storeIdx") Integer storeIdx, @PathVariable("menuIdx") Integer menuIdx, @RequestParam(required = false) Integer type){
         try {
             GetMenuRes menuInfo = storeService.getMenuInfo(storeIdx, menuIdx);
             return new BaseResponse<>(menuInfo);

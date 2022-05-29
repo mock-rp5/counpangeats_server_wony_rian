@@ -1,5 +1,31 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
+com/example/demo/src/store/model/Req/PostHelpReq.java
+ com.example.demo.src.store.model.Req.PostHelpReq
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+<<<<<<< HEAD
+com/example/demo/src/store/model/Req/PostHelpReq.java
+ com.example.demo.src.store.model.Req.PostHelpReq
+=======
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
+com/example/demo/config/Constant.java
+ com.example.demo.config.Constant
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
+com/example/demo/src/user/model/Res/GetAddressRes.java
+ com.example.demo.src.user.model.Res.GetAddressRes
+<<<<<<< HEAD
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
+=======
+=======
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/src/store/model/Req/PostHelpReq.java
@@ -10,6 +36,8 @@ com/example/demo/src/user/model/Res/GetAddressRes.java
  com.example.demo.src.user.model.Res.GetAddressRes
 com/example/demo/src/orders/OrderService.java
  com.example.demo.src.orders.OrderService
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/store/model/MenuCategory.java
  com.example.demo.src.store.model.MenuCategory
 com/example/demo/src/store/model/MenuDetail.java
@@ -20,10 +48,23 @@ com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/store/model/Res/GetStoreInfoRes.java
  com.example.demo.src.store.model.Res.GetStoreInfoRes
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+com/example/demo/src/orders/model/Req/PostOrderReq.java
+ com.example.demo.src.orders.model.Req.PostOrderReq
+com/example/demo/src/user/model/Res/PostUserRes.java
+ com.example.demo.src.user.model.Res.PostUserRes
+=======
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/user/model/Res/PostUserRes.java
  com.example.demo.src.user.model.Res.PostUserRes
 com/example/demo/src/orders/model/Req/PostOrderReq.java
  com.example.demo.src.orders.model.Req.PostOrderReq
+<<<<<<< HEAD
+=======
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/src/orders/model/Res/PostOrderRes.java
@@ -44,24 +85,54 @@ com/example/demo/src/payment/WayService.java
  com.example.demo.src.payment.WayService
 com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
+<<<<<<< HEAD
 com/example/demo/src/category/CategoryService.java
  com.example.demo.src.category.CategoryService
+=======
+<<<<<<< HEAD
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
+=======
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/user/model/StoreSimple.java
  com.example.demo.src.user.model.StoreSimple
+<<<<<<< HEAD
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
+=======
+<<<<<<< HEAD
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
+=======
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/orders/model/Req/DeleteCartReq.java
  com.example.demo.src.orders.model.Req.DeleteCartReq
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
+<<<<<<< HEAD
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
+=======
+<<<<<<< HEAD
+=======
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/user/model/Res/PostBookmarkRes.java
  com.example.demo.src.user.model.Res.PostBookmarkRes
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
 com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
  com.example.demo.src.user.model.Res.GetAddressSimpleRes
 com/example/demo/src/orders/model/OrderDetail.java
@@ -74,10 +145,22 @@ com/example/demo/src/orders/model/Req/PatchCartReq.java
  com.example.demo.src.orders.model.Req.PatchCartReq
 com/example/demo/src/payment/Req/PostPaymentReq.java
  com.example.demo.src.payment.Req.PostPaymentReq
+<<<<<<< HEAD
 com/example/demo/src/category/CategoryDao.java
  com.example.demo.src.category.CategoryDao
 com/example/demo/src/store/model/Res/ReviewRes.java
  com.example.demo.src.store.model.Res.ReviewRes
+<<<<<<< HEAD
+=======
+com/example/demo/src/store/model/Req/PostReviewReq.java
+ com.example.demo.src.store.model.Req.PostReviewReq
+=======
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+com/example/demo/src/store/model/Res/ReviewRes.java
+ com.example.demo.src.store.model.Res.ReviewRes
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/user/model/Res/GetUserPasswordRes.java
  com.example.demo.src.user.model.Res.GetUserPasswordRes
 com/example/demo/src/store/model/Req/PostReviewReq.java
@@ -90,18 +173,26 @@ com/example/demo/src/user/model/Address.java
  com.example.demo.src.user.model.Address
 com/example/demo/src/store/model/Res/GetStoreHomeRes.java
  com.example.demo.src.store.model.Res.GetStoreHomeRes
+<<<<<<< HEAD
 com/example/demo/src/category/model/PopularSearch.java
  com.example.demo.src.category.model.PopularSearch
+=======
+<<<<<<< HEAD
+=======
+com/example/demo/src/category/model/PopularSearch.java
+ com.example.demo.src.category.model.PopularSearch
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/category/model/Res/GetSearchRes.java
  com.example.demo.src.category.model.Res.GetSearchRes
 com/example/demo/src/orders/OrderDao.java
  com.example.demo.src.orders.OrderDao
-com/example/demo/src/user/model/MyEatsInfo.java
- com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/orders/model/GetCartRes.java
  com.example.demo.src.orders.model.GetCartRes
+com/example/demo/src/user/model/MyEatsInfo.java
+ com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/category/model/Req/PostSearchReq.java
  com.example.demo.src.category.model.Req.PostSearchReq
 com/example/demo/src/WebSecurityConfig.java
@@ -130,12 +221,20 @@ com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/category/model/Search.java
  com.example.demo.src.category.model.Search
 com/example/demo/src/user/model/Req/PatchAddressReq.java
  com.example.demo.src.user.model.Req.PatchAddressReq
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
 com/example/demo/src/orders/OrderController.java
  com.example.demo.src.orders.OrderController
+com/example/demo/src/user/model/Req/PatchAddressReq.java
+ com.example.demo.src.user.model.Req.PatchAddressReq
 com/example/demo/src/user/model/Req/PatchUserReq.java
  com.example.demo.src.user.model.Req.PatchUserReq
 com/example/demo/DemoApplication.java
@@ -144,11 +243,47 @@ com/example/demo/src/orders/model/CartMenu.java
  com.example.demo.src.orders.model.CartMenu
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+<<<<<<< HEAD
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/user/model/Res/GetUserEmailRes.java
  com.example.demo.src.user.model.Res.GetUserEmailRes
+=======
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+=======
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+<<<<<<< HEAD
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+=======
+>>>>>>> main
+>>>>>>> ba7df152ff413c705e0ea5a758c73936113a03fe
+>>>>>>> main
+=======
+com/example/demo/src/user/model/Res/GetBookmarkRes.java
+ com.example.demo.src.user.model.Res.GetBookmarkRes
+com/example/demo/src/category/CategoryController.java
+ com.example.demo.src.category.CategoryController
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
+com/example/demo/src/category/CategoryDao.java
+ com.example.demo.src.category.CategoryDao
+>>>>>>> 19c81a57b6f2be5db83273f6ae11b264de855486
+>>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
