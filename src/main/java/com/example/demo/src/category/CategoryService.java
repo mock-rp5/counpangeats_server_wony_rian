@@ -52,12 +52,8 @@ public class CategoryService {
 
     public GetSearchRes getSearchList(int userIdx) throws BaseException{
         try{
-<<<<<<< HEAD
             GetSearchRes getSearchResList = categoryDao.getSearchList(userIdx);
             return getSearchResList;
-=======
-            GetSearchRes getSearchRes=categoryDao.getSearchList(userIdx);
-            return getSearchRes;
         }
         catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
@@ -73,7 +69,7 @@ public class CategoryService {
             int search_id=categoryDao.deleteOneSearch(userIdx, searchIdx);
             if(search_id==0)
                 throw new BaseException(FAIL_DELETE_SEARCH_ONE);
->>>>>>> b9dc98d2ca437d72a5effa39c1a29b41043d56cd
+
         }
         catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
