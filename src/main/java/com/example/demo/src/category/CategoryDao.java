@@ -92,4 +92,11 @@ public class CategoryDao {
         return jdbcTemplate.queryForObject(deleteSearchIdQuery,int.class,deleteSearchOneParams);
 
     }
+
+    public void deleteAllSearch(int userIdx){
+        String deleteAllSearchQuery="update Search set status='N'\n" +
+                "where user_id=?;";
+        this.jdbcTemplate.update(deleteAllSearchQuery,userIdx);
+
+    }
 }

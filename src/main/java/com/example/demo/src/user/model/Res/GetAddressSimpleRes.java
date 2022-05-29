@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetAddressSimpleRes { //주소 목록 조회에서 화면에서 정보들
+    private int address_id;
     private String address_name;
     private String main_address;
     private String detail_address;

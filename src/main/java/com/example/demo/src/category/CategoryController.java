@@ -87,7 +87,7 @@ public class CategoryController {
 
     /**
      * 검색어 한개 삭제 API
-     * [GET] /category/search/:searchIdx
+     * [PATCH] /category/search/:searchIdx
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -98,6 +98,25 @@ public class CategoryController {
             int userIdx = jwtService.getUserIdx();
             categoryService.deleteOneSearch(userIdx,searchIdx);
             String result=searchIdx+"번 검색어가 삭제되었습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
+     * 검색어 전체 삭제 API
+     * [PATCH] /category/search/:searchIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/search")
+    public BaseResponse<String> deleteAllSearch( ){
+        try {
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            categoryService.deleteAllSearch(userIdx);
+            String result="전체 검색어가 삭제되었습니다.";
 
             return new BaseResponse<>(result);
         } catch (BaseException exception) {

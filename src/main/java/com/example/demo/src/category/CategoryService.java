@@ -75,4 +75,14 @@ public class CategoryService {
         }
     }
 
+    public void deleteAllSearch(int userIdx) throws BaseException{
+
+        try{
+            categoryDao.deleteAllSearch(userIdx);
+        }
+        catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
