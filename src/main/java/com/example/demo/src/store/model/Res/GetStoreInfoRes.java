@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetStoreInfoRes {
+    private Integer store_id;
     private String store_name;
     private String store_address;
     private String store_phone;

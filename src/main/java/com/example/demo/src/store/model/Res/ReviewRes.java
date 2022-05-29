@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRes {
+    private Integer review_id;
     private Integer review_star;
     private String review_image_url;
     private String review_content;

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetPaymentRes {
+    private Integer payment_id;
     private String payment_name;
     private String payment_number;
     private String payment_type;

@@ -23,7 +23,7 @@ public class StoreDao {
     }
 
     public List<GetStoreHomeRes> getHome() {
-        String getHomeQuery = "select Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time,Store_Delivery.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
+        String getHomeQuery = "select Store.store_id, Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time,Store_Delivery.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
                 "                from Store\n" +
                 "                inner join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
                 "                from Order_Info as OI \n" +
@@ -40,6 +40,7 @@ public class StoreDao {
 
         List<GetStoreHomeRes> result = this.jdbcTemplate.query(getHomeQuery,
                 (rs, rowNum) -> new GetStoreHomeRes(
+                        rs.getInt("store_id"),
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
                         rs.getString("take_out"),
@@ -53,7 +54,7 @@ public class StoreDao {
         return result;
     }
     public GetStoreOneRes storeOne(int store_id, int userIdx){
-        String storeQuery = "select S.store_name, S.is_cheetah_delivery, S.store_main_image_url, SD.delivery_time, SD.start_delivery_fee, SD.minimum_price, count(R.review_id) as cnt, avg(R.review_star) as average\n" +
+        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, S.store_main_image_url, SD.delivery_time, SD.start_delivery_fee, SD.minimum_price, count(R.review_id) as cnt, avg(R.review_star) as average\n" +
                 "from Store S\n" +
                 "inner join Store_Delivery SD\n" +
                 "on SD.store_id = S.store_id\n" +
@@ -61,7 +62,7 @@ public class StoreDao {
                 "on R.store_id = S.store_id\n" +
                 "where S.store_id = ?  \n" +
                 "group by S.store_id \n";
-        String reviewQuery = "select R.review_star, R.review_image_url, R.review_content\n" +
+        String reviewQuery = "select R.review_id, R.review_star, R.review_image_url, R.review_content\n" +
                 "from Review R\n" +
                 "inner join Store\n" +
                 "on Store.store_id = R.store_id\n" +
@@ -76,7 +77,7 @@ public class StoreDao {
                 "from Menu_Keyword MK\n" +
                 "where MK.store_id = ? and MK.status = 'Y'" +
                 "group by MK.menu_keyword_name";
-        String menuDetailQuery = "select MK.type, M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
+        String menuDetailQuery = "select M.menu_id, M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
                 "from Menu_Keyword MK\n" +
                 "inner join Menu M\n" +
                 "on M.menu_id = MK.menu_id\n" +
@@ -87,7 +88,7 @@ public class StoreDao {
                         rs.getString("menu_keyword_name"),
                         this.jdbcTemplate.query(menuDetailQuery,
                                 (rs1, rowNum1) -> new MenuDetail(
-                                        rs1.getInt("type"),
+                                        rs1.getInt("menu_id"),
                                         rs1.getString("menu_name"),
                                         rs1.getString("menu_img_url"),
                                         rs1.getString("menu_description"),
@@ -97,6 +98,7 @@ public class StoreDao {
 
         return this.jdbcTemplate.queryForObject(storeQuery,
                 (rs, rowNum) -> new GetStoreOneRes(
+                        rs.getInt("store_id"),
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
                         rs.getString("store_main_image_url"),
@@ -108,6 +110,7 @@ public class StoreDao {
                         isBookmark,
                         this.jdbcTemplate.query(reviewQuery,
                                 (rs1, rowNum1) -> new ReviewRes(
+                                        rs1.getInt("review_id"),
                                         rs1.getInt("review_star"),
                                         rs1.getString("review_image_url"),
                                         rs1.getString("review_content")
@@ -117,11 +120,12 @@ public class StoreDao {
         );
     }
     public GetStoreInfoRes getStoreInfo(int storeIdx){
-        String storeInfo = "select S.store_name, S.store_address, S.store_phone, S.store_ceo_name, S.business_number, S.search_business_name, S.find_store_tip, S.business_hours, S.store_description\n" +
+        String storeInfo = "select S.store_id, S.store_name, S.store_address, S.store_phone, S.store_ceo_name, S.business_number, S.search_business_name, S.find_store_tip, S.business_hours, S.store_description\n" +
                 "from Store S\n" +
                 "where S.store_id = ?";
         return this.jdbcTemplate.queryForObject(storeInfo,
                 (rs, rowNum) -> new GetStoreInfoRes(
+                        rs.getInt("store_id"),
                         rs.getString("store_name"),
                         rs.getString("store_address"),
                         rs.getString("store_phone"),
@@ -135,23 +139,27 @@ public class StoreDao {
     }
 
     public GetMenuRes menuInfo(int storeIdx, int menuIdx){
-        String getMenu= "select M.menu_name, M.menu_img_url, M.menu_price\n" +
+        String getMenu= "select M.menu_id, M.menu_name, M.menu_img_url, M.menu_price\n" +
                 "from Menu M \n" +
-                "inner join Store S\n" +
+                "inner join Store S \n" +
                 "on S.store_id = M.store_id \n" +
-                "where M.menu_id = ? and S.store_id = ?";
+                "inner join Menu_Keyword MK \n" +
+                "on MK.menu_id = M.menu_id \n" +
+                "where M.menu_id = ? and S.store_id = ? ";
 
-        String getMenuOption = "select MO.option_name, MO.option_price \n" +
+        String getMenuOption = "select MO.menu_option_id, MO.option_name, MO.option_price \n" +
                 "from Menu_Option MO\n" +
                 "where MO.menu_id = ?";
 
         return this.jdbcTemplate.queryForObject(getMenu,
                 (rs, rowNum) -> new GetMenuRes(
+                        rs.getInt("menu_id"),
                         rs.getString("menu_name"),
                         rs.getString("menu_img_url"),
                         rs.getInt("menu_price"),
                         this.jdbcTemplate.query(getMenuOption,
                                 (rs1, rowNum1) -> new MenuOption(
+                                        rs1.getInt("menu_option_id"),
                                         rs1.getString("option_name"),
                                         rs1.getInt("option_price")
                                 ), menuIdx)
