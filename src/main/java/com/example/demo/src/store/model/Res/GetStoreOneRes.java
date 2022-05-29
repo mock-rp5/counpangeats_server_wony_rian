@@ -1,5 +1,6 @@
-package com.example.demo.src.store.model;
+package com.example.demo.src.store.model.Res;
 
+import com.example.demo.src.store.model.MenuCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

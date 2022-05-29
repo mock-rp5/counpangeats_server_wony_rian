@@ -1,6 +1,11 @@
 package com.example.demo.src.store;
 
 import com.example.demo.src.store.model.*;
+import com.example.demo.src.store.model.Req.PatchHelpReq;
+import com.example.demo.src.store.model.Req.PatchReviewReq;
+import com.example.demo.src.store.model.Req.PostHelpReq;
+import com.example.demo.src.store.model.Req.PostReviewReq;
+import com.example.demo.src.store.model.Res.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,7 +23,7 @@ public class StoreDao {
     }
 
     public List<GetStoreHomeRes> getHome() {
-        String getHomeQuery = "select Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
+        String getHomeQuery = "select Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time,Store_Delivery.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
                 "                from Store\n" +
                 "                inner join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
                 "                from Order_Info as OI \n" +
@@ -39,6 +44,7 @@ public class StoreDao {
                         rs.getString("is_cheetah_delivery"),
                         rs.getString("take_out"),
                         rs.getString("delivery_time"),
+                        rs.getString("start_delivery_fee"),
                         rs.getString("store_main_image_url"),
                         rs.getInt("Cnt"),
                         rs.getFloat("RAvg")
@@ -68,7 +74,8 @@ public class StoreDao {
 
         String menuKeywordQuery = "select MK.menu_keyword_name, MK.type\n" +
                 "from Menu_Keyword MK\n" +
-                "where MK.store_id = ? and MK.status = 'Y'";
+                "where MK.store_id = ? and MK.status = 'Y'" +
+                "group by MK.menu_keyword_name";
         String menuDetailQuery = "select M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
                 "from Menu_Keyword MK\n" +
                 "inner join Menu M\n" +
@@ -124,5 +131,72 @@ public class StoreDao {
                         rs.getString("business_hours"),
                         rs.getString("store_description")
                 ), storeIdx);
+    }
+
+    public GetMenuRes menuInfo(int storeIdx, int menuIdx){
+        String getMenu= "select M.menu_name, M.menu_img_url, M.menu_price\n" +
+                "from Menu M \n" +
+                "inner join Store S\n" +
+                "on S.store_id = M.store_id \n" +
+                "where M.menu_id = ? and S.store_id = ?";
+
+        String getMenuOption = "select MO.option_name, MO.option_price \n" +
+                "from Menu_Option MO\n" +
+                "where MO.menu_id = ?";
+
+        return this.jdbcTemplate.queryForObject(getMenu,
+                (rs, rowNum) -> new GetMenuRes(
+                        rs.getString("menu_name"),
+                        rs.getString("menu_img_url"),
+                        rs.getInt("menu_price"),
+                        this.jdbcTemplate.query(getMenuOption,
+                                (rs1, rowNum1) -> new MenuOption(
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("option_price")
+                                ), menuIdx)
+                        ),menuIdx, storeIdx
+                );
+    }
+
+    public int createReview(int user_id, PostReviewReq postReviewReq){
+        String storeGet = "select store_id from Order_Info where order_info_id = ?";
+        Integer store_id = this.jdbcTemplate.queryForObject(storeGet, int.class, postReviewReq.getOrder_info_id());
+
+//        String getMenu = "select menu_id\n" +
+//                "from Order_Detail\n" +
+//                "where order_info_id = ? ";
+//
+//        String isGoodQuery = "select isGood from Menu where menu_id = ?";
+
+        String create = "insert into Review (order_info_id, user_id, review_star, review_image_url, review_content, store_id, is_delivery_good) VALUES (?,?,?,?,?,?,?)";
+        Object[] createReviewParams = new Object[]{postReviewReq.getOrder_info_id(), user_id, postReviewReq.getReview_star(),
+                postReviewReq.getReview_image_url(), postReviewReq.getReview_content(), store_id, postReviewReq.getIs_delivery_good()};
+
+        return this.jdbcTemplate.update(create, createReviewParams);
+    }
+
+    public int modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq){
+        String updateStar = "UPDATE Review SET review_star=? WHERE review_id=? and user_id=?";
+        String updateContent = "UPDATE Review SET review_content=? WHERE review_id=? and user_id=?";
+        Object[] patchStarParams = new Object[]{patchReviewReq.getReview_star(), reviewIdx, userIdx};
+        Object[] patchContentParams = new Object[]{patchReviewReq.getReview_content(), reviewIdx, userIdx};
+        this.jdbcTemplate.update(updateStar, patchStarParams);
+        return this.jdbcTemplate.update(updateContent, patchContentParams);
+    }
+
+    public int deleteReview(int userIdx, int reviewIdx){
+        String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
+        return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
+    }
+
+    public int createHelpSign(int userIdx, PostHelpReq postHelpReq){
+        String createHelpSignQuery = "insert into Help_Sign (review_id, help_sign_value, user_id) VALUES (?,?,?)";
+        return this.jdbcTemplate.update(createHelpSignQuery, postHelpReq.getReview_id(), postHelpReq.getHelp_sign_value(), userIdx);
+    }
+
+    public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq){
+        String deleteHelpSignQuery = "UPDATE Help_Sign SET status = 'N' WHERE review_id=? and user_id=?";
+        int update = this.jdbcTemplate.update(deleteHelpSignQuery, patchHelpReq.getReview_id(), userIdx);
+        return this.jdbcTemplate.update(deleteHelpSignQuery, patchHelpReq.getReview_id(), userIdx);
     }
 }
