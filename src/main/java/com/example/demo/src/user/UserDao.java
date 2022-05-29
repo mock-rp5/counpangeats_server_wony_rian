@@ -263,29 +263,31 @@ public class UserDao {
     }
 
     public List<GetAddressSimpleRes> getAddress(int user_id){
-        String getAddressesQuery = "select status, address_name, main_address, detail_address\n" +
+        String getAddressesQuery = "select address_id, status, address_name, main_address, detail_address\n" +
                 "from Address\n" +
                 "where user_id=? and status != 'N';";
         int getAddressesParams = user_id;
         return this.jdbcTemplate.query(getAddressesQuery,
                 (rs, rowNum) -> {
+                    int address_id=rs.getInt("address_id");
                     String status = rs.getString("status");
                     String address_name = rs.getString("address_name");
                     String main_address = rs.getString("main_address");
                     String detail_address=rs.getString("detail_address");
                     return new GetAddressSimpleRes(
-                            address_name,main_address,detail_address,status);
+                            address_id,address_name,main_address,detail_address,status);
                 },
                 getAddressesParams);
     }
 
     public GetAddressRes getAddressOne(int addressIdx){
-        String getAddressesOneQuery = "select main_address, detail_address, address_guide, status, address_name\n" +
+        String getAddressesOneQuery = "select address_id, main_address, detail_address, address_guide, status, address_name\n" +
                 "from Address\n" +
                 "where address_id=?;";
         int getAddressesOneParams = addressIdx;
         return this.jdbcTemplate.queryForObject(getAddressesOneQuery,
                 (rs, rowNum) -> new GetAddressRes(
+                        rs.getInt("address_id"),
                         rs.getString("main_address"),
                         rs.getString("detail_address"),
                         rs.getString("address_guide"),
