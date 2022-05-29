@@ -140,6 +140,7 @@ com/example/demo/src/orders/model/CartMenu.java
  com.example.demo.src.orders.model.CartMenu
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
+<<<<<<< HEAD
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/user/UserProvider.java
@@ -148,3 +149,17 @@ com/example/demo/src/user/model/Res/GetUserEmailRes.java
  com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
+=======
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+<<<<<<< HEAD
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+=======
+>>>>>>> main
+>>>>>>> ba7df152ff413c705e0ea5a758c73936113a03fe
+>>>>>>> main
