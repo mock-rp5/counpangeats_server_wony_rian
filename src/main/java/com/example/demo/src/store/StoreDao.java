@@ -23,7 +23,7 @@ public class StoreDao {
     }
 
     public List<GetStoreHomeRes> getHome() {
-        String getHomeQuery = "select Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
+        String getHomeQuery = "select Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time,Store_Delivery.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
                 "                from Store\n" +
                 "                inner join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
                 "                from Order_Info as OI \n" +
@@ -44,6 +44,7 @@ public class StoreDao {
                         rs.getString("is_cheetah_delivery"),
                         rs.getString("take_out"),
                         rs.getString("delivery_time"),
+                        rs.getString("start_delivery_fee"),
                         rs.getString("store_main_image_url"),
                         rs.getInt("Cnt"),
                         rs.getFloat("RAvg")
@@ -73,7 +74,8 @@ public class StoreDao {
 
         String menuKeywordQuery = "select MK.menu_keyword_name, MK.type\n" +
                 "from Menu_Keyword MK\n" +
-                "where MK.store_id = ? and MK.status = 'Y'";
+                "where MK.store_id = ? and MK.status = 'Y'" +
+                "group by MK.menu_keyword_name";
         String menuDetailQuery = "select M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
                 "from Menu_Keyword MK\n" +
                 "inner join Menu M\n" +

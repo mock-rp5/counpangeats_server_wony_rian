@@ -12,6 +12,7 @@ public class GetStoreHomeRes {
     private String is_cheetah_delivery;
     private String take_out;
     private String delivery_time;
+    private String start_delivery_fee;
     private String store_main_image_url;
     private Integer RCnt;
     private Float RAvg;
