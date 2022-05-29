@@ -1,7 +1,9 @@
 package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.store.model.Req.PatchHelpReq;
 import com.example.demo.src.store.model.Req.PatchReviewReq;
+import com.example.demo.src.store.model.Req.PostHelpReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
 import com.example.demo.src.store.model.Res.GetMenuRes;
 import com.example.demo.src.store.model.Res.GetStoreHomeRes;
@@ -84,6 +86,22 @@ public class StoreService {
     public int deleteReview(int userIdx, int reviewIdx) throws BaseException{
         try {
             return storeDao.deleteReview(userIdx, reviewIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public int createHelpSign(int userIdx, PostHelpReq postHelpReq) throws BaseException{
+        try {
+            return storeDao.createHelpSign(userIdx, postHelpReq);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq) throws BaseException{
+        try {
+            return storeDao.deleteHelpSign(userIdx, patchHelpReq);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);

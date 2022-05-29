@@ -70,8 +70,8 @@ com/example/demo/src/user/model/Res/GetUserPasswordRes.java
  com.example.demo.src.user.model.Res.GetUserPasswordRes
 com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/store/model/Req/PostHelpReq.java
+ com.example.demo.src.store.model.Req.PostHelpReq
 com/example/demo/src/store/model/Res/GetStoreHomeRes.java
  com.example.demo.src.store.model.Res.GetStoreHomeRes
 com/example/demo/src/user/model/Address.java
@@ -132,9 +132,13 @@ com/example/demo/src/store/model/Req/PostReviewReq.java
  com.example.demo.src.store.model.Req.PostReviewReq
 com/example/demo/src/store/model/Req/PatchReviewReq.java
  com.example.demo.src.store.model.Req.PatchReviewReq
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
+com/example/demo/src/store/model/Req/PatchHelpReq.java
+ com.example.demo.src.store.model.Req.PatchHelpReq
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService

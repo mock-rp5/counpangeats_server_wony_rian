@@ -1,7 +1,9 @@
 package com.example.demo.src.store;
 
 import com.example.demo.src.store.model.*;
+import com.example.demo.src.store.model.Req.PatchHelpReq;
 import com.example.demo.src.store.model.Req.PatchReviewReq;
+import com.example.demo.src.store.model.Req.PostHelpReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
 import com.example.demo.src.store.model.Res.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,5 +185,16 @@ public class StoreDao {
     public int deleteReview(int userIdx, int reviewIdx){
         String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
+    }
+
+    public int createHelpSign(int userIdx, PostHelpReq postHelpReq){
+        String createHelpSignQuery = "insert into Help_Sign (review_id, help_sign_value, user_id) VALUES (?,?,?)";
+        return this.jdbcTemplate.update(createHelpSignQuery, postHelpReq.getReview_id(), postHelpReq.getHelp_sign_value(), userIdx);
+    }
+
+    public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq){
+        String deleteHelpSignQuery = "UPDATE Help_Sign SET status = 'N' WHERE review_id=? and user_id=?";
+        int update = this.jdbcTemplate.update(deleteHelpSignQuery, patchHelpReq.getReview_id(), userIdx);
+        return this.jdbcTemplate.update(deleteHelpSignQuery, patchHelpReq.getReview_id(), userIdx);
     }
 }

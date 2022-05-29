@@ -21,7 +21,6 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 import static com.example.demo.utils.ValidationRegex.isRegexPhone;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:9000")
 @RequestMapping("/users")
 public class UserController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());

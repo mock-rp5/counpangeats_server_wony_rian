@@ -2,7 +2,9 @@ package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.store.model.Req.PatchHelpReq;
 import com.example.demo.src.store.model.Req.PatchReviewReq;
+import com.example.demo.src.store.model.Req.PostHelpReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
 import com.example.demo.src.store.model.Res.GetMenuRes;
 import com.example.demo.src.store.model.Res.GetStoreHomeRes;
@@ -98,4 +100,21 @@ public class StoreController {
         storeService.deleteReview(userIdx, reviewIdx);
         return new BaseResponse<>("리뷰가 삭제되었습니다.");
     }
+
+    @ResponseBody
+    @PostMapping("/review/sign")
+    public BaseResponse<String> createSign(@Valid @RequestBody PostHelpReq postHelpReq) throws BaseException {
+        int userIdx= jwtService.getUserIdx();
+        storeService.createHelpSign(userIdx, postHelpReq);
+        return new BaseResponse<>("리뷰 도움 유무가 반영되었습니다.");
+    }
+
+    @ResponseBody
+    @PatchMapping("/review/sign/status")
+    public BaseResponse<String> deleteSign(@Valid @RequestBody PatchHelpReq patchHelpReq) throws BaseException {
+        int userIdx= jwtService.getUserIdx();
+        storeService.deleteHelpSign(userIdx, patchHelpReq);
+        return new BaseResponse<>("리뷰 도움 유무가 삭제되었습니다.");
+    }
+
 }
