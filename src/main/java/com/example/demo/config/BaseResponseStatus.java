@@ -93,6 +93,9 @@ public enum BaseResponseStatus {
     //[GET] /users/address/:addressIdx
     NO_EXIST_ADDRESS(false,3030,"존재하지 않거나 삭제된 주소입니다."),
 
+    //[PATCH] /category/search/:searchIdx
+    ALREADY_DELETED_SEARCH(false, 3035, "이미 삭제된 검색어 입니다."),
+
     /**
      * 4000 : Database, Server 오류
      */
@@ -129,7 +132,13 @@ public enum BaseResponseStatus {
     FAIL_POST_BOOKMARK(false, 4036,"즐겨찾기 추가에 실패하였습니다."),
 
     //[PATCH] /users/bookmark/status/:storeIdx
-    FAIL_DELETE_BOOKMARK(false,4038,"즐겨찾기 삭제에 실패하였습니다");
+    FAIL_DELETE_BOOKMARK(false,4038,"즐겨찾기 삭제에 실패하였습니다"),
+
+    //[PATCH] /category/search/:searchIdx
+    FAIL_DELETE_SEARCH_ONE(false, 4050, "해당 검색어 삭제에 실패하였습니다."),
+
+    //[PATCH] /category/search
+    FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다.");
 
 
 
