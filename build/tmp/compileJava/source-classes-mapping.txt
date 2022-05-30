@@ -93,8 +93,13 @@ com/example/demo/src/store/model/Res/GetStoreInfoRes.java
 =======
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
+<<<<<<< HEAD
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
+=======
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
+>>>>>>> main
 >>>>>>> main
 com/example/demo/src/user/model/Res/PostBookmarkRes.java
  com.example.demo.src.user.model.Res.PostBookmarkRes
@@ -175,12 +180,21 @@ com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
 com/example/demo/src/category/model/CategorySimple.java
  com.example.demo.src.category.model.CategorySimple
+<<<<<<< HEAD
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
+com/example/demo/src/store/model/Res/GetStoreOneRes.java
+ com.example.demo.src.store.model.Res.GetStoreOneRes
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
+=======
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+>>>>>>> main
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/category/model/Search.java
@@ -220,8 +234,15 @@ com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+<<<<<<< HEAD
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+=======
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/user/model/Res/GetUserEmailRes.java
  com.example.demo.src.user.model.Res.GetUserEmailRes
+>>>>>>> main
 >>>>>>> main
