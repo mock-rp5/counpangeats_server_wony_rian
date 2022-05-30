@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class CategoryService {
         this.categoryDao=categoryDao;
         this.jwtService=jwtService;
     }
-
+    //GET 카테고리 목록 조회
+    @Transactional(readOnly = true)
     public List<CategorySimple> getCategoryList() throws BaseException{
         try{
             List<CategorySimple> categorySimpleList = categoryDao.getCategoryList();
@@ -39,7 +41,8 @@ public class CategoryService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    //POST 검색 생성
+    @Transactional(rollbackFor = {BaseException.class})
     public PostSearchRes createSearch(int userIdx, PostSearchReq postSearchReq) throws BaseException {
         try{
             int search_id = categoryDao.createSearch(userIdx, postSearchReq.getCategory_name());
@@ -50,6 +53,8 @@ public class CategoryService {
         }
     }
 
+    //GET 검색어 목록 조회
+    @Transactional(readOnly = true)
     public GetSearchRes getSearchList(int userIdx) throws BaseException{
         try{
             GetSearchRes getSearchResList = categoryDao.getSearchList(userIdx);
@@ -60,6 +65,8 @@ public class CategoryService {
         }
     }
 
+    //PATCH 검색어 개별 삭제
+    @Transactional(rollbackFor = {BaseException.class})
     public void deleteOneSearch(int userIdx, int searchIdx) throws BaseException{
         if(categoryDao.getSearchStatus(userIdx, searchIdx).equals("N")) {
             throw new BaseException(ALREADY_DELETED_SEARCH);
@@ -76,8 +83,9 @@ public class CategoryService {
         }
     }
 
+    //PATCH 검색어 전체 삭제
+    @Transactional(rollbackFor = {BaseException.class})
     public void deleteAllSearch(int userIdx) throws BaseException{
-
         try{
             categoryDao.deleteAllSearch(userIdx);
         }

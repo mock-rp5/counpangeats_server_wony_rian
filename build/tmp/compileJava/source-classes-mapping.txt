@@ -58,8 +58,8 @@ com/example/demo/src/orders/model/Req/DeleteCartReq.java
  com.example.demo.src.orders.model.Req.DeleteCartReq
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
-com/example/demo/src/user/UserService.java
- com.example.demo.src.user.UserService
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/user/model/Res/PostBookmarkRes.java
  com.example.demo.src.user.model.Res.PostBookmarkRes
 com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
@@ -122,8 +122,8 @@ com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
 com/example/demo/src/category/model/CategorySimple.java
  com.example.demo.src.category.model.CategorySimple
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/store/model/Res/GetStoreOneRes.java
  com.example.demo.src.store.model.Res.GetStoreOneRes
 com/example/demo/src/store/StoreService.java
@@ -148,7 +148,7 @@ com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
-com/example/demo/src/user/model/Res/GetUserRes.java
- com.example.demo.src.user.model.Res.GetUserRes
-com/example/demo/src/user/model/Res/GetUserEmailRes.java
- com.example.demo.src.user.model.Res.GetUserEmailRes
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
