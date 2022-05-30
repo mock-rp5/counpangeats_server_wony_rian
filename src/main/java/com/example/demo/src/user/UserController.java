@@ -481,7 +481,7 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping("/bookmark/{storeIdx}")
-    public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
+        public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
 
         try {
             //jwt에서 idx 추출.
