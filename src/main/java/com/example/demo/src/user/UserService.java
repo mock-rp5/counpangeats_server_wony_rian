@@ -212,10 +212,10 @@ public class UserService {
 
     //PATCH 주소 삭제
     @Transactional(rollbackFor = {BaseException.class})
-    public void deleteAddress(int addressIdx, int userIdx) throws BaseException {
+    public void deleteAddress(int userIdx,int addressIdx) throws BaseException {
 
         try {
-            int delete_addressIdx = userDao.deleteAddress(addressIdx, userIdx);
+            int delete_addressIdx = userDao.deleteAddress(userIdx,addressIdx);
 
             if (delete_addressIdx == 0) {
                 throw new BaseException(FAIL_DELETE_ADDRESS);

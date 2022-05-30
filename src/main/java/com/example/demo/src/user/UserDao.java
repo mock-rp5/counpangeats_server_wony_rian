@@ -273,7 +273,7 @@ public class UserDao {
 //        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
 //    }
 
-    public int deleteAddress(int addressIdx, int userIdx){
+    public int deleteAddress(int userIdx, int addressIdx){
         String deleteAddressQuery = "update Address\n" +
                 "set status='N'\n" +
                 "where user_id=? and address_id=?;";
