@@ -2,6 +2,7 @@ package com.example.demo.src.store;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.store.model.Req.PatchHelpReq;
 import com.example.demo.src.store.model.Req.PatchReviewReq;
 import com.example.demo.src.store.model.Req.PostHelpReq;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.example.demo.config.BaseResponseStatus.STORE_ID_EMPTY;
 
 @RestController
 @RequestMapping("/stores")
@@ -111,13 +114,26 @@ public class StoreController {
     }
 
     @ResponseBody
-    @GetMapping("/reviews/{orderIdx}")
-    public BaseResponse<GetReviewOrderRes> getReviewOrder(@PathVariable("orderIdx") Integer orderIdx){
+    @GetMapping("/reviews/orders/{orderIdx}")
+    public BaseResponse<GetReviewOrderRes> getReviewOrder(@PathVariable("orderIdx") Integer orderIdx) throws BaseException {
         if(orderIdx == null){
-
+            throw new BaseException(STORE_ID_EMPTY);
         }
         try{
             return new BaseResponse<>(storeService.orderReview(orderIdx));
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/reviews/{storeIdx}")
+    public BaseResponse<GetReviewStoreRes> getReviewStore(@PathVariable("storeIdx") Integer storeIdx) throws BaseException {
+        if(storeIdx == null){
+            throw new BaseException(STORE_ID_EMPTY);
+        }
+        try{
+            return new BaseResponse<>(storeService.getReviewStore(storeIdx));
         }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

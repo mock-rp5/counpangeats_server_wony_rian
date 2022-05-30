@@ -83,6 +83,16 @@ public class StoreService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public GetReviewStoreRes getReviewStore(int storeId) throws BaseException {
+        try {
+            return storeDao.getReviewStoreRes(storeId);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public int modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException{
         try {
