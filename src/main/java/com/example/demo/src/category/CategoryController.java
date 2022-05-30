@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/categories")
 public class CategoryController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -31,7 +31,7 @@ public class CategoryController {
 
     /**
      * 카테고리 목록 조회 API
-     * [GET] /category
+     * [GET] /categories
      * @return BaseResponse<PostOrderRes>
      */
     @ResponseBody
@@ -47,7 +47,7 @@ public class CategoryController {
     }
     /**
      * 검색어 생성 API
-     * [POST] /category/search
+     * [POST] /categoies/search
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -67,7 +67,7 @@ public class CategoryController {
 
     /**
      * 최근검색목록 조회 API
-     * [GET] /category/search
+     * [GET] /categoies/search
      * @return BaseResponse<GetSearchRes>
      * @return BaseResponse<String>
      */
@@ -89,11 +89,11 @@ public class CategoryController {
 
     /**
      * 검색어 한개 삭제 API
-     * [PATCH] /category/search/:searchIdx
+     * [PATCH] /categories/search/:searchIdx
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/search/{searchIdx}")
+    @PatchMapping("/search/{searchIdx}/status")
     public BaseResponse<String> deleteOneSearch(@PathVariable("searchIdx") int searchIdx ){
         try {
             //jwt에서 idx 추출.
@@ -108,7 +108,7 @@ public class CategoryController {
     }
     /**
      * 검색어 전체 삭제 API
-     * [PATCH] /category/search/:searchIdx
+     * [PATCH] /categories/search/:searchIdx
      * @return BaseResponse<String>
      */
     @ResponseBody

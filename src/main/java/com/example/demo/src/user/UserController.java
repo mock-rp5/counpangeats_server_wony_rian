@@ -43,7 +43,6 @@ public class UserController {
     /**
      * 전체 회원 조회 API (포스트맨 확인용)
      * [GET] /users
-     *
      * @return BaseResponse<List < GetUserRes>>
      */
     //Query String
@@ -63,7 +62,6 @@ public class UserController {
     /**
      * 회원가입 API
      * [POST] /users
-     *
      * @return BaseResponse<PostUserRes>
      */
     // Body
@@ -111,7 +109,6 @@ public class UserController {
     /**
      * 마이 이츠 조회 API
      * [GET] /users/my-eats
-     *
      * @return BaseResponse<GetMyEatsRes>
      */
     @ResponseBody
@@ -134,7 +131,6 @@ public class UserController {
     /**
      * 로그인 API
      * [POST] /users/login
-     *
      * @return BaseResponse<PostLoginRes>
      */
     @ResponseBody
@@ -164,7 +160,6 @@ public class UserController {
     /**
      * 유저 이름 변경 API
      * [PATCH] /users/name
-     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -175,11 +170,9 @@ public class UserController {
         if (user.getUser_name() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_NAME);
         }
-
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
-//            PatchUserReq patchUserReq = new PatchUserReq(userIdxByJwt,user.getUser_name());
             User modify_user = new User(userIdxByJwt, user.getUser_email(), user.getUser_password(), user.getUser_name(), user.getUser_phone());
             userService.modifyUserName(modify_user);
 
@@ -193,7 +186,6 @@ public class UserController {
     /**
      * 유저 이메일 변경 API
      * [PATCH] /users/name
-     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -207,7 +199,6 @@ public class UserController {
         if (!isRegexEmail(user.getUser_email())) {
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
-
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
@@ -224,7 +215,6 @@ public class UserController {
     /**
      * 유저 휴대폰번호 변경 API
      * [PATCH] /users/phone
-     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -257,7 +247,6 @@ public class UserController {
     /**
      * 유저 패스워드 변경 API
      * [PATCH] /users/password
-     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -285,7 +274,6 @@ public class UserController {
     /**
      * 유저 탈퇴 API
      * [PATCH] /users/status
-     *
      * @return BaseResponse<String>
      */
     @ResponseBody
@@ -306,7 +294,6 @@ public class UserController {
     /**
      * 유저 이메일 찾기 API
      * [GET] /users/email
-     *
      * @return BaseResponse<GetUserEmailRes>
      */
     @ResponseBody
@@ -336,7 +323,6 @@ public class UserController {
     /**
      * 유저 비밀번호 찾기 API
      * [GET] /users/password
-     *
      * @return BaseResponse<GetUserPasswordRes>
      */
     @ResponseBody
@@ -367,11 +353,10 @@ public class UserController {
     /**
      * 유저 주소 추가
      * [POST] /users/password
-     *
      * @return BaseResponse<GetUserPasswordRes>
      */
     @ResponseBody
-    @PostMapping("/address")
+    @PostMapping("/addresses")
     public BaseResponse<PostAddressRes> createAddress(@RequestBody @Valid Address address) {
 
         try {
@@ -391,12 +376,11 @@ public class UserController {
 
     /**
      * 주소 삭제
-     * [PATCH] /users/address/status/:addressIdx
-     *
+     * [PATCH] /users/addresses/:addressIdx/status
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/address/status/{addressIdx}")
+    @PatchMapping("/addresses/{addressIdx}/status")
     public BaseResponse<String> deleteAddress(@PathVariable("addressIdx") int addressIdx) {
         try {
             //jwt에서 idx 추출.
@@ -412,12 +396,11 @@ public class UserController {
 
     /**
      * 주소 수정
-     * [PATCH] /users/address/:addressIdx
-     *
+     * [PATCH] /users/addresses/:addressIdx
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/address/{addressIdx}")
+    @PatchMapping("/addresses/{addressIdx}")
     public BaseResponse<String> modifyAddress(@PathVariable("addressIdx") int addressIdx, @RequestBody @Valid PatchAddressReq patchAddressReq) {
         try {
             //jwt에서 idx 추출.
@@ -433,16 +416,35 @@ public class UserController {
         }
     }
 
+//    /**
+//     * 사용자 현재 주소 변경
+//     * [PATCH] /users/addresses/current/:addressIdx
+//     * @return BaseResponse<String>
+//     */
+//    @ResponseBody
+//    @PatchMapping("/addresses/current/{addressIdx}")
+//    public BaseResponse<String> modifyCurrentAddress(@PathVariable("addressIdx") int addressIdx) {
+//        try {
+//            //jwt에서 idx 추출.
+//            int userIdxByJwt = jwtService.getUserIdx();
+//            userService.modifyAddress(userIdxByJwt, addressIdx);
+//
+//            String result = "현재 주소가 변경되었습니다.";
+//            return new BaseResponse<>(result);
+//        } catch (BaseException exception) {
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
+
     /**
      * 회원 주소목록 조회 API
-     * [GET] /users/address
+     * [GET] /users/addresses
      * 유저 주소 목록 - status, 메인주소, 주소 이름
-     *
-     * @return BaseResponse<List < GetAddressSimpleRes>>
+     * @return BaseResponse<List<GetAddressSimpleRes>>
      */
     // Path-variable
     @ResponseBody
-    @GetMapping("/address")
+    @GetMapping("/addresses")
     public BaseResponse<List<GetAddressSimpleRes>> getAddress() {
         try {
             int userIdx = jwtService.getUserIdx();
@@ -456,14 +458,13 @@ public class UserController {
 
     /**
      * 주소 상세조회 API
-     * [GET] /users/address
+     * [GET] /users/addresses
      * 상세조회 탭 - 메인주소, 상세주소, 길안내, Status, 주소 이름
-     *
      * @return BaseResponse<GetAddressRes>
      */
     // Path-variable
     @ResponseBody
-    @GetMapping("/address/{addressIdx}")
+    @GetMapping("/addresses/{addressIdx}")
     public BaseResponse<GetAddressRes> getAddressOne(@PathVariable("addressIdx") int addressIdx) {
         try {
             GetAddressRes getAddressRes = userProvider.getAddressOne(addressIdx);
@@ -475,12 +476,11 @@ public class UserController {
 
     /**
      * 즐겨찾기 추가
-     * [POST] /users/bookmark/:storeIdx
-     *
+     * [POST] /users/bookmarks/:storeIdx
      * @return BaseResponse<PostBookmarkRes>
      */
     @ResponseBody
-    @PostMapping("/bookmark/{storeIdx}")
+    @PostMapping("/bookmarks/{storeIdx}")
         public BaseResponse<PostBookmarkRes> createAddress(@PathVariable("storeIdx") int storeIdx) {
 
         try {
@@ -496,14 +496,12 @@ public class UserController {
 
     /**
      * 즐겨찾기 삭제
-     * [POST] /users/bookmark/status/:storeIdx
-     *
+     * [POST] /users/bookmarks/:storeIdx/status
      * @return BaseResponse<result>
      */
     @ResponseBody
-    @PatchMapping("/bookmark/status/{storeIdx}")
+    @PatchMapping("/bookmarks/{storeIdx}/status")
     public BaseResponse<String> deleteBookmark(@PathVariable("storeIdx") int storeIdx) {
-
         try {
             //jwt에서 idx 추출.
             int userIdx = jwtService.getUserIdx();
@@ -518,12 +516,11 @@ public class UserController {
 
     /**
      * 즐겨찾기 목록 조회
-     * [GET] /users/bookmark
-     *
+     * [GET] /users/bookmarks
      * @return BaseResponse<GetBookmarkRes>
      */
     @ResponseBody
-    @GetMapping("/bookmark")
+    @GetMapping("/bookmarks")
     public BaseResponse<GetBookmarkRes> getBookmarkList() {
 
         try {

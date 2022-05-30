@@ -187,22 +187,6 @@ public class UserService {
     //PATCH 주소 변경
     @Transactional(rollbackFor = {BaseException.class})
     public void modifyAddress(int userIdx, int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
-//
-//        //Home을 새로 지정하면, 이전 Home인 주소의 stauts는 E(기타)로 변경.
-//        if(patchAddressReq.getStatus().equals("H")){
-//            int HaddressId=userDao.findHaddressId(userIdx);
-//            userDao.modifyStatusToE(userIdx,addressIdx);
-//        }
-//
-//        //Company를 새로 지정하면, 이전 Company인 주소의 status는 E(기타)로 변경.
-//        if(patchAddressReq.getStatus().equals("C")){
-//            try {
-//                userDao.modifyStatusToE(userIdx, addressIdx);
-//            }catch(Exception ignored){
-//
-//            }
-//        }
-
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
             if (modify_addressIdx == 0) {
@@ -212,6 +196,19 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+//    //PATCH 사용자 현재 주소 변경
+//    @Transactional(rollbackFor = {BaseException.class})
+//    public void modifyCurrentAddress(int userIdx, int addressIdx) throws BaseException {
+//        try {
+//            int modifyCurrentAddressIdx = userDao.modifyAddress(userIdx,addressIdx);
+//            if (modifyCurrentAddressIdx == 0) {
+//                throw new BaseException(FAIL_MODIFY_CURRENT_ADDRESS);
+//            }
+//        } catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
 
     //PATCH 주소 삭제
     @Transactional(rollbackFor = {BaseException.class})
