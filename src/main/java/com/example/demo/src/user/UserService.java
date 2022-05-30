@@ -197,18 +197,18 @@ public class UserService {
         }
     }
 
-//    //PATCH 사용자 현재 주소 변경
-//    @Transactional(rollbackFor = {BaseException.class})
-//    public void modifyCurrentAddress(int userIdx, int addressIdx) throws BaseException {
-//        try {
-//            int modifyCurrentAddressIdx = userDao.modifyAddress(userIdx,addressIdx);
-//            if (modifyCurrentAddressIdx == 0) {
-//                throw new BaseException(FAIL_MODIFY_CURRENT_ADDRESS);
-//            }
-//        } catch (Exception exception) {
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
+    //PATCH 사용자 현재 주소 변경
+    @Transactional(rollbackFor = {BaseException.class})
+    public void modifyCurrentAddress(int userIdx, int addressIdx) throws BaseException {
+        try {
+            int modifyCurrentAddressIdx = userDao.modifyCurrentAddress(userIdx,addressIdx);
+            if (modifyCurrentAddressIdx == 0) {
+                throw new BaseException(FAIL_MODIFY_CURRENT_ADDRESS);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     //PATCH 주소 삭제
     @Transactional(rollbackFor = {BaseException.class})

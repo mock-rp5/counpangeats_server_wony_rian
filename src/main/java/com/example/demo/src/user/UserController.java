@@ -416,25 +416,25 @@ public class UserController {
         }
     }
 
-//    /**
-//     * 사용자 현재 주소 변경
-//     * [PATCH] /users/addresses/current/:addressIdx
-//     * @return BaseResponse<String>
-//     */
-//    @ResponseBody
-//    @PatchMapping("/addresses/current/{addressIdx}")
-//    public BaseResponse<String> modifyCurrentAddress(@PathVariable("addressIdx") int addressIdx) {
-//        try {
-//            //jwt에서 idx 추출.
-//            int userIdxByJwt = jwtService.getUserIdx();
-//            userService.modifyAddress(userIdxByJwt, addressIdx);
-//
-//            String result = "현재 주소가 변경되었습니다.";
-//            return new BaseResponse<>(result);
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    /**
+     * 사용자 현재 주소 변경
+     * [PATCH] /users/addresses/current/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/addresses/current/{addressIdx}")
+    public BaseResponse<String> modifyCurrentAddress(@PathVariable("addressIdx") int addressIdx) {
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            userService.modifyCurrentAddress(userIdxByJwt, addressIdx);
+
+            String result = "현재 주소가 변경되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     /**
      * 회원 주소목록 조회 API
