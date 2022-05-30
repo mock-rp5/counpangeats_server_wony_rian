@@ -19,7 +19,7 @@ import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class OrderController {
 
     //카트 생성
     @ResponseBody
-    @PostMapping("/cart")
+    @PostMapping("/carts")
     public BaseResponse<String> createCart(@RequestParam int storeIdx,
                                            @RequestParam int menuIdx, @RequestBody PostCartReq postCartReq) throws BaseException {
         try {
@@ -58,7 +58,7 @@ public class OrderController {
 
     //카트 조회
     @ResponseBody
-    @GetMapping("/cart")
+    @GetMapping("/carts")
     public BaseResponse<GetCartRes> getCartList() throws BaseException {
         int userIdx= jwtService.getUserIdx();
 
@@ -68,7 +68,7 @@ public class OrderController {
 
     //카트 수정
     @ResponseBody
-    @PatchMapping("/cart")
+    @PatchMapping("/carts")
     public BaseResponse<String> modifyCart(@RequestParam int storeIdx,
                                            @RequestParam int cartIdx, @RequestBody PatchCartReq patchCartReq) throws BaseException {
         int userIdx= jwtService.getUserIdx();
@@ -85,7 +85,7 @@ public class OrderController {
 
     //카트 삭제
     @ResponseBody
-    @PatchMapping("/cart/status")
+    @PatchMapping("/carts/status")
     public BaseResponse<String> deleteCart(@RequestBody DeleteCartReq deleteCartReq) throws BaseException {
         int user_id= jwtService.getUserIdx();
 

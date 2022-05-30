@@ -193,9 +193,37 @@ public class StoreDao {
         return this.jdbcTemplate.update(updateContent, patchContentParams);
     }
 
-//    public GetReviewStoreRes getStoreReview(int storeIdx){
-//
-//    }
+    public GetReviewOrderRes getOrderReview(int orderIdx){
+        String ReviewQuery = "select S.store_name, R.review_star, R.review_image_url, R.created_at, R.review_content \n" +
+                "from Review R\n" +
+                "inner join Store S\n" +
+                "on S.store_id = R.store_id\n" +
+                "inner join Order_Info OI\n" +
+                "on R.order_info_id = OI.order_info_id\n" +
+                "where OI.order_info_id = ?";
+
+        String MenuQuery = "select M.menu_name, MO.option_name\n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ?";
+
+        return this.jdbcTemplate.queryForObject(ReviewQuery,
+                (rs, row) -> new GetReviewOrderRes(
+                        rs.getString("store_name"),
+                        rs.getInt("review_star"),
+                        rs.getString("review_image_url"),
+                        rs.getTimestamp("created_at"),
+                        rs.getString("review_content"),
+                        this.jdbcTemplate.query(MenuQuery,
+                                (rs1, row1) -> new OrderMenu(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name")
+                                ), orderIdx)
+                ), orderIdx);
+    }
 
     public int deleteReview(int userIdx, int reviewIdx){
         String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";

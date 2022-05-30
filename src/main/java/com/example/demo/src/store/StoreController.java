@@ -110,15 +110,18 @@ public class StoreController {
         }
     }
 
-//    @ResponseBody
-//    @GetMapping("")
-//    public BaseResponse<GetReviewOrderRes> getReviewOrder(){
-//        try{
-//            return new BaseResponse<>("리뷰가 삭제되었습니다.");
-//        }catch (BaseException exception){
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    @ResponseBody
+    @GetMapping("/reviews/{orderIdx}")
+    public BaseResponse<GetReviewOrderRes> getReviewOrder(@PathVariable("orderIdx") Integer orderIdx){
+        if(orderIdx == null){
+
+        }
+        try{
+            return new BaseResponse<>(storeService.orderReview(orderIdx));
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     @ResponseBody
     @PostMapping("/review/sign")
