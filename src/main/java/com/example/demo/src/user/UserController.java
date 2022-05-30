@@ -4,7 +4,9 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.Address;
 import com.example.demo.src.user.model.MyEatsInfo;
-import com.example.demo.src.user.model.Req.*;
+import com.example.demo.src.user.model.Req.PatchAddressReq;
+import com.example.demo.src.user.model.Req.PostLoginReq;
+import com.example.demo.src.user.model.Req.PostUserReq;
 import com.example.demo.src.user.model.Res.*;
 import com.example.demo.src.user.model.User;
 import com.example.demo.utils.JwtService;
@@ -510,6 +512,33 @@ public class UserController {
 
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    /**
+     * 즐겨찾기 선택 삭제
+     * [PATCH] /users/bookmarks/status?bookmarkList=
+     * @return BaseResponse<result>
+     */
+    @ResponseBody
+    @PatchMapping("/bookmarks/status")
+    public BaseResponse<String> deleteBookmarkList(@RequestParam Integer[] bookmarkList){
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            Integer[] bookmarkIdxList= userService.deleteBookmarkList(user_id,bookmarkList);
+            String result="";
+            for(int i : bookmarkList){
+                result+=(i+"번,");
+            }
+            int len=result.length();
+            result=result.substring(0,len-1);
+            result += " 즐겨찾기가 삭제되었습니다.";
+            return new BaseResponse<>(result);
+
+        }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }

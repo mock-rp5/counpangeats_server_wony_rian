@@ -362,7 +362,14 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(bookmarkIdxQuery,int.class,userIdx,storeIdx);
     }
 
-
+    public Integer[] deleteBookmarkList(int userIdx, Integer[] bookmarkList){
+        String deleteBookmarkQuery = "update Book_Mark set status='N'\n" +
+                "where user_id=? and bookmark_id=?";
+        for(int i:bookmarkList){
+            this.jdbcTemplate.update(deleteBookmarkQuery,userIdx,i);
+        }
+        return bookmarkList;
+    }
 
     public String getBookmarkStatus(int userIdx, int storeIdx){
         String getBookmarkStatusQuery="select status\n" +

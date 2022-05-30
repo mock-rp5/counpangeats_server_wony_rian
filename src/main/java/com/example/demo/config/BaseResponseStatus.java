@@ -135,6 +135,7 @@ public enum BaseResponseStatus {
 
     //[PATCH] /users/bookmark/status/:storeIdx
     FAIL_DELETE_BOOKMARK(false,4038,"즐겨찾기 삭제에 실패하였습니다"),
+    FAIL_DELETE_BOOKMARK_LIST(false,4039,"즐겨찾기 선택 삭제에 실패하였습니다"),
 
     //[PATCH] /category/search/:searchIdx
     FAIL_DELETE_SEARCH_ONE(false, 4050, "해당 검색어 삭제에 실패하였습니다."),
