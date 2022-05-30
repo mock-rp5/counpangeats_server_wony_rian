@@ -208,6 +208,6 @@ gradle-app.setting
 src/main/java/com/example/demo/config/secret/
 
 #application.yml
-**/apllication.yml
+src/main/resources/apllication.yml
 
 
