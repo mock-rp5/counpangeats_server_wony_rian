@@ -2,12 +2,14 @@ package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.payment.Req.PostCashReq;
 import com.example.demo.src.payment.Req.PostPaymentReq;
 import com.example.demo.src.payment.Res.GetPaymentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -71,6 +73,19 @@ public class WayController {
             int userIdx= jwtService.getUserIdx();
             List<GetPaymentRes> payment = wayService.getPayment(userIdx);
             return new BaseResponse<>(payment);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/cash")
+    public BaseResponse<String> postCash(@Valid @RequestBody PostCashReq postCashReq) throws BaseException{
+        try {
+            int userIdx= jwtService.getUserIdx();
+            System.out.println("userIdx = " + userIdx);
+            wayService.postCash(userIdx, postCashReq);
+            return new BaseResponse<>("현금영수증 생성 or 수정이 완료되었습니다.");
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

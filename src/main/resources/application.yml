@@ -1,0 +1,14 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: demo
+
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://somyeong-mysql.cpien4nft9ig.ap-northeast-2.rds.amazonaws.com/CoupangEats?autoReconnect=true
+    username: admin # 변경해주세요
+    password: thaud8009  # 변경해주세요
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+

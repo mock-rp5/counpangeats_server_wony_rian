@@ -1,10 +1,12 @@
 package com.example.demo.src.payment;
 
+import com.example.demo.src.payment.Req.PostCashReq;
 import com.example.demo.src.payment.Req.PostPaymentReq;
 import com.example.demo.src.payment.Res.GetPaymentRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import sun.jvm.hotspot.code.StubQueue;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -48,5 +50,20 @@ public class WayDao {
                         rs.getString("payment_number"),
                         rs.getString("payment_type")
                 ), user_id);
+    }
+
+    public int patchCash(int user_id, PostCashReq postCashReq){
+        String checkQuery = "select exists(select * from Cash where user_id = ?)";
+        Integer checkCash = this.jdbcTemplate.queryForObject(checkQuery, int.class, user_id);
+
+        if(checkCash == 1){
+            String Query1 = "UPDATE Cash SET cash_number = ? WHERE user_id=?";
+            String Query2 = "UPDATE Cash SET status = ? WHERE user_id=?";
+            this.jdbcTemplate.update(Query1, postCashReq.getCash_number(), user_id);
+            return this.jdbcTemplate.update(Query2, postCashReq.getStatus(), user_id);
+        }else {
+            String Query = "insert into Cash (cash_number, user_id, status) VALUES (?,?,?)";
+            return this.jdbcTemplate.update(Query, postCashReq.getCash_number(), user_id, postCashReq.getStatus());
+        }
     }
 }

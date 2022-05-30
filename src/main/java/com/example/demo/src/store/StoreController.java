@@ -6,10 +6,7 @@ import com.example.demo.src.store.model.Req.PatchHelpReq;
 import com.example.demo.src.store.model.Req.PatchReviewReq;
 import com.example.demo.src.store.model.Req.PostHelpReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
-import com.example.demo.src.store.model.Res.GetMenuRes;
-import com.example.demo.src.store.model.Res.GetStoreHomeRes;
-import com.example.demo.src.store.model.Res.GetStoreInfoRes;
-import com.example.demo.src.store.model.Res.GetStoreOneRes;
+import com.example.demo.src.store.model.Res.*;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -80,41 +77,71 @@ public class StoreController {
     @ResponseBody
     @PostMapping("/review")
     public BaseResponse<String> createReview(@Valid @RequestBody PostReviewReq postReviewReq) throws BaseException {
-        int userIdx= jwtService.getUserIdx();
-        storeService.createReview(userIdx, postReviewReq);
-        return new BaseResponse<>("리뷰가 등록되었습니다.");
+        try{
+            int userIdx= jwtService.getUserIdx();
+            storeService.createReview(userIdx, postReviewReq);
+            return new BaseResponse<>("리뷰가 등록되었습니다.");
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
     @ResponseBody
     @PatchMapping("/review/{reviewIdx}")
     public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") Integer reviewIdx, @Valid @RequestBody PatchReviewReq patchReviewReq) throws BaseException {
-        int userIdx= jwtService.getUserIdx();
-        storeService.modifyReview(userIdx, reviewIdx, patchReviewReq);
-        return new BaseResponse<>("리뷰가 수정되었습니다.");
+        try{
+            int userIdx= jwtService.getUserIdx();
+            storeService.modifyReview(userIdx, reviewIdx, patchReviewReq);
+            return new BaseResponse<>("리뷰가 수정되었습니다.");
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
     @ResponseBody
     @PatchMapping("/review/status/{reviewIdx}")
     public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") Integer reviewIdx) throws BaseException {
-        int userIdx= jwtService.getUserIdx();
-        storeService.deleteReview(userIdx, reviewIdx);
-        return new BaseResponse<>("리뷰가 삭제되었습니다.");
+        try{
+            int userIdx= jwtService.getUserIdx();
+            storeService.deleteReview(userIdx, reviewIdx);
+            return new BaseResponse<>("리뷰가 삭제되었습니다.");
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
+
+//    @ResponseBody
+//    @GetMapping("")
+//    public BaseResponse<GetReviewOrderRes> getReviewOrder(){
+//        try{
+//            return new BaseResponse<>("리뷰가 삭제되었습니다.");
+//        }catch (BaseException exception){
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
 
     @ResponseBody
     @PostMapping("/review/sign")
     public BaseResponse<String> createSign(@Valid @RequestBody PostHelpReq postHelpReq) throws BaseException {
-        int userIdx= jwtService.getUserIdx();
-        storeService.createHelpSign(userIdx, postHelpReq);
-        return new BaseResponse<>("리뷰 도움 유무가 반영되었습니다.");
+        try {
+            int userIdx= jwtService.getUserIdx();
+            storeService.createHelpSign(userIdx, postHelpReq);
+            return new BaseResponse<>("리뷰 도움 유무가 반영되었습니다.");
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
     @ResponseBody
     @PatchMapping("/review/sign/status")
     public BaseResponse<String> deleteSign(@Valid @RequestBody PatchHelpReq patchHelpReq) throws BaseException {
-        int userIdx= jwtService.getUserIdx();
-        storeService.deleteHelpSign(userIdx, patchHelpReq);
-        return new BaseResponse<>("리뷰 도움 유무가 삭제되었습니다.");
+        try{
+            int userIdx= jwtService.getUserIdx();
+            storeService.deleteHelpSign(userIdx, patchHelpReq);
+            return new BaseResponse<>("리뷰 도움 유무가 삭제되었습니다.");
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
 
 }

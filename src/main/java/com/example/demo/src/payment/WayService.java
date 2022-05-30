@@ -1,6 +1,7 @@
 package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.payment.Req.PostCashReq;
 import com.example.demo.src.payment.Req.PostPaymentReq;
 import com.example.demo.src.payment.Res.GetPaymentRes;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,15 @@ public class WayService {
     public List<GetPaymentRes> getPayment(int user_id) throws BaseException {
         try {
             return wayDao.getPayment(user_id);
+        }catch (Exception e){
+            System.out.println("e.getMessage() = " + e.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int postCash(int user_id, PostCashReq postCashReq) throws BaseException {
+        try {
+            return wayDao.patchCash(user_id, postCashReq);
         }catch (Exception e){
             System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);

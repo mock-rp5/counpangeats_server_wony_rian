@@ -193,6 +193,10 @@ public class StoreDao {
         return this.jdbcTemplate.update(updateContent, patchContentParams);
     }
 
+//    public GetReviewStoreRes getStoreReview(int storeIdx){
+//
+//    }
+
     public int deleteReview(int userIdx, int reviewIdx){
         String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
