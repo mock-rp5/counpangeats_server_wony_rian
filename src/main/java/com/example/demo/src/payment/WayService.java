@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.payment.Req.PostPaymentReq;
 import com.example.demo.src.payment.Res.GetPaymentRes;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class WayService {
         this.wayDao = wayDao;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void createPayment(int userIdx, PostPaymentReq postPaymentReq) throws BaseException {
         try {
             wayDao.createPayment(userIdx, postPaymentReq);
@@ -25,6 +27,7 @@ public class WayService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void deletePayment(int userIdx, Integer payment_method_id) throws BaseException {
         try {
             wayDao.deletePayment(userIdx, payment_method_id);
@@ -33,6 +36,7 @@ public class WayService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<GetPaymentRes> getPayment(int user_id) throws BaseException {
         try {
             return wayDao.getPayment(user_id);

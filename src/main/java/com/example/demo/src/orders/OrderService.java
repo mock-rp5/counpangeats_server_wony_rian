@@ -7,6 +7,7 @@ import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class OrderService {
         this.orderDao = orderDao;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public int createOrder(int userIdx, Integer[] cartList, PostOrderReq postOrderReq) throws BaseException {
         try {
             return orderDao.createOrder(userIdx, cartList, postOrderReq);
@@ -30,6 +32,7 @@ public class OrderService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void createCart(int userIdx, int storeIdx, int menuIdx, PostCartReq postCartReq) throws BaseException {
         try {
             int result = orderDao.createCart(userIdx, storeIdx, menuIdx, postCartReq);
@@ -42,6 +45,7 @@ public class OrderService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void modifyCart(int store_id, int cart_id, PatchCartReq patchCartReq) throws BaseException {
         try {
             int result = orderDao.modifyCart(store_id, cart_id, patchCartReq);
@@ -53,6 +57,7 @@ public class OrderService {
         }
     }
 
+    @Transactional(readOnly = true)
     public GetCartRes getCart(int userIdx) throws BaseException {
         try {
             return orderDao.getCart(userIdx);
@@ -60,6 +65,8 @@ public class OrderService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public void deleteCart(int cart_id, int user_id) throws BaseException {
         try {
             orderDao.deleteCart(user_id, cart_id);
