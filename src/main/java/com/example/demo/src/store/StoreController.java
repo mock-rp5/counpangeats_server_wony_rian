@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping("/stores")
 public class StoreController {
 
     @Autowired
@@ -75,7 +75,7 @@ public class StoreController {
     }
 
     @ResponseBody
-    @PostMapping("/review")
+    @PostMapping("/reviews")
     public BaseResponse<String> createReview(@Valid @RequestBody PostReviewReq postReviewReq) throws BaseException {
         try{
             int userIdx= jwtService.getUserIdx();
@@ -87,7 +87,7 @@ public class StoreController {
     }
 
     @ResponseBody
-    @PatchMapping("/review/{reviewIdx}")
+    @PatchMapping("/reviews/{reviewIdx}")
     public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") Integer reviewIdx, @Valid @RequestBody PatchReviewReq patchReviewReq) throws BaseException {
         try{
             int userIdx= jwtService.getUserIdx();
@@ -99,7 +99,7 @@ public class StoreController {
     }
 
     @ResponseBody
-    @PatchMapping("/review/status/{reviewIdx}")
+    @PatchMapping("/reviews/status/{reviewIdx}")
     public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") Integer reviewIdx) throws BaseException {
         try{
             int userIdx= jwtService.getUserIdx();
@@ -124,7 +124,7 @@ public class StoreController {
     }
 
     @ResponseBody
-    @PostMapping("/review/sign")
+    @PostMapping("/reviews/sign")
     public BaseResponse<String> createSign(@Valid @RequestBody PostHelpReq postHelpReq) throws BaseException {
         try {
             int userIdx= jwtService.getUserIdx();
@@ -136,7 +136,7 @@ public class StoreController {
     }
 
     @ResponseBody
-    @PatchMapping("/review/sign/status")
+    @PatchMapping("/reviews/sign/status")
     public BaseResponse<String> deleteSign(@Valid @RequestBody PatchHelpReq patchHelpReq) throws BaseException {
         try{
             int userIdx= jwtService.getUserIdx();
