@@ -5,10 +5,7 @@ import com.example.demo.src.store.model.Req.PatchHelpReq;
 import com.example.demo.src.store.model.Req.PatchReviewReq;
 import com.example.demo.src.store.model.Req.PostHelpReq;
 import com.example.demo.src.store.model.Req.PostReviewReq;
-import com.example.demo.src.store.model.Res.GetMenuRes;
-import com.example.demo.src.store.model.Res.GetStoreHomeRes;
-import com.example.demo.src.store.model.Res.GetStoreInfoRes;
-import com.example.demo.src.store.model.Res.GetStoreOneRes;
+import com.example.demo.src.store.model.Res.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,6 +67,16 @@ public class StoreService {
     public int createReview(int userIdx, PostReviewReq postReviewReq) throws BaseException{
         try {
             return storeDao.createReview(userIdx, postReviewReq);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public GetReviewOrderRes orderReview(int orderIdx) throws BaseException{
+        try {
+            return storeDao.getOrderReview(orderIdx);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
