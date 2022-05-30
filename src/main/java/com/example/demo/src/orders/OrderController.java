@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -98,18 +99,13 @@ public class OrderController {
     //주문 생성 API
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @RequestBody PostOrderReq postOrderReq){
+    public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @Valid @RequestBody PostOrderReq postOrderReq){
         try {
             int user_id= jwtService.getUserIdx();
-            if(postOrderReq.getAddress_id() == null){
-                return new BaseResponse<>(ADDRESS_ID_EMPTY);
-            }
-            if(postOrderReq.getStore_id() == null){
-                return new BaseResponse<>(STORE_ID_EMPTY);
-            }
+
             List<PostOrderRes> postOrderRes = orderService.checkCartUserExists(user_id);
             if(postOrderRes.isEmpty()){
-                return new BaseResponse<>(STORE_ID_EMPTY);
+                return new BaseResponse<>(CART_ID_EMPTY);
             }
 
             orderService.createOrder(user_id, cartList, postOrderReq);
