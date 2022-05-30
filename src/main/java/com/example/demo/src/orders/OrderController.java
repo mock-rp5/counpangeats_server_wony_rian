@@ -3,7 +3,7 @@ package com.example.demo.src.orders;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.orders.model.Req.DeleteCartReq;
-import com.example.demo.src.orders.model.GetCartRes;
+import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;

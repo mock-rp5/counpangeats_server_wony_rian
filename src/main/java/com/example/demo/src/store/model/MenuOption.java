@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuOption {
+    private Integer menu_option_id;
     private String option_name;
     private Integer option_price;
 }

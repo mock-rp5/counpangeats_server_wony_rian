@@ -37,6 +37,7 @@ public class WayService {
         try {
             return wayDao.getPayment(user_id);
         }catch (Exception e){
+            System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
