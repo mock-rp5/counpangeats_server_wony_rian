@@ -37,10 +37,9 @@ public class StoreController {
      */
     @ResponseBody
     @GetMapping("/home")
-    public BaseResponse<List<GetStoreHomeRes>> getHome() {
+    public BaseResponse<GetStoreHomeRes> getHome() {
         try {
-            List<GetStoreHomeRes> getStoreRes = storeService.getStoreResList();
-            return new BaseResponse<>(getStoreRes);
+            return new BaseResponse<>(storeService.getStoreResList());
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

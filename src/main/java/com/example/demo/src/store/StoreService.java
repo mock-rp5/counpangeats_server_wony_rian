@@ -22,10 +22,9 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetStoreHomeRes> getStoreResList() throws BaseException {
+    public GetStoreHomeRes getStoreResList() throws BaseException {
         try {
-            List<GetStoreHomeRes> getStoreResList = storeDao.getHome();
-            System.out.println("getStoreResList = " + getStoreResList);
+            GetStoreHomeRes getStoreResList = storeDao.getHome();
             return getStoreResList;
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
