@@ -55,8 +55,7 @@ public enum BaseResponseStatus {
     FAIL_CART_EMPTY(false, 2021, "카트가 비었습니다."),
 
     // /order
-    ADDRESS_ID_EMPTY(false, 2050, "주소 식별자를 입력해주세요."),
-    STORE_ID_EMPTY(false, 2051, "가게 식별자를 입력해주세요."),
+    CART_ID_EMPTY(false, 2051, "유효한 카트가 없습니다."),
 
     // /payment
     PAYMENT_NAME_EMPTY(false, 2070, "결제 방식 은행을 입력해주세요."),

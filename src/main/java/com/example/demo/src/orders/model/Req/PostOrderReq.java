@@ -12,9 +12,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostOrderReq {
-    @NotNull(message = "address_id를 입력해주세요")
+    @NotNull(message = "주소 식별자를 입력해주세요")
     private Integer address_id;
-    @NotNull(message = "store_id를 입력해주세요")
+    @NotNull(message = "가게 식별자를 입력해주세요")
     private Integer store_id;
     private Integer payment_method_id;
     private Integer delivery_request;

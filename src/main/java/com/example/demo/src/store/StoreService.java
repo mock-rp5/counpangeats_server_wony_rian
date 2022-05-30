@@ -66,7 +66,7 @@ public class StoreService {
         }
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
     public int createReview(int userIdx, PostReviewReq postReviewReq) throws BaseException{
         try {
             return storeDao.createReview(userIdx, postReviewReq);
@@ -75,6 +75,8 @@ public class StoreService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public int modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException{
         try {
             return storeDao.modifyReview(userIdx, reviewIdx, patchReviewReq);
@@ -83,6 +85,8 @@ public class StoreService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public int deleteReview(int userIdx, int reviewIdx) throws BaseException{
         try {
             return storeDao.deleteReview(userIdx, reviewIdx);
@@ -91,6 +95,8 @@ public class StoreService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public int createHelpSign(int userIdx, PostHelpReq postHelpReq) throws BaseException{
         try {
             return storeDao.createHelpSign(userIdx, postHelpReq);
@@ -99,6 +105,8 @@ public class StoreService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq) throws BaseException{
         try {
             return storeDao.deleteHelpSign(userIdx, patchHelpReq);
