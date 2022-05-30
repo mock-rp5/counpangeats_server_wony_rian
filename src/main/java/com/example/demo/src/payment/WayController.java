@@ -16,7 +16,7 @@ import static com.example.demo.config.BaseResponseStatus.*;
 
 
 @RestController
-@RequestMapping("/way")
+@RequestMapping("/payments")
 public class WayController {
 
     @Autowired
@@ -79,7 +79,7 @@ public class WayController {
     }
 
     @ResponseBody
-    @PatchMapping("/cash")
+    @PatchMapping("/cash-receipt")
     public BaseResponse<String> postCash(@Valid @RequestBody PostCashReq postCashReq) throws BaseException{
         try {
             int userIdx= jwtService.getUserIdx();
