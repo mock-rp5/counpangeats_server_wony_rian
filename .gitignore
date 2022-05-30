@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,windows,macos,gradle,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,windows,macos,gradle,git
 
@@ -209,4 +208,6 @@ gradle-app.setting
 src/main/java/com/example/demo/config/secret/
 
 #application.yml
-src/main/resources/apllication.yml
+**/apllication.yml
+
+

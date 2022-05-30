@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,8 @@ public class UserProvider {
         this.jwtService = jwtService;
     }
 
+    //회원 전체 조회
+    @Transactional(readOnly = true)
     public List<GetUserRes> getUsers() throws BaseException {
         try {
             List<GetUserRes> getUserRes = userDao.getUsers();
@@ -42,16 +45,8 @@ public class UserProvider {
         }
     }
 
-    public List<GetUserRes> getUsersByEmail(String email) throws BaseException {
-        try {
-            List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
-            return getUsersRes;
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-
+    //회원 개인 조회
+    @Transactional(readOnly = true)
     public GetUserRes getUser(int userIdx) throws BaseException {
         try {
             GetUserRes getUserRes = userDao.getUser(userIdx);
@@ -61,6 +56,8 @@ public class UserProvider {
         }
     }
 
+    //마이이츠 조회
+    @Transactional(readOnly = true)
     public MyEatsInfo getMyEats(int userIdx) throws BaseException {
         try {
             MyEatsInfo getMyEatsRes = userDao.getMyEats(userIdx);
@@ -70,6 +67,8 @@ public class UserProvider {
         }
     }
 
+    // 이메일 중복 확인
+    @Transactional(readOnly = true)
     public int checkEmail(String email) throws BaseException {
         try {
             return userDao.checkEmail(email);
@@ -78,6 +77,8 @@ public class UserProvider {
         }
     }
 
+    //로그인
+    @Transactional(readOnly = true)
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException {
         String email= postLoginReq.getUser_email();
 
@@ -112,6 +113,8 @@ public class UserProvider {
 
     }
 
+    //이메일 찾기
+    @Transactional(readOnly = true)
     public GetUserEmailRes findUserEmail(String user_name, String user_phone) throws BaseException{
         try{
             GetUserEmailRes getUserEmailRes=userDao.findUserEmail(user_name,user_phone);
@@ -121,6 +124,8 @@ public class UserProvider {
         }
     }
 
+    //비밀번호 찾기
+    @Transactional(readOnly = true)
     public GetUserPasswordRes findUserPassword(String user_name, String user_email) throws BaseException{
         try{
             GetUserPasswordRes getUserPasswordRes=userDao.findUserPassword(user_name, user_email);
@@ -130,6 +135,8 @@ public class UserProvider {
         }
     }
 
+    //주소 목록 조회
+    @Transactional(readOnly = true)
     public List<GetAddressSimpleRes> getAddress(int userIdx) throws BaseException{
         try{
             List<GetAddressSimpleRes> getAddressSimpleResList= userDao.getAddress(userIdx);
@@ -140,13 +147,14 @@ public class UserProvider {
         }
     }
 
+    //주소 상세 조회
+    @Transactional(readOnly = true)
     public GetAddressRes getAddressOne(int addressIdx) throws BaseException{
         String status=userDao.getAddressStatus(addressIdx);
 
         if(userDao.getAddressStatus(addressIdx).equals("N")) {
             throw new BaseException(NO_EXIST_ADDRESS);
         }
-        
         try{
             GetAddressRes getAddressRes= userDao.getAddressOne(addressIdx);
             return getAddressRes;
@@ -156,6 +164,8 @@ public class UserProvider {
         }
     }
 
+    //즐겨찾기 목록 조회
+    @Transactional(readOnly = true)
     public GetBookmarkRes getBookmarkList(int userIdx) throws BaseException{
         try{
             GetBookmarkRes getBookmarkResList=userDao.getBookmarkList(userIdx);
