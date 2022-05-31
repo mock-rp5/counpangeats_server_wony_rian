@@ -246,6 +246,26 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyAddressQuery,modifyAddressParams);
     }
 
+    public int modifyCurrentAddress(int userIdx, int addressIdx){
+        // 회원 현재 주소로 설정된 주소의 id값 추출 -> prior_address_id;
+        String nowCurrentGetQuery="select address_id from Address\n" +
+                "where user_id=? and is_current='Y'";
+        int priorAddressIdx= this.jdbcTemplate.queryForObject(nowCurrentGetQuery,int.class,userIdx);
+        System.out.println("priorAddressIdx = " + priorAddressIdx);
+
+        // 새로 주소로 설정하는 주소의 is_current 값 Y로 변경
+        String modifyNewCurrentAddressQuery="update Address set is_current='Y'\n" +
+                "where user_id=? and address_id=?";
+        this.jdbcTemplate.update(modifyNewCurrentAddressQuery,userIdx,addressIdx);
+
+        // 이전에 설정한 주소 is_current 값 N으로 변경
+        String modifyPriorAddressQuery="update Address set is_current='N'\n" +
+                "where user_id=? and address_id=?";
+        this.jdbcTemplate.update(modifyPriorAddressQuery,userIdx,priorAddressIdx);
+
+        return addressIdx;
+    }
+
 //    public void modifyStatusToE(int userIdx, int addressIdx){
 //        String modifyHtoEQuery = "update Address set status='E'\n" +
 //                "where user_id=? and address_id=?";
@@ -253,7 +273,7 @@ public class UserDao {
 //        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
 //    }
 
-    public int deleteAddress(int addressIdx, int userIdx){
+    public int deleteAddress(int userIdx, int addressIdx){
         String deleteAddressQuery = "update Address\n" +
                 "set status='N'\n" +
                 "where user_id=? and address_id=?;";
@@ -342,7 +362,14 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(bookmarkIdxQuery,int.class,userIdx,storeIdx);
     }
 
-
+    public Integer[] deleteBookmarkList(int userIdx, Integer[] bookmarkList){
+        String deleteBookmarkQuery = "update Book_Mark set status='N'\n" +
+                "where user_id=? and bookmark_id=?";
+        for(int i:bookmarkList){
+            this.jdbcTemplate.update(deleteBookmarkQuery,userIdx,i);
+        }
+        return bookmarkList;
+    }
 
     public String getBookmarkStatus(int userIdx, int storeIdx){
         String getBookmarkStatusQuery="select status\n" +

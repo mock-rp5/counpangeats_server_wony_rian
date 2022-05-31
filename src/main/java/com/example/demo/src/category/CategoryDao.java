@@ -1,10 +1,9 @@
 package com.example.demo.src.category;
 
 
-import com.example.demo.src.category.model.CategorySimple;
-import com.example.demo.src.category.model.PopularSearch;
+import com.example.demo.src.category.model.*;
+import com.example.demo.src.category.model.Res.GetCategoryDetailRes;
 import com.example.demo.src.category.model.Res.GetSearchRes;
-import com.example.demo.src.category.model.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -31,6 +30,39 @@ public class CategoryDao {
                         rs.getString("category_image_url"),
                         rs.getString("category_name")
                 ));
+    }
+
+    public GetCategoryDetailRes getCategoryDetail(int categoryIdx) {
+        String getCategoryBannerListQuery="select category_id, category_image_url, category_name\n" +
+                "from Category;";
+        String getCategoryDetailListQuery="select S.store_id as store_id, store_image_url, store_name, is_cheetah_delivery,takeout_time, round(avg(review_star),1) as avg_review, count(review_star) as count_review, start_delivery_fee, is_takeout\n" +
+                "from (select * from Store_Category\n" +
+                "where category_id=?) SC\n" +
+                "join Store_Image SI on SC.store_id = SI.store_id\n" +
+                "join Store S on SC.store_id = S.store_id\n" +
+                "join Store_Takeout ST on S.store_id = ST.store_id\n" +
+                "join Review R on R.store_id = S.store_id\n" +
+                "join Store_Delivery SD on S.store_id = SD.store_id\n" +
+                "group by S.store_id;";
+
+        return new GetCategoryDetailRes(
+                        this.jdbcTemplate.query(getCategoryBannerListQuery,
+                                (rs1,rowNum1)->new CategorySimple(
+                                        rs1.getInt("category_id"),
+                                        rs1.getString("category_image_url"),
+                                        rs1.getString("category_name"))),
+                        this.jdbcTemplate.query(getCategoryDetailListQuery,
+                                (rs2,rowNum2)->new StoreInfo(
+                                        rs2.getInt("store_id"),
+                                        rs2.getString("store_image_url"),
+                                        rs2.getString("store_name"),
+                                        rs2.getString("is_cheetah_delivery"),
+                                        rs2.getString("takeout_time"),
+                                        rs2.getDouble("avg_review"),
+                                        rs2.getInt("count_review"),
+                                        rs2.getInt("start_delivery_fee"),
+                                        rs2.getString("is_takeout")
+                                ), categoryIdx));
 
     }
 
@@ -42,10 +74,7 @@ public class CategoryDao {
 
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
-
     }
-
-
     public String getSearchStatus(int userIdx, int searchIdx){
         String getSearchStatusQuery="select status from Search\n" +
                 "where user_id=? and search_id=?;";
@@ -62,9 +91,7 @@ public class CategoryDao {
         this.jdbcTemplate.update(deleteSearchOneQuery,deleteSearchOneParams);
 
         return jdbcTemplate.queryForObject(deleteSearchIdQuery,int.class,deleteSearchOneParams);
-
     }
-
 
     public void deleteAllSearch(int userIdx) {
         String deleteAllSearchQuery = "update Search set status='N'\n" +

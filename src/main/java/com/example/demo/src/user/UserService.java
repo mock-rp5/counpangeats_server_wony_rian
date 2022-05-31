@@ -197,25 +197,25 @@ public class UserService {
         }
     }
 
-//    //PATCH 사용자 현재 주소 변경
-//    @Transactional(rollbackFor = {BaseException.class})
-//    public void modifyCurrentAddress(int userIdx, int addressIdx) throws BaseException {
-//        try {
-//            int modifyCurrentAddressIdx = userDao.modifyAddress(userIdx,addressIdx);
-//            if (modifyCurrentAddressIdx == 0) {
-//                throw new BaseException(FAIL_MODIFY_CURRENT_ADDRESS);
-//            }
-//        } catch (Exception exception) {
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
+    //PATCH 사용자 현재 주소 변경
+    @Transactional(rollbackFor = {BaseException.class})
+    public void modifyCurrentAddress(int userIdx, int addressIdx) throws BaseException {
+        try {
+            int modifyCurrentAddressIdx = userDao.modifyCurrentAddress(userIdx, addressIdx);
+            if (modifyCurrentAddressIdx == 0) {
+                throw new BaseException(FAIL_MODIFY_CURRENT_ADDRESS);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     //PATCH 주소 삭제
     @Transactional(rollbackFor = {BaseException.class})
-    public void deleteAddress(int addressIdx, int userIdx) throws BaseException {
+    public void deleteAddress(int userIdx,int addressIdx) throws BaseException {
 
         try {
-            int delete_addressIdx = userDao.deleteAddress(addressIdx, userIdx);
+            int delete_addressIdx = userDao.deleteAddress(userIdx,addressIdx);
 
             if (delete_addressIdx == 0) {
                 throw new BaseException(FAIL_DELETE_ADDRESS);
@@ -234,7 +234,7 @@ public class UserService {
         if (isAlreadyCreate == 1) {
             throw new BaseException(ALREADY_POST_BOOKMARK);
         }
-        if (userDao.isExist(userIdx, storeIdx)==1) { //예전에 삭제 기록이 있으면 그 기록의 상탯값 변경
+        if (userDao.isExist(userIdx, storeIdx) == 1) { //예전에 삭제 기록이 있으면 그 기록의 상탯값 변경
             bookmarkIdx = userDao.modifyStatus(userIdx, storeIdx);
         } else { //삭제기록이 없으면 데이터 새로 생성
             bookmarkIdx = userDao.createBookmark(userIdx, storeIdx);
@@ -243,30 +243,43 @@ public class UserService {
             if (bookmarkIdx == 0) {
                 throw new BaseException(FAIL_POST_BOOKMARK);
             }
-                return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
+            return new PostBookmarkRes(bookmarkIdx, userIdx, storeIdx);
 
-            }catch(Exception exception){
-                throw new BaseException(DATABASE_ERROR);
-            }
-
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
         }
 
-        //PATACH 북마크 삭제
-        @Transactional(rollbackFor = {BaseException.class})
-        public void deleteBookmark ( int userIdx, int storeIdx) throws BaseException {
-            //이미 삭제된 북마크인지 확인
-            String bookmarkIdxStatus = userDao.getBookmarkStatus(userIdx, storeIdx);
-            if (bookmarkIdxStatus.equals("N")) {
-                throw new BaseException(ALREADY_DELETE_BOOKMARK);
-            }
-            try {
-                int bookmarkIdx = userDao.deleteBookmark(userIdx, storeIdx);
-                if (bookmarkIdx == 0) {
-                    throw new BaseException(FAIL_DELETE_BOOKMARK);
-                }
-            } catch (Exception exception) {
-                throw new BaseException(DATABASE_ERROR);
-            }
+    }
 
+    //PATACH 북마크 삭제
+    @Transactional(rollbackFor = {BaseException.class})
+    public void deleteBookmark(int userIdx, int storeIdx) throws BaseException {
+        //이미 삭제된 북마크인지 확인
+        String bookmarkIdxStatus = userDao.getBookmarkStatus(userIdx, storeIdx);
+        if (bookmarkIdxStatus.equals("N")) {
+            throw new BaseException(ALREADY_DELETE_BOOKMARK);
+        }
+        try {
+            int bookmarkIdx = userDao.deleteBookmark(userIdx, storeIdx);
+            if (bookmarkIdx == 0) {
+                throw new BaseException(FAIL_DELETE_BOOKMARK);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
         }
     }
+    //PATACH 북마크 선택 삭제
+    @Transactional(rollbackFor = {BaseException.class})
+    public Integer[] deleteBookmarkList(int userIdx, Integer[] bookmarkList) throws BaseException {
+
+        try {
+            Integer[] bookmarkIdxList = userDao.deleteBookmarkList(userIdx, bookmarkList);
+            if (bookmarkIdxList == null) {
+                throw new BaseException(FAIL_DELETE_BOOKMARK_LIST);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        return bookmarkList;
+    }
+}
