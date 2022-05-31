@@ -46,7 +46,7 @@ public class OrderDao {
         String getCartQuery = "SELECT store_id FROM Cart WHERE status='Y' AND user_id=? LIMIT 1";
         int store_id = this.jdbcTemplate.queryForObject(getCartQuery, int.class, user_id);
 
-        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, SD.start_delivery_fee\n" +
+        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, SD.start_delivery_fee, SD.minimum_fee\n" +
                 "from Store as S \n" +
                 "inner join Store_Delivery SD\n" +
                 "on SD.store_id = S.store_id \n" +
@@ -69,6 +69,7 @@ public class OrderDao {
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
                         rs.getInt("start_delivery_fee"),
+                        rs.getInt("minimum_fee"),
                         this.jdbcTemplate.query(menuQuery,
                                 (rs1, rowNum1) -> new CartMenu(
                                         rs1.getInt("cart_id"),
