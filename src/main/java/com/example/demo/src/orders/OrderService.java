@@ -35,6 +35,12 @@ public class OrderService {
 
     @Transactional(rollbackFor = Exception.class)
     public void createCart(int userIdx, int storeIdx, int menuIdx, PostCartReq postCartReq) throws BaseException {
+        int checkCartStore = checkCart(userIdx);
+
+        System.out.println("checkCartStore = " + checkCartStore);
+        if (checkCartStore != 1 && storeIdx != checkCartStore) {
+            throw new BaseException(FAIL_DUPLICATE_CART);
+        }
         try {
             int result = orderDao.createCart(userIdx, storeIdx, menuIdx, postCartReq);
             if (result == FAIL){
@@ -54,6 +60,7 @@ public class OrderService {
                 throw new BaseException(FAIL_CREATE_CART);
             }
         } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }

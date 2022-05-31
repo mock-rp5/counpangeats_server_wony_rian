@@ -51,7 +51,6 @@ public enum BaseResponseStatus {
     // /carts
     FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
     PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
-    FAIL_DUPLICATE_CART(false, 2020, "카트에 담긴 가게가 중복되었습니다."),
     FAIL_CART_EMPTY(false, 2021, "카트가 비었습니다."),
 
     // /orders
@@ -98,6 +97,8 @@ public enum BaseResponseStatus {
     //[PATCH] /category/search/:searchIdx
     ALREADY_DELETED_SEARCH(false, 3035, "이미 삭제된 검색어 입니다."),
 
+    // /cart
+    FAIL_DUPLICATE_CART(false, 3200, "카트에 담긴 가게가 다릅니다."),
     /**
      * 4000 : Database, Server 오류
      */
