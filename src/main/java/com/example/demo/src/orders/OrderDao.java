@@ -91,9 +91,18 @@ public class OrderDao {
     //카트 삭제
     public int deleteCart(int user_id, int cart_id) {
         String Query = "UPDATE Cart SET status='N' WHERE cart_id=? AND user_id=?";
+        int update = this.jdbcTemplate.update(Query, cart_id, user_id);
         return this.jdbcTemplate.update(Query, cart_id, user_id);
     }
 
+    //카트 새로 담기
+    public int restartCart(int user_id, int store_id){
+        this.jdbcTemplate.update("set sql_safe_updates=0");
+        String Query = "UPDATE Cart SET status='N' WHERE store_id=? AND user_id=?";
+        int update = this.jdbcTemplate.update(Query, store_id, user_id);
+        System.out.println("update = " + update);
+        return this.jdbcTemplate.update(Query, store_id, user_id);
+    }
     //주문 생성
     public int createOrder(int user_id, Integer[] cartList, PostOrderReq postOrderReq){
         String getOrderInfoQuery = "SELECT MAX(order_info_id) FROM Order_Info;";
