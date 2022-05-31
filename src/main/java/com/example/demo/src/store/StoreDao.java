@@ -149,8 +149,6 @@ public class StoreDao {
                 "from Menu M \n" +
                 "inner join Store S \n" +
                 "on S.store_id = M.store_id \n" +
-                "inner join Menu_Keyword MK \n" +
-                "on MK.menu_id = M.menu_id \n" +
                 "where M.menu_id = ? and S.store_id = ? ";
 
         String getMenuOption = "select MO.menu_option_id, MO.option_name, MO.option_price \n" +
