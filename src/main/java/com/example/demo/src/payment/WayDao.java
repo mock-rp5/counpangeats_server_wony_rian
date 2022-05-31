@@ -1,12 +1,12 @@
 package com.example.demo.src.payment;
 
-import com.example.demo.src.payment.Req.PostCashReq;
-import com.example.demo.src.payment.Req.PostPaymentReq;
-import com.example.demo.src.payment.Res.GetPaymentRes;
+import com.example.demo.src.payment.Model.Payments;
+import com.example.demo.src.payment.Model.Req.PostCashReq;
+import com.example.demo.src.payment.Model.Req.PostPaymentReq;
+import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import sun.jvm.hotspot.code.StubQueue;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -39,19 +39,28 @@ public class WayDao {
 
     //결제 방식 조회
     public List<GetPaymentRes> getPayment(int user_id) {
-        String getPaymentQuery = "select payment_method_id, payment_name, payment_number, payment_type \n" +
-                "from Payment_Method \n" +
-                "where user_id = ? and status = 'Y';";
+        String checkQuery = "select CASE WHEN status = 'Y' THEN cash_number else 0 END as cash_number\n" +
+                "from Cash \n" +
+                "where user_id = ?";
 
-        return this.jdbcTemplate.query(getPaymentQuery,
+        String getPaymentQuery = "select payment_method_id, payment_name, payment_number, payment_type \n" +
+        "from Payment_Method \n" +
+        "where user_id = ? and status = 'Y';";
+
+        return this.jdbcTemplate.query(checkQuery,
                 (rs, rowNum) -> new GetPaymentRes(
-                        rs.getInt("payment_method_id"),
-                        rs.getString("payment_name"),
-                        rs.getString("payment_number"),
-                        rs.getString("payment_type")
+                    rs.getString("cash_number"),
+                    this.jdbcTemplate.query(getPaymentQuery,
+                            (rs1, rowNum1)-> new Payments(
+                                    rs1.getInt("payment_method_id"),
+                                    rs1.getString("payment_name"),
+                                    rs1.getString("payment_number"),
+                                    rs1.getString("payment_type")
+                            ), user_id)
                 ), user_id);
     }
 
+    //현금 영수증 생성 및 수정
     public int patchCash(int user_id, PostCashReq postCashReq){
         String checkQuery = "select exists(select * from Cash where user_id = ?)";
         Integer checkCash = this.jdbcTemplate.queryForObject(checkQuery, int.class, user_id);
@@ -66,4 +75,11 @@ public class WayDao {
             return this.jdbcTemplate.update(Query, postCashReq.getCash_number(), user_id, postCashReq.getStatus());
         }
     }
+
+    //현금 영수증 삭제
+    public int deleteCash(int user_id){
+        String Query = "UPDATE Cash SET status = 'N' WHERE user_id=?";
+        return this.jdbcTemplate.update(Query, user_id);
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.demo.src.payment.Req;
+package com.example.demo.src.payment.Model.Req;
 
 import lombok.*;
 
