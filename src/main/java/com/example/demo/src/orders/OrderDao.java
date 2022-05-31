@@ -159,9 +159,9 @@ public class OrderDao {
     }
 
     //카트에 동일한 메뉴 존재 확인
-    public int checkCartMenu(int menu_id, int user_id, PostCartReq postCartReq) {
-        String checkQuery = "select exists(select menu_id from Cart where menu_id = ? and user_id = ? and menu_option_id = ? and status = \"Y\")";
-        Integer menu_id_exist = this.jdbcTemplate.queryForObject(checkQuery, int.class, menu_id, user_id, postCartReq.getMenu_option_id());
+    public int checkCartMenu(int menu_id, int user_id, int storeIdx, PostCartReq postCartReq) {
+        String checkQuery = "select exists(select menu_id from Cart where menu_id = ? and user_id = ? and menu_option_id = ? and store_id =? and status = \"Y\")";
+        Integer menu_id_exist = this.jdbcTemplate.queryForObject(checkQuery, int.class, menu_id, user_id, postCartReq.getMenu_option_id(), storeIdx);
         if(menu_id_exist == 0) return menu_id_exist;
 
         String cartId = "select cart_id from Cart where menu_id = ? and user_id = ? and status = \"Y\" ";

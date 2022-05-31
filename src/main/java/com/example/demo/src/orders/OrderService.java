@@ -37,7 +37,8 @@ public class OrderService {
         int checkCartStore = checkCart(userIdx);
 
         System.out.println("checkCartStore = " + checkCartStore);
-        if (checkCartStore != 1 && storeIdx != checkCartStore) {
+        System.out.println("storeIdx = " + storeIdx);
+        if (checkCartStore != 0 && storeIdx != checkCartStore) {
             throw new BaseException(FAIL_DUPLICATE_CART);
         }
         try {
@@ -108,9 +109,9 @@ public class OrderService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-    public int checkCartMenu(int menu_id, int user_id, PostCartReq postCartReq) throws BaseException {
+    public int checkCartMenu(int menu_id, int user_id, int storeIdx, PostCartReq postCartReq) throws BaseException {
         try {
-            return orderDao.checkCartMenu(menu_id, user_id, postCartReq);
+            return orderDao.checkCartMenu(menu_id, user_id, storeIdx, postCartReq);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

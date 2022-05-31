@@ -41,7 +41,7 @@ public class OrderController {
             int userIdx= jwtService.getUserIdx();
 
             //같은 메뉴 있는 지 확인
-            int sameMenu = orderService.checkCartMenu(menuIdx, userIdx, postCartReq);
+            int sameMenu = orderService.checkCartMenu(menuIdx, userIdx, storeIdx, postCartReq);
             if(sameMenu != 0){
                 return new BaseResponse<>("카트에 담겼습니다.");
             }
@@ -102,7 +102,8 @@ public class OrderController {
             int userIdx= jwtService.getUserIdx();
 
             int now_store_id = orderService.checkCart(userIdx);
-            if(now_store_id != 0){
+            System.out.println("now_store_id = " + now_store_id);
+            if(now_store_id == 0){
                 return new BaseResponse<>(FAIL_CART_NEW);
             }
             orderService.restartCart(userIdx, storeIdx, menuIdx, now_store_id, postCartReq);

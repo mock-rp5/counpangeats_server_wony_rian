@@ -6,8 +6,8 @@ com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
-com/example/demo/src/orders/OrderService.java
- com.example.demo.src.orders.OrderService
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/user/model/Res/GetAddressRes.java
  com.example.demo.src.user.model.Res.GetAddressRes
 com/example/demo/src/store/model/MenuCategory.java
@@ -114,8 +114,8 @@ com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/category/model/Res/GetSearchRes.java
  com.example.demo.src.category.model.Res.GetSearchRes
-com/example/demo/src/orders/OrderDao.java
- com.example.demo.src.orders.OrderDao
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
 com/example/demo/src/user/model/MyEatsInfo.java
  com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/category/model/Req/PostSearchReq.java
@@ -150,8 +150,8 @@ com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/category/model/Search.java
  com.example.demo.src.category.model.Search
-com/example/demo/src/orders/OrderController.java
- com.example.demo.src.orders.OrderController
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/user/model/Req/PatchAddressReq.java
  com.example.demo.src.user.model.Req.PatchAddressReq
 com/example/demo/src/user/model/Req/PatchUserReq.java
@@ -166,9 +166,9 @@ com/example/demo/src/store/model/StoreCategory.java
  com.example.demo.src.store.model.StoreCategory
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
-com/example/demo/src/user/model/Res/GetUserEmailRes.java
- com.example.demo.src.user.model.Res.GetUserEmailRes
-com/example/demo/src/user/model/Res/GetUserRes.java
- com.example.demo.src.user.model.Res.GetUserRes
+com/example/demo/src/orders/OrderDao.java
+ com.example.demo.src.orders.OrderDao
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
