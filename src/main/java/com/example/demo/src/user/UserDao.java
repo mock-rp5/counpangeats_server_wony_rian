@@ -63,11 +63,17 @@ public class UserDao {
 
     public MyEatsInfo getMyEats(int userIdx){
         String getMyEatsQuery = "select user_name,user_phone from User where user_id = ?";
+        String getAdListQuery="select ad_id, ad_image_url\n" +
+                "from Ad";
         int getMyEatsParams = userIdx;
         return this.jdbcTemplate.queryForObject(getMyEatsQuery,
                 (rs, rowNum) -> new MyEatsInfo(
                         rs.getString("user_name"),
-                        rs.getString("user_phone")),
+                        rs.getString("user_phone"),
+                this.jdbcTemplate.query(getAdListQuery,
+                        (rs1,rowNum1)-> new Ad(
+                                rs1.getInt("ad_id"),
+                                rs1.getString("ad_image_url")))),
                 getMyEatsParams);
     }
     
@@ -265,14 +271,6 @@ public class UserDao {
 
         return addressIdx;
     }
-
-//    public void modifyStatusToE(int userIdx, int addressIdx){
-//        String modifyHtoEQuery = "update Address set status='E'\n" +
-//                "where user_id=? and address_id=?";
-//        Object[] modifyHtoEParams=new Object[]{userIdx,addressIdx};
-//        this.jdbcTemplate.update(modifyHtoEQuery,modifyHtoEParams);
-//    }
-
     public int deleteAddress(int userIdx, int addressIdx){
         String deleteAddressQuery = "update Address\n" +
                 "set status='N'\n" +

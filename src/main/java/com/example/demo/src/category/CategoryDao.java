@@ -89,7 +89,7 @@ public class CategoryDao {
                         rs.getDouble("avg_review"),
                         rs.getInt("count_review"),
                         rs.getInt("start_delivery_fee"),
-                        rs.getString("is_takeout")
+                        rs.getString("is_takeout    ")
                 ), categoryName);
     }
 
