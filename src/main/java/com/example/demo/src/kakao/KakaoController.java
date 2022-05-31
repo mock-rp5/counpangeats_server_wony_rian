@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
+import static com.example.demo.config.BaseResponseStatus.POST_KAKAO_LOGIN_CODE_EMPTY;
+
 
 @RestController
 @RequestMapping("/users")
@@ -25,23 +27,14 @@ public class KakaoController {
 
     @PostMapping("/login/kakao")
     public BaseResponse<HashMap<String,Object>> kakaoLogin(@RequestParam("code") String code){
-        String access_Token = kakao.getAccessToken(code);
-        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-        System.out.println("login Controller : " + userInfo);
-        return new BaseResponse<>(userInfo);
+
+        if(code == ""){
+            return new BaseResponse<>(POST_KAKAO_LOGIN_CODE_EMPTY);
+        }
+            String access_Token = kakao.getAccessToken(code);
+            HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
+            System.out.println("login Controller : " + userInfo);
+            return new BaseResponse<>(userInfo);
     }
-
-
-//       try {
-//        //jwt에서 idx 추출.
-//        int userIdxByJwt = jwtService.getUserIdx();
-////            PatchUserReq patchUserReq = new PatchUserReq(userIdxByJwt,user.getUser_name());
-//        // Get MyEats
-//        MyEatsInfo getMyEatsRes = userProvider.getMyEats(userIdxByJwt);
-//        return new BaseResponse<>(getMyEatsRes);
-//    } catch (
-//    BaseException exception) {
-//        return new BaseResponse<>((exception.getStatus()));
-//    }
 
 }
