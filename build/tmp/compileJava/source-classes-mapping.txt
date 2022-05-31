@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+com/example/demo/src/category/CategoryController.java
+ com.example.demo.src.category.CategoryController
+=======
+<<<<<<< HEAD
 com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
 com/example/demo/src/store/model/Req/PostHelpReq.java
@@ -18,6 +22,7 @@ com/example/demo/src/store/model/StoreGetReview.java
 =======
 com/example/demo/src/user/model/Res/GetUserEmailRes.java
  com.example.demo.src.user.model.Res.GetUserEmailRes
+>>>>>>> main
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
 com/example/demo/src/store/model/Req/PostHelpReq.java
@@ -116,6 +121,8 @@ com/example/demo/config/BaseResponse.java
 >>>>>>> main
 com/example/demo/src/orders/model/Req/DeleteCartReq.java
  com.example.demo.src.orders.model.Req.DeleteCartReq
+com/example/demo/src/user/model/Ad.java
+ com.example.demo.src.user.model.Ad
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
 <<<<<<< HEAD
@@ -278,6 +285,11 @@ com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
+<<<<<<< HEAD
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
+=======
 com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
+>>>>>>> main
 >>>>>>> main
