@@ -7,6 +7,7 @@ import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.GetUserOrder;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,12 +146,18 @@ public class OrderController {
 //        return new BaseResponse<>("주문이 완료되었습니다.");
 //    }
 //
-//    @ResponseBody
-//    @GetMapping("/")
-//    public BaseResponse<String> getUserOrder() throws BaseException{
-//        int user_id= jwtService.getUserIdx();
-//
-//
-//        return new BaseResponse<>("주문이 완료되었습니다.");
-//    }
+    @ResponseBody
+    @GetMapping("/results")
+    public BaseResponse<List<GetUserOrder>> getUserOrder(@RequestParam int storeIdx,
+                                                         @RequestParam int orderIdx) throws BaseException{
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            List<GetUserOrder> orderListOne = orderService.getOrderListOne(user_id, orderIdx, storeIdx);
+            return new BaseResponse<>(orderListOne);
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+    }
 }

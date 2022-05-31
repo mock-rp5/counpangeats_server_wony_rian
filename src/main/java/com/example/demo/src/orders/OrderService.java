@@ -6,6 +6,7 @@ import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.GetUserOrder;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +89,17 @@ public class OrderService {
     public GetCartRes getCart(int userIdx) throws BaseException {
         try {
             return orderDao.getCart(userIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //회원의 주문내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getOrderListOne(int userIdx, int orderIdx, int storeIdx) throws BaseException {
+        try {
+            return orderDao.getUserOrder(userIdx, orderIdx, storeIdx);
         } catch (Exception exception) {
             System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
