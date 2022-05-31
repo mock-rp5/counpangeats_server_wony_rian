@@ -89,6 +89,7 @@ public class OrderService {
         try {
             return orderDao.getCart(userIdx);
         } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
