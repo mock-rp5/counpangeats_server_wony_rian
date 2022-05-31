@@ -22,10 +22,9 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetStoreHomeRes> getStoreResList() throws BaseException {
+    public GetStoreHomeRes getStoreResList() throws BaseException {
         try {
-            List<GetStoreHomeRes> getStoreResList = storeDao.getHome();
-            System.out.println("getStoreResList = " + getStoreResList);
+            GetStoreHomeRes getStoreResList = storeDao.getHome();
             return getStoreResList;
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
@@ -77,6 +76,16 @@ public class StoreService {
     public GetReviewOrderRes orderReview(int orderIdx) throws BaseException{
         try {
             return storeDao.getOrderReview(orderIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public GetReviewStoreRes getReviewStore(int storeId) throws BaseException {
+        try {
+            return storeDao.getReviewStoreRes(storeId);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);

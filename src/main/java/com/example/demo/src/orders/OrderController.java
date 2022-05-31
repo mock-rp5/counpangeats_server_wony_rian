@@ -45,10 +45,6 @@ public class OrderController {
             if(sameMenu != 0){
                 return new BaseResponse<>("카트에 담겼습니다.");
             }
-            int checkCartStore = orderService.checkCart(userIdx);
-            if (checkCartStore != 0 && storeIdx != checkCartStore) {
-                return new BaseResponse<>(FAIL_DUPLICATE_CART);
-            }
             orderService.createCart(userIdx, storeIdx, menuIdx, postCartReq);
             return new BaseResponse<>("카드에 담겼습니다.");
         } catch (BaseException exception) {
@@ -73,6 +69,7 @@ public class OrderController {
                                            @RequestParam int cartIdx, @RequestBody PatchCartReq patchCartReq) throws BaseException {
         int userIdx= jwtService.getUserIdx();
 
+        System.out.println("cartIdx = " + cartIdx);
         if (storeIdx == 0 || cartIdx == 0) {
             return new BaseResponse<>(PATCH_MODIFY_CART_EMPTY);
         }

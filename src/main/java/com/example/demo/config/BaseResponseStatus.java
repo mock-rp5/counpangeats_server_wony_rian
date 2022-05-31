@@ -48,20 +48,22 @@ public enum BaseResponseStatus {
     GET_USERS_PHONE_EMPTY(false,2023,"회원 휴대폰 번호를 입력해주세요"),
     GET_USERS_EMAIL_EMPTY(false,2024,"회원 이메일을 입력해주세요"),
 
-    // /cart
+    // /carts
     FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
     PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
-    FAIL_DUPLICATE_CART(false, 2020, "카트에 담긴 가게가 중복되었습니다."),
     FAIL_CART_EMPTY(false, 2021, "카트가 비었습니다."),
 
-    // /order
+    // /orders
     CART_ID_EMPTY(false, 2051, "유효한 카트가 없습니다."),
 
-    // /payment
+    // /payments
     PAYMENT_NAME_EMPTY(false, 2070, "결제 방식 은행을 입력해주세요."),
     PAYMENT_NUMBER_EMPTY(false, 2071, "계좌 또는 카드 번호를 입력해주세요."),
     PAYMENT_TYPE_EMPTY(false, 2072, "결제 방식 종류를 입력해주세요."),
     PAYMENT_ID_EMPTY(false, 2073, "결제 방식 식별자를 입력해주세요."),
+
+    // /stores
+    STORE_ID_EMPTY(false, 2100, "가게 식별자를 입력해주세요."),
 
     /**
      * 3000 : Response 오류
@@ -95,6 +97,8 @@ public enum BaseResponseStatus {
     //[PATCH] /category/search/:searchIdx
     ALREADY_DELETED_SEARCH(false, 3035, "이미 삭제된 검색어 입니다."),
 
+    // /cart
+    FAIL_DUPLICATE_CART(false, 3200, "카트에 담긴 가게가 다릅니다."),
     /**
      * 4000 : Database, Server 오류
      */

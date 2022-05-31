@@ -1,16 +1,15 @@
-package com.example.demo.src.orders.model.Req;
+package com.example.demo.src.store.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostCartReq {
-    private Integer menu_count;
-    private Integer menu_option_id;
+public class StoreCategory {
+    private String store_name;
+    private String category_image_url;
 }
