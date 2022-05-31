@@ -49,7 +49,6 @@ public enum BaseResponseStatus {
     GET_USERS_EMAIL_EMPTY(false,2024,"회원 이메일을 입력해주세요"),
 
     // /carts
-    FAIL_CREATE_CART(false, 2018, "카트를 생성할 수 없습니다."),
     PATCH_MODIFY_CART_EMPTY(false, 2019, "입력한 카트가 없습니다."),
     FAIL_CART_EMPTY(false, 2021, "카트가 비었습니다."),
 
@@ -99,6 +98,9 @@ public enum BaseResponseStatus {
 
     // /cart
     FAIL_DUPLICATE_CART(false, 3200, "카트에 담긴 가게가 다릅니다."),
+    FAIL_CART_NEW(false, 2021, "이미 없는 카트입니다."),
+
+
     /**
      * 4000 : Database, Server 오류
      */
@@ -145,9 +147,12 @@ public enum BaseResponseStatus {
     FAIL_DELETE_SEARCH_ONE(false, 4050, "해당 검색어 삭제에 실패하였습니다."),
 
     //[PATCH] /category/search
-    FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다.");
+    FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다."),
 
 
+    // /cart
+    FAIL_RESTART_CART(false, 4100, "카트 새로 담는 것에 실패하였습니다."),
+    FAIL_CREATE_CART(false, 4101, "카트를 생성에 실패하였습니다.");
 
 
     // 5000 : 필요시 만들어서 쓰세요

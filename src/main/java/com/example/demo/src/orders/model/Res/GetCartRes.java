@@ -15,5 +15,6 @@ public class GetCartRes {
     private String store_name;
     private String is_cheetah_delivery;
     private Integer start_delivery_fee;
+    private Integer minimum_fee;
     private List<CartMenu> cartMenu;
 }

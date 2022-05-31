@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static sun.security.provider.certpath.BuildStep.FAIL;
 
 @Service
 public class OrderService {
@@ -43,7 +42,7 @@ public class OrderService {
         }
         try {
             int result = orderDao.createCart(userIdx, storeIdx, menuIdx, postCartReq);
-            if (result == FAIL){
+            if (result == 0){
                 throw new BaseException(FAIL_CREATE_CART);
             }
         } catch (Exception exception) {
@@ -56,7 +55,26 @@ public class OrderService {
     public void modifyCart(int store_id, int cart_id, PatchCartReq patchCartReq) throws BaseException {
         try {
             int result = orderDao.modifyCart(store_id, cart_id, patchCartReq);
-            if (result == FAIL){
+            if (result == 0){
+                throw new BaseException(FAIL_CREATE_CART);
+            }
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void restartCart(int user_id, int store_id, int menu_id, int now_store_id, PostCartReq postCartReq) throws BaseException {
+        try {
+            int result = orderDao.restartCart(user_id, now_store_id);
+            System.out.println("result = " + result);
+            if(result == 0){
+                throw new BaseException(FAIL_RESTART_CART);
+            }
+            int cart = orderDao.createCart(user_id, store_id, menu_id, postCartReq);
+            System.out.println("cart = " + cart);
+            if(cart == 0){
                 throw new BaseException(FAIL_CREATE_CART);
             }
         } catch (Exception exception) {

@@ -36,7 +36,7 @@ public class OrderController {
     @ResponseBody
     @PostMapping("/carts")
     public BaseResponse<String> createCart(@RequestParam int storeIdx,
-                                           @RequestParam int menuIdx, @RequestBody PostCartReq postCartReq) throws BaseException {
+                                           @RequestParam int menuIdx, @Valid @RequestBody PostCartReq postCartReq) throws BaseException {
         try {
             int userIdx= jwtService.getUserIdx();
 
@@ -91,6 +91,28 @@ public class OrderController {
         }
         orderService.deleteCart(deleteCartReq.getCart_id(), user_id);
         return new BaseResponse<>("카드가 삭제 되었습니다.");
+    }
+
+    //카트 다시 담기
+    @ResponseBody
+    @PostMapping("/carts/new")
+    public BaseResponse<String> restartCart(@RequestParam int storeIdx,
+                                            @RequestParam int menuIdx, @Valid @RequestBody PostCartReq postCartReq) throws BaseException {
+        try {
+            int userIdx= jwtService.getUserIdx();
+
+            int now_store_id = orderService.checkCart(userIdx);
+            if(now_store_id != 0){
+                return new BaseResponse<>(FAIL_CART_NEW);
+            }
+            orderService.restartCart(userIdx, storeIdx, menuIdx, now_store_id, postCartReq);
+            return new BaseResponse<>("이전 카드 삭제 후 다시 담았습니다.");
+        } catch (BaseException exception) {
+
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+
     }
 
     //주문 생성 API

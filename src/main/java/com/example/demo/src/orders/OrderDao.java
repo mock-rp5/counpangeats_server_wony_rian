@@ -46,7 +46,7 @@ public class OrderDao {
         String getCartQuery = "SELECT store_id FROM Cart WHERE status='Y' AND user_id=? LIMIT 1";
         int store_id = this.jdbcTemplate.queryForObject(getCartQuery, int.class, user_id);
 
-        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, SD.start_delivery_fee\n" +
+        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, SD.start_delivery_fee, SD.minimum_fee\n" +
                 "from Store as S \n" +
                 "inner join Store_Delivery SD\n" +
                 "on SD.store_id = S.store_id \n" +
@@ -69,6 +69,7 @@ public class OrderDao {
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
                         rs.getInt("start_delivery_fee"),
+                        rs.getInt("minimum_fee"),
                         this.jdbcTemplate.query(menuQuery,
                                 (rs1, rowNum1) -> new CartMenu(
                                         rs1.getInt("cart_id"),
@@ -91,9 +92,18 @@ public class OrderDao {
     //카트 삭제
     public int deleteCart(int user_id, int cart_id) {
         String Query = "UPDATE Cart SET status='N' WHERE cart_id=? AND user_id=?";
+        int update = this.jdbcTemplate.update(Query, cart_id, user_id);
         return this.jdbcTemplate.update(Query, cart_id, user_id);
     }
 
+    //카트 새로 담기
+    public int restartCart(int user_id, int store_id){
+        this.jdbcTemplate.update("set sql_safe_updates=0");
+        String Query = "UPDATE Cart SET status='N' WHERE store_id=? AND user_id=?";
+        int update = this.jdbcTemplate.update(Query, store_id, user_id);
+        System.out.println("update = " + update);
+        return this.jdbcTemplate.update(Query, store_id, user_id);
+    }
     //주문 생성
     public int createOrder(int user_id, Integer[] cartList, PostOrderReq postOrderReq){
         String getOrderInfoQuery = "SELECT MAX(order_info_id) FROM Order_Info;";
