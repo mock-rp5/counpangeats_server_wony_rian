@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderMenu {
-    private String menuName;
-    private String optionName;
+    private String menu_name;
+    private String option_name;
 }

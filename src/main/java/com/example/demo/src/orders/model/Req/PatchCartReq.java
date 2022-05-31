@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PatchCartReq {
-    private Integer count;
+    private Integer menu_count;
 }

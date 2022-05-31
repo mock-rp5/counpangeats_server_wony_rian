@@ -22,7 +22,9 @@ public class StoreDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<GetStoreHomeRes> getHome() {
+    public GetStoreHomeRes getHome() {
+        String getCategoryQuery = "select C.category_name, C.category_image_url from Category C";
+
         String getHomeQuery = "select Store.store_id, Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time,Store_Delivery.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
                 "                from Store\n" +
                 "                inner join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
@@ -38,8 +40,13 @@ public class StoreDao {
                 "                on Store_Takeout.store_id = Store.store_id\n" +
                 "                ";
 
-        List<GetStoreHomeRes> result = this.jdbcTemplate.query(getHomeQuery,
-                (rs, rowNum) -> new GetStoreHomeRes(
+        List<StoreCategory> categoryList = this.jdbcTemplate.query(getCategoryQuery,
+                (rs, rowNum) -> new StoreCategory(
+                        rs.getString("category_name"),
+                        rs.getString("category_image_url")
+                ));
+        List<GetStoreRes> storeList = this.jdbcTemplate.query(getHomeQuery,
+                (rs, rowNum) -> new GetStoreRes(
                         rs.getInt("store_id"),
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
@@ -49,9 +56,8 @@ public class StoreDao {
                         rs.getString("store_main_image_url"),
                         rs.getInt("Cnt"),
                         rs.getFloat("RAvg")
-                )
-        );
-        return result;
+                ));
+        return new GetStoreHomeRes(categoryList, storeList);
     }
     public GetStoreOneRes storeOne(int store_id, int userIdx){
         String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, S.store_main_image_url, SD.delivery_time, SD.start_delivery_fee, SD.minimum_price, count(R.review_id) as cnt, avg(R.review_star) as average\n" +
@@ -225,6 +231,56 @@ public class StoreDao {
                 ), orderIdx);
     }
 
+    public GetReviewStoreRes getReviewStoreRes(int storeIdx){
+        String storeQuery = "select S.store_name, count(R.review_star) count_star, avg(R.review_star) avg_star\n" +
+                "from Review R\n" +
+                "inner join Store S\n" +
+                "on S.store_id = R.store_id\n" +
+                "where S.store_id = ?";
+
+        String ReviewQuery = "select U.user_name, R.review_content, R.review_image_url, R.review_star, R.created_at, R.order_info_id\n" +
+                "from Review R\n" +
+                "inner join User U\n" +
+                "on U.user_id = R.user_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = R.store_id\n" +
+                "where S.store_id = ?\n" +
+                "order by R.created_at desc";
+
+        String MenuQuery = "select M.menu_name, MO.option_name\n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id\n" +
+                "inner join Store S\n" +
+                "on OD.store_id = S.store_id\n" +
+                "where S.store_id =? and OD.order_info_id = ?";
+
+
+        List<StoreGetReview> reviewList = this.jdbcTemplate.query(ReviewQuery,
+                (rs, rowNum) -> new StoreGetReview(
+                        rs.getString("user_name"),
+                        rs.getString("review_content"),
+                        rs.getString("review_image_url"),
+                        rs.getInt("review_star"),
+                        rs.getTimestamp("created_at"),
+                        this.jdbcTemplate.query(MenuQuery,
+                                (rs1, rowNum1) -> new OrderMenu(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name")
+                                ), storeIdx, rs.getInt("order_info_id"))
+                ), storeIdx);
+
+
+        return this.jdbcTemplate.queryForObject(storeQuery,
+                (rs, rowNum) -> new GetReviewStoreRes(
+                        rs.getString("store_name"),
+                        rs.getInt("count_star"),
+                        rs.getFloat("avg_star"),
+                        reviewList
+                ), storeIdx);
+    }
     public int deleteReview(int userIdx, int reviewIdx){
         String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);

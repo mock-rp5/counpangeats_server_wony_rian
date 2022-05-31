@@ -25,14 +25,13 @@ public class OrderDao {
 
     //카트 생성
     public int createCart(int user_id, int store_id, int menu_id, PostCartReq postCartReq) {
-        System.out.println("menu_id = " + menu_id);
         String getPriceQuery = "select (M.menu_price+MO.option_price) as order_price\n" +
                 "                from Menu as M \n" +
                 "                inner join Menu_Option as MO\n" +
                 "                on M.menu_id = MO.menu_id\n"+
                 "where M.menu_id = ? and MO.menu_option_id = ? limit 1";
         Integer order_price = this.jdbcTemplate.queryForObject(getPriceQuery, int.class, menu_id, postCartReq.getMenu_option_id());
-        System.out.println("order_price = " + order_price);
+
         String createCartQuery = "insert into Cart (user_id, store_id, menu_id, menu_count, order_price, menu_option_id) VALUES (?,?,?,?,?,?)";
         Object[] createCartParams = new Object[]{user_id, store_id, menu_id, postCartReq.getMenu_count(),
                 order_price, postCartReq.getMenu_option_id()};
@@ -47,14 +46,16 @@ public class OrderDao {
         String getCartQuery = "SELECT store_id FROM Cart WHERE status='Y' AND user_id=? LIMIT 1";
         int store_id = this.jdbcTemplate.queryForObject(getCartQuery, int.class, user_id);
 
-        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery\n" +
-                "from Store as S\n" +
+        String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, SD.start_delivery_fee\n" +
+                "from Store as S \n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = S.store_id \n" +
                 "inner join Cart as C\n" +
                 "on C.store_id = S.store_id\n" +
                 "where S.store_id = ? and C.user_id = ? and S.status = \"Y\" \n" +
                 "group by C.user_id";
 
-        String menuQuery = "select MO.menu_option_id, MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
+        String menuQuery = "select C.cart_id, C.menu_count, MO.menu_option_id, MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
                 "from Cart as C \n" +
                 "inner join Menu_Option as MO\n" +
                 "on MO.menu_option_id = C.menu_option_id\n" +
@@ -67,8 +68,11 @@ public class OrderDao {
                         rs.getInt("store_id"),
                         rs.getString("store_name"),
                         rs.getString("is_cheetah_delivery"),
+                        rs.getInt("start_delivery_fee"),
                         this.jdbcTemplate.query(menuQuery,
                                 (rs1, rowNum1) -> new CartMenu(
+                                        rs1.getInt("cart_id"),
+                                        rs1.getInt("menu_count"),
                                         rs1.getInt("menu_option_id"),
                                         rs1.getString("option_name"),
                                         rs1.getString("menu_name"),
@@ -81,8 +85,7 @@ public class OrderDao {
     //카트 수량 수정
     public int modifyCart(int store_id, int cart_id, PatchCartReq patchCartReq) {
         String UpdateCountQuery = "UPDATE Cart SET menu_count=? WHERE cart_id=? and store_id=?";
-        Object[] updateCartParams = new Object[]{patchCartReq.getCount(), cart_id, store_id};
-        return this.jdbcTemplate.update(UpdateCountQuery, updateCartParams);
+        return this.jdbcTemplate.update(UpdateCountQuery, patchCartReq.getMenu_count(), cart_id, store_id);
     }
 
     //카트 삭제
@@ -134,13 +137,6 @@ public class OrderDao {
         return 1;
     }
 
-//    public GetDeliveryRequestRes getRequestDelivery(){
-//        String query = "select request_name from Delivery_Request";
-//        return this.jdbcTemplate.queryForObject(query,
-//                (rs, rowNum) -> new GetDeliveryRequestRes(
-//                    rs.getString("request_name")
-//                ));
-//    }
     //카트에 담긴 가게 확인
     public int checkCartStore(int user_id) {
         String checkQuery = "select exists(select * from Cart where user_id = ? and status = \"Y\")";
