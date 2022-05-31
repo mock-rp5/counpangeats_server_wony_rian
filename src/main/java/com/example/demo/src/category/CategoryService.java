@@ -6,6 +6,7 @@ import com.example.demo.src.category.model.Req.PostSearchReq;
 import com.example.demo.src.category.model.Res.GetCategoryDetailRes;
 import com.example.demo.src.category.model.Res.GetSearchRes;
 import com.example.demo.src.category.model.Res.PostSearchRes;
+import com.example.demo.src.category.model.StoreInfo;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,19 @@ public class CategoryService {
             return getSearchResList;
         }
         catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //GET 검색어에 따른 가게 목록 조회
+    @Transactional(readOnly = true)
+    public List<StoreInfo> getSearchStoreList(String categoryName) throws BaseException{
+        try{
+          List<StoreInfo> storeInfoList = categoryDao.getSearchStoreList(categoryName);
+          return storeInfoList;
+        }
+        catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }

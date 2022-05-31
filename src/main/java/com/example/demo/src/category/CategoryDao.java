@@ -66,6 +66,33 @@ public class CategoryDao {
 
     }
 
+    public List<StoreInfo> getSearchStoreList(String categoryName){
+        String getSearchStoreListQuery="select S.store_id as store_id, store_image_url, store_name, is_cheetah_delivery,takeout_time, round(avg(review_star),1) as avg_review, count(review_star) as count_review, start_delivery_fee, is_takeout\n" +
+                "from (select * from Store_Category\n" +
+                "where category_id=(select category_id\n" +
+                "from Category\n" +
+                "where category_name=?)) SC\n" +
+                "join Store_Image SI on SC.store_id = SI.store_id\n" +
+                "join Store S on SC.store_id = S.store_id\n" +
+                "join Store_Takeout ST on S.store_id = ST.store_id\n" +
+                "join Review R on R.store_id = S.store_id\n" +
+                "join Store_Delivery SD on S.store_id = SD.store_id\n" +
+                "group by S.store_id";
+
+        return this.jdbcTemplate.query(getSearchStoreListQuery,
+                (rs,rowNum)->new StoreInfo(
+                        rs.getInt("store_id"),
+                        rs.getString("store_image_url"),
+                        rs.getString("store_name"),
+                        rs.getString("is_cheetah_delivery"),
+                        rs.getString("takeout_time"),
+                        rs.getDouble("avg_review"),
+                        rs.getInt("count_review"),
+                        rs.getInt("start_delivery_fee"),
+                        rs.getString("is_takeout")
+                ), categoryName);
+    }
+
     public int createSearch(int userIdx, String category_name) {
         String createSearchQuery = "insert into Search(user_id, category_name) values (?,?);";
         Object[] createSearchParams = new Object[]{userIdx, category_name};

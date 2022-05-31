@@ -50,8 +50,8 @@ com/example/demo/src/payment/WayService.java
  com.example.demo.src.payment.WayService
 com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
-com/example/demo/src/category/CategoryService.java
- com.example.demo.src.category.CategoryService
+com/example/demo/src/user/model/Res/GetUserRes.java
+ com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/user/model/StoreSimple.java
@@ -84,8 +84,8 @@ com/example/demo/src/category/model/StoreInfo.java
  com.example.demo.src.category.model.StoreInfo
 com/example/demo/src/payment/Req/PostPaymentReq.java
  com.example.demo.src.payment.Req.PostPaymentReq
-com/example/demo/src/category/CategoryDao.java
- com.example.demo.src.category.CategoryDao
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
 com/example/demo/src/store/model/Res/ReviewRes.java
  com.example.demo.src.store.model.Res.ReviewRes
 com/example/demo/src/user/model/Res/GetUserPasswordRes.java
@@ -158,9 +158,9 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
-com/example/demo/src/user/model/Res/GetUserRes.java
- com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
+com/example/demo/src/category/CategoryDao.java
+ com.example.demo.src.category.CategoryDao
