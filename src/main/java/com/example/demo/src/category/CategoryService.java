@@ -3,6 +3,7 @@ package com.example.demo.src.category;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.category.model.CategorySimple;
 import com.example.demo.src.category.model.Req.PostSearchReq;
+import com.example.demo.src.category.model.Res.GetCategoryDetailRes;
 import com.example.demo.src.category.model.Res.GetSearchRes;
 import com.example.demo.src.category.model.Res.PostSearchRes;
 import com.example.demo.utils.JwtService;
@@ -41,6 +42,18 @@ public class CategoryService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    //GET 카테고리 상세화면
+    @Transactional(readOnly = true)
+    public GetCategoryDetailRes getCategoryDetail(int categoryIdx )throws BaseException{
+        try{
+            GetCategoryDetailRes getCategoryDetailRes= categoryDao.getCategoryDetail(categoryIdx);
+            return getCategoryDetailRes;
+        }
+        catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     //POST 검색 생성
     @Transactional(rollbackFor = {BaseException.class})
     public PostSearchRes createSearch(int userIdx, PostSearchReq postSearchReq) throws BaseException {
