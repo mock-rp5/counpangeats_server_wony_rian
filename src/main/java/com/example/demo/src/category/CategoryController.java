@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.category.model.CategorySimple;
 import com.example.demo.src.category.model.Req.PostSearchReq;
+import com.example.demo.src.category.model.Res.GetCategoryDetailRes;
 import com.example.demo.src.category.model.Res.GetSearchRes;
 import com.example.demo.src.category.model.Res.PostSearchRes;
 import com.example.demo.utils.JwtService;
@@ -32,7 +33,7 @@ public class CategoryController {
     /**
      * 카테고리 목록 조회 API
      * [GET] /categories
-     * @return BaseResponse<PostOrderRes>
+     * @return BaseResponse<List<CategorySimple></CategorySimple>>
      */
     @ResponseBody
     @GetMapping("")
@@ -45,6 +46,24 @@ public class CategoryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    /**
+     * 카테고리 상세조회 조회 API
+     * [GET] /categories/:categoryIdx
+     * @return BaseResponse<GetCategoryDetailRes>
+     */
+    @ResponseBody
+    @GetMapping("{categoryIdx}")
+    public BaseResponse<GetCategoryDetailRes> getCategoryDetail(@PathVariable ("categoryIdx") int categoryIdx){
+        try {
+            GetCategoryDetailRes getCategoryDetailRes=categoryService.getCategoryDetail(categoryIdx);
+
+            return new BaseResponse<>(getCategoryDetailRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    
+
     /**
      * 검색어 생성 API
      * [POST] /categoies/search
