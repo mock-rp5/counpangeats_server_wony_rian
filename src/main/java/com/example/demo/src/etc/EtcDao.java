@@ -1,6 +1,7 @@
 package com.example.demo.src.etc;
 
 import com.example.demo.src.etc.Model.Res.GetEventRes;
+import com.example.demo.src.etc.Model.Res.GetNoticeRes;
 import com.example.demo.src.etc.Model.Res.GetQuestionRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,6 +37,19 @@ public class EtcDao {
                         rs.getString("category_name"),
                         rs.getString("question_name"),
                         rs.getString("question_answer")
+                ));
+    }
+
+
+    //공지사항 조회
+    public List<GetNoticeRes> getNoticeRes(){
+        String query = "select date_format(created_at,'%Y-%m-%d') as created_at, notice_name, notice_content\n" +
+                "from Notice;";
+        return this.jdbcTemplate.query(query,
+                (rs, rowNum) -> new GetNoticeRes(
+                        rs.getString("created_at"),
+                        rs.getString("notice_name"),
+                        rs.getString("notice_content")
                 ));
     }
 }

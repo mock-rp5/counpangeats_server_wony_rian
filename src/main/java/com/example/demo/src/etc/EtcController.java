@@ -3,6 +3,7 @@ package com.example.demo.src.etc;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.etc.Model.Res.GetEventRes;
+import com.example.demo.src.etc.Model.Res.GetNoticeRes;
 import com.example.demo.src.etc.Model.Res.GetQuestionRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class EtcController {
     @GetMapping("/faq")
     public BaseResponse<List<GetQuestionRes>> getQuestion() throws BaseException {
         return new BaseResponse<>(etcService.getQuestionRes());
+    }
+    @ResponseBody
+    @GetMapping("/notices")
+    public BaseResponse<List<GetNoticeRes>> getNotice() throws BaseException {
+        return new BaseResponse<>(etcService.getNoticeRes());
     }
 }
