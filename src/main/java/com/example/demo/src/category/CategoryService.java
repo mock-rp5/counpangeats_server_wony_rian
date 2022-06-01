@@ -75,6 +75,7 @@ public class CategoryService {
             return getSearchResList;
         }
         catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
