@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.kakao.KakaoUserInfo;
 import com.example.demo.src.user.model.MyEatsInfo;
 import com.example.demo.src.user.model.Req.PostLoginReq;
 import com.example.demo.src.user.model.Res.*;
@@ -112,6 +113,33 @@ public class UserProvider {
         }
 
     }
+
+    //카카오 로그인
+    @Transactional(readOnly = true)
+    public PostLoginRes kakaoLogin(KakaoUserInfo kaKaoUserInfo) throws BaseException {
+        String email= kaKaoUserInfo.getUser_email();
+
+        boolean isExistEmail=userDao.isExistEmail(email);
+        System.out.println("isExistEmail: "+isExistEmail);
+
+        if(isExistEmail==false){
+            throw new BaseException(NO_EXIST_EMAIL);
+        }
+
+        String isExistUserStatus = userDao.isExistUserStatus(email);
+        System.out.println("isExistUserStatus : "+ isExistUserStatus);
+        if(isExistUserStatus.equals("N")){
+            throw new BaseException(DELETED_USER);
+        }
+
+        User user = userDao.getKakaoEmail(email);
+        int user_id = user.getUser_id();
+        String jwt = jwtService.createJwt(user_id);
+        return new PostLoginRes(user_id, jwt);
+
+    }
+
+
 
     //이메일 찾기
     @Transactional(readOnly = true)

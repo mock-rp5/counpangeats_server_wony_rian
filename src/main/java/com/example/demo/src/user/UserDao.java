@@ -140,6 +140,22 @@ public class UserDao {
                 );
     }
 
+    public User getKakaoEmail(String email){
+        String getUserQuery = "select user_id,user_email, user_password,user_name,user_phone from User where user_email=?";
+        String getUserParams = email;
+
+        return this.jdbcTemplate.queryForObject(getUserQuery,
+                (rs,rowNum)-> new User(
+                        rs.getInt("user_id"),
+                        rs.getString("user_email"),
+                        rs.getString("user_password"),
+                        rs.getString("user_name"),
+                        rs.getString("user_phone")
+                ),
+                getUserParams
+        );
+    }
+
     public Boolean isExistEmail(String email){
         String isExistEmailQuery="select exists(\n" +
                 "    select * from User\n" +

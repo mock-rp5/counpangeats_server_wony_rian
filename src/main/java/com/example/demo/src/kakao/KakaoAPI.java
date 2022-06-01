@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
 @Service
 public class KakaoAPI {
@@ -69,11 +68,11 @@ public class KakaoAPI {
 
         return access_Token;
     }
-
-    public HashMap<String, Object> getUserInfo (String access_Token) {
+    public KakaoUserInfo getUserInfo (String access_Token) {
 
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-        HashMap<String, Object> userInfo = new HashMap<>();
+        KakaoUserInfo userInfo = new KakaoUserInfo(null, null);
+//        HashMap<String, Object> userInfo = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
             URL url = new URL(reqURL);
@@ -104,9 +103,13 @@ public class KakaoAPI {
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            System.out.println("my email: "+ email);
+//
+//            userInfo.put("nickname", nickname);
+//            userInfo.put("email", email);
+              userInfo.setUser_email(email);
+              userInfo.setUser_name(nickname);
 
-            userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -114,4 +117,89 @@ public class KakaoAPI {
         }
         return userInfo;
     }
+
+//    public HashMap<String, Object> getUserInfo (String access_Token) {
+//
+//        //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
+//        HashMap<String, Object> userInfo = new HashMap<>();
+//        String reqURL = "https://kapi.kakao.com/v2/user/me";
+//        try {
+//            URL url = new URL(reqURL);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestMethod("POST");
+//
+//            //    요청에 필요한 Header에 포함될 내용
+//            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+//
+//            int responseCode = conn.getResponseCode();
+//            System.out.println("responseCode : " + responseCode);
+//
+//            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//
+//            String line = "";
+//            String result = "";
+//
+//            while ((line = br.readLine()) != null) {
+//                result += line;
+//            }
+//            System.out.println("response body : " + result);
+//
+//            JsonParser parser = new JsonParser();
+//            JsonElement element = parser.parse(result);
+//
+//            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+//            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+//
+//            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+//            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+//
+//            userInfo.put("nickname", nickname);
+//            userInfo.put("email", email);
+//
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return userInfo;
+//    }
+
+//    public KakaoUserInfo getUserInfoByToken(String accessToken){
+//        // HttpHeader 오브젝트 생성
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Authorization","Bearer "+accessToken);
+//        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+//
+//        // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpEntity<MultiValueMap<String, String>> KakaoProfileRequest = new HttpEntity<>(headers);
+//
+//        // Http 요청하기 : POST 방식, response 변수의 응답
+//        ResponseEntity<String> response = restTemplate.exchange(
+//                "https://kapi.kakao.com/v2/user/me",
+//                HttpMethod.POST,
+//                KakaoProfileRequest,
+//                String.class
+//        );
+//
+//        System.out.println(">>>"+response.getBody());
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        KakaoProfile kakaoProfile = null;
+//        try {
+//            kakaoProfile = objectMapper.readValue(response.getBody(),KakaoProfile.class);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        String email = kakaoProfile.getKakao_account().getEmail();
+//        String nickName = kakaoProfile.getProperties().getNickname();
+//        System.out.println("kakao email " + email);
+//        System.out.println("kakao nickName " + nickName);
+//
+//
+//        return new KakaoUserInfo(email,nickName);
+//    }
+
 }

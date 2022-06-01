@@ -10,8 +10,8 @@ com/example/demo/src/user/model/Res/GetAddressRes.java
  com.example.demo.src.user.model.Res.GetAddressRes
 com/example/demo/src/store/model/StoreCategory.java
  com.example.demo.src.store.model.StoreCategory
-com/example/demo/src/kakao/KakaoAPI.java
- com.example.demo.src.kakao.KakaoAPI
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
 com/example/demo/src/store/model/OrderMenu.java
  com.example.demo.src.store.model.OrderMenu
 com/example/demo/src/store/model/MenuCategory.java
@@ -54,8 +54,8 @@ com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
 com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
-com/example/demo/src/user/model/KakaoUserInfo.java
- com.example.demo.src.user.model.KakaoUserInfo
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/user/model/StoreSimple.java
@@ -112,8 +112,8 @@ com/example/demo/src/category/model/Res/GetCategoryDetailRes.java
  com.example.demo.src.category.model.Res.GetCategoryDetailRes
 com/example/demo/src/category/model/PopularSearch.java
  com.example.demo.src.category.model.PopularSearch
-com/example/demo/src/user/UserDao.java
- com.example.demo.src.user.UserDao
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController
 com/example/demo/src/category/model/Res/GetSearchRes.java
  com.example.demo.src.category.model.Res.GetSearchRes
 com/example/demo/src/orders/OrderDao.java
@@ -156,25 +156,25 @@ com/example/demo/config/ExceptionController.java
  com.example.demo.config.ExceptionController
 com/example/demo/src/store/StoreController.java
  com.example.demo.src.store.StoreController
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
+com/example/demo/src/payment/WayController.java
+ com.example.demo.src.payment.WayController
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
-com/example/demo/src/user/UserService.java
- com.example.demo.src.user.UserService
-com/example/demo/src/orders/OrderController.java
- com.example.demo.src.orders.OrderController
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
-com/example/demo/src/payment/WayController.java
- com.example.demo.src.payment.WayController
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/kakao/KakaoUserInfo.java
+ com.example.demo.src.kakao.KakaoUserInfo
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+com/example/demo/src/kakao/KakaoAPI.java
+ com.example.demo.src.kakao.KakaoAPI
 com/example/demo/src/kakao/KakaoController.java
  com.example.demo.src.kakao.KakaoController
