@@ -117,7 +117,7 @@ public class OrderController {
 
     }
 
-    //주문 생성 API
+    //주문 생성
     @ResponseBody
     @PostMapping("")
     public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @Valid @RequestBody PostOrderReq postOrderReq){
@@ -131,6 +131,26 @@ public class OrderController {
 
             orderService.createOrder(user_id, cartList, postOrderReq);
             return new BaseResponse<>("주문이 완료되었습니다.");
+
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    // 재주문
+    @ResponseBody
+    @PostMapping("/carts/reorders")
+    public BaseResponse<String> reOrder(@RequestParam(required = false) int[] cartList){
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            List<PostOrderRes> postOrderRes = orderService.checkCartUserExists(user_id);
+            if(!postOrderRes.isEmpty()){
+                return new BaseResponse<>(FAIL_DUPLICATE_CART);
+            }
+
+            orderService.reOrder(user_id, cartList);
+
+            return new BaseResponse<>("재주문이 완료되었습니다.");
 
         }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

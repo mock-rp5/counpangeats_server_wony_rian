@@ -1,6 +1,7 @@
 package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
+import com.example.demo.src.orders.model.CartPrice;
 import com.example.demo.src.orders.model.OrderMenuList;
 import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.OrderDetail;
@@ -124,7 +125,7 @@ public class OrderDao {
 
         String deleteCartQuery = "UPDATE Cart SET status='N' WHERE cart_id = ?";
         String insertOrderInfoQuery = "insert into Order_Info (user_id, store_id, total_price, payment_method_id, delivery_request, store_request, address_id) VALUES (?,?,?,?,?,?,?)";
-        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id, user_id) VALUES (?,?,?,?,?)";
+        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id, user_id, store_id) VALUES (?,?,?,?,?,?)";
         String selectCartMenuQuery = "select menu_id, menu_count, menu_option_id from Cart where cart_id = ?";
         String getTotalPriceQuery = "select menu_count*order_price as total_price from Cart where cart_id = ?";
 
@@ -133,11 +134,11 @@ public class OrderDao {
             sum += this.jdbcTemplate.queryForObject(getTotalPriceQuery, int.class, k);
             OrderDetail orderDetail = this.jdbcTemplate.queryForObject(selectCartMenuQuery,
                     (rs, rowNum) -> new OrderDetail(
-                            rs.getInt("menu_id"),
                             rs.getInt("menu_count"),
+                            rs.getInt("menu_id"),
                             rs.getInt("menu_option_id")
                     ), k);
-            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id);
+            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id, postOrderReq.getStore_id());
             this.jdbcTemplate.update(deleteCartQuery, k); //카트에서 삭제
         }
         System.out.println("selectCartMenuQuery = " + selectCartMenuQuery);
@@ -153,6 +154,15 @@ public class OrderDao {
         return 1;
     }
 
+    //재주문
+    public int reOrder(int user_id, int[] cartList){
+        String createCartQuery = "insert into Cart (user_id, store_id, menu_id, menu_count, order_price, menu_option_id) \n" +
+                "select user_id, store_id, menu_id, menu_count, order_price, menu_option_id from Cart where cart_id = ?";
+        for(int k : cartList){
+            this.jdbcTemplate.update(createCartQuery, k);
+        }
+        return 1;
+    }
     public List<GetUserOrder> getUserOrder(int user_id, int orderIdx, int storeIdx){
         String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
                 "from Order_Info OI\n" +

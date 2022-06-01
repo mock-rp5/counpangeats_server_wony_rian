@@ -114,6 +114,15 @@ public class OrderService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    //재주문
+    @Transactional(rollbackFor = Exception.class)
+    public void reOrder(int user_id, int[] cartList) throws BaseException {
+        try {
+            orderDao.reOrder(user_id, cartList);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public int checkCart(int user_id) throws BaseException {
         try {

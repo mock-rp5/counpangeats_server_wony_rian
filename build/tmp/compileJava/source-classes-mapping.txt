@@ -84,8 +84,8 @@ com/example/demo/src/user/model/Req/PatchAddressReq.java
  com.example.demo.src.user.model.Req.PatchAddressReq
 com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
  com.example.demo.src.user.model.Res.GetAddressSimpleRes
-com/example/demo/src/orders/model/OrderDetail.java
- com.example.demo.src.orders.model.OrderDetail
+com/example/demo/src/store/model/Ad.java
+ com.example.demo.src.store.model.Ad
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/orders/model/Req/PatchCartReq.java
@@ -116,8 +116,8 @@ com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/category/model/Res/GetSearchRes.java
  com.example.demo.src.category.model.Res.GetSearchRes
-com/example/demo/src/orders/OrderDao.java
- com.example.demo.src.orders.OrderDao
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
 com/example/demo/src/user/model/MyEatsInfo.java
  com.example.demo.src.user.model.MyEatsInfo
 com/example/demo/src/category/model/Req/PostSearchReq.java
@@ -150,8 +150,8 @@ com/example/demo/src/category/CategoryController.java
  com.example.demo.src.category.CategoryController
 com/example/demo/config/ExceptionController.java
  com.example.demo.config.ExceptionController
-com/example/demo/src/orders/OrderService.java
- com.example.demo.src.orders.OrderService
+com/example/demo/src/store/model/Res/GetStoreHomeRes.java
+ com.example.demo.src.store.model.Res.GetStoreHomeRes
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
 com/example/demo/src/category/CategoryService.java
@@ -168,19 +168,21 @@ com/example/demo/src/payment/Model/Req/CashReq.java
  com.example.demo.src.payment.Model.Req.CashReq
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
-com/example/demo/src/orders/OrderController.java
- com.example.demo.src.orders.OrderController
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
-com/example/demo/src/store/model/Ad.java
- com.example.demo.src.store.model.Ad
-com/example/demo/src/store/model/Res/GetStoreHomeRes.java
- com.example.demo.src.store.model.Res.GetStoreHomeRes
-com/example/demo/src/store/StoreController.java
- com.example.demo.src.store.StoreController
-com/example/demo/src/store/StoreService.java
- com.example.demo.src.store.StoreService
+com/example/demo/src/orders/OrderDao.java
+ com.example.demo.src.orders.OrderDao
+com/example/demo/src/orders/model/CartPrice.java
+ com.example.demo.src.orders.model.CartPrice
+com/example/demo/src/orders/model/OrderDetail.java
+ com.example.demo.src.orders.model.OrderDetail
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController
