@@ -188,6 +188,8 @@ com/example/demo/src/orders/OrderService.java
  com.example.demo.src.orders.OrderService
 com/example/demo/src/etc/Model/Res/GetEventRes.java
  com.example.demo.src.etc.Model.Res.GetEventRes
+com/example/demo/src/etc/Model/Res/GetQuestionRes.java
+ com.example.demo.src.etc.Model.Res.GetQuestionRes
 com/example/demo/src/etc/EtcService.java
  com.example.demo.src.etc.EtcService
 com/example/demo/src/etc/EtcController.java
