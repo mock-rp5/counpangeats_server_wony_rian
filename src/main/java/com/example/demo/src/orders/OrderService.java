@@ -85,6 +85,25 @@ public class OrderService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void restartOrder(int user_id, int now_store_id, int[] cartList) throws BaseException {
+        try {
+            int result = orderDao.restartCart(user_id, now_store_id);
+            System.out.println("result = " + result);
+            if(result == 0){
+                throw new BaseException(FAIL_RESTART_CART);
+            }
+            int cart = orderDao.reOrder(user_id, cartList);
+            System.out.println("cart = " + cart);
+            if(cart == 0){
+                throw new BaseException(FAIL_CREATE_CART);
+            }
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     @Transactional(readOnly = true)
     public GetCartRes getCart(int userIdx) throws BaseException {
         try {

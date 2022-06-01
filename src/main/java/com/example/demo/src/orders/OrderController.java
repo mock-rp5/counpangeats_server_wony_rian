@@ -107,6 +107,7 @@ public class OrderController {
             if(now_store_id == 0){
                 return new BaseResponse<>(FAIL_CART_NEW);
             }
+
             orderService.restartCart(userIdx, storeIdx, menuIdx, now_store_id, postCartReq);
             return new BaseResponse<>("이전 카드 삭제 후 다시 담았습니다.");
         } catch (BaseException exception) {
@@ -138,7 +139,7 @@ public class OrderController {
     }
     // 재주문
     @ResponseBody
-    @PostMapping("/carts/reorders")
+    @PostMapping("/reorders")
     public BaseResponse<String> reOrder(@RequestParam(required = false) int[] cartList){
         try {
             int user_id= jwtService.getUserIdx();
@@ -151,6 +152,27 @@ public class OrderController {
             orderService.reOrder(user_id, cartList);
 
             return new BaseResponse<>("재주문이 완료되었습니다.");
+
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 재주문 새로 카트 담기
+    @ResponseBody
+    @PostMapping("/carts/reorders")
+    public BaseResponse<String> reOrderFix(@RequestParam(required = false) int[] cartList){
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            int now_store_id = orderService.checkCart(user_id);
+            System.out.println("now_store_id = " + now_store_id);
+            if(now_store_id == 0){
+                return new BaseResponse<>(FAIL_CART_NEW);
+            }
+            orderService.restartOrder(user_id, now_store_id, cartList);
+
+            return new BaseResponse<>("카트에 새로 담겼습니다.");
 
         }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

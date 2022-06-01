@@ -176,13 +176,13 @@ com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
 com/example/demo/src/store/StoreDao.java
  com.example.demo.src.store.StoreDao
-com/example/demo/src/orders/OrderDao.java
- com.example.demo.src.orders.OrderDao
-com/example/demo/src/orders/model/CartPrice.java
- com.example.demo.src.orders.model.CartPrice
 com/example/demo/src/orders/model/OrderDetail.java
  com.example.demo.src.orders.model.OrderDetail
-com/example/demo/src/orders/OrderService.java
- com.example.demo.src.orders.OrderService
+com/example/demo/src/orders/model/CartPrice.java
+ com.example.demo.src.orders.model.CartPrice
+com/example/demo/src/orders/OrderDao.java
+ com.example.demo.src.orders.OrderDao
 com/example/demo/src/orders/OrderController.java
  com.example.demo.src.orders.OrderController
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
