@@ -5,10 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.model.Res.PostLoginRes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.config.BaseResponseStatus.POST_KAKAO_LOGIN_CODE_EMPTY;
 
@@ -35,8 +32,9 @@ public class KakaoController {
 
 
     @PostMapping("/login/kakao")
-    public BaseResponse<PostLoginRes> kakaoLogin(@RequestParam("code") String code) throws BaseException {
+    public BaseResponse<PostLoginRes> kakaoLogin(@RequestBody PostKakaoLoginReq postKakaoLoginReq) throws BaseException {
 
+        String code = postKakaoLoginReq.getCode();
         if (code == "") {
             return new BaseResponse<>(POST_KAKAO_LOGIN_CODE_EMPTY);
         }
