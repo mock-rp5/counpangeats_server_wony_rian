@@ -1,11 +1,13 @@
 package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
+import com.example.demo.src.orders.model.OrderMenuList;
 import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.OrderDetail;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.GetUserOrder;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -101,9 +103,17 @@ public class OrderDao {
         this.jdbcTemplate.update("set sql_safe_updates=0");
         String Query = "UPDATE Cart SET status='N' WHERE store_id=? AND user_id=?";
         int update = this.jdbcTemplate.update(Query, store_id, user_id);
-        System.out.println("update = " + update);
         return this.jdbcTemplate.update(Query, store_id, user_id);
     }
+
+    //재주문 새로 담기
+    public int restartOrder(int user_id, int store_id){
+        this.jdbcTemplate.update("set sql_safe_updates=0");
+        String Query = "UPDATE Cart SET status='N' WHERE store_id=? AND user_id=?";
+        int update = this.jdbcTemplate.update(Query, store_id, user_id);
+        return this.jdbcTemplate.update(Query, store_id, user_id);
+    }
+
     //주문 생성
     public int createOrder(int user_id, Integer[] cartList, PostOrderReq postOrderReq){
         String getOrderInfoQuery = "SELECT MAX(order_info_id) FROM Order_Info;";
@@ -119,8 +129,8 @@ public class OrderDao {
         }
 
         String deleteCartQuery = "UPDATE Cart SET status='N' WHERE cart_id = ?";
-        String insertOrderInfoQuery = "insert into Order_Info (user_id, store_id, total_price, payment_method_id, delivery_request, store_request) VALUES (?,?,?,?,?,?)";
-        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id, user_id) VALUES (?,?,?,?,?)";
+        String insertOrderInfoQuery = "insert into Order_Info (user_id, store_id, total_price, payment_method_id, delivery_request, store_request, address_id) VALUES (?,?,?,?,?,?,?)";
+        String insertOrderDetailQuery = "insert into Order_Detail (menu_id, menu_count, order_info_id, menu_option_id, user_id, store_id, cart_id) VALUES (?,?,?,?,?,?,?)";
         String selectCartMenuQuery = "select menu_id, menu_count, menu_option_id from Cart where cart_id = ?";
         String getTotalPriceQuery = "select menu_count*order_price as total_price from Cart where cart_id = ?";
 
@@ -129,17 +139,19 @@ public class OrderDao {
             sum += this.jdbcTemplate.queryForObject(getTotalPriceQuery, int.class, k);
             OrderDetail orderDetail = this.jdbcTemplate.queryForObject(selectCartMenuQuery,
                     (rs, rowNum) -> new OrderDetail(
-                            rs.getInt("menu_id"),
                             rs.getInt("menu_count"),
+                            rs.getInt("menu_id"),
                             rs.getInt("menu_option_id")
                     ), k);
-            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id);
+            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id, postOrderReq.getStore_id(), arr[k]);
             this.jdbcTemplate.update(deleteCartQuery, k); //카트에서 삭제
         }
         System.out.println("selectCartMenuQuery = " + selectCartMenuQuery);
-
-        System.out.println("totalPrice = " + sum);
-        return this.jdbcTemplate.update(insertOrderInfoQuery, user_id, postOrderReq.getStore_id(), sum, postOrderReq.getPayment_method_id(), postOrderReq.getDelivery_request(), postOrderReq.getStore_request());
+        String getDeliveryPriceQuery = "select SD.start_delivery_fee\n" +
+                "from Store_Delivery SD\n" +
+                "where SD.store_id = ?";
+        int deliveryFee =  this.jdbcTemplate.queryForObject(getDeliveryPriceQuery, int.class, postOrderReq.getStore_id());
+        return this.jdbcTemplate.update(insertOrderInfoQuery, user_id, postOrderReq.getStore_id(), sum + deliveryFee, postOrderReq.getPayment_method_id(), postOrderReq.getDelivery_request(), postOrderReq.getStore_request(), postOrderReq.getAddress_id());
     }
 
     public int getOrder(int user_id){
@@ -147,11 +159,128 @@ public class OrderDao {
         return 1;
     }
 
-//    public int getOrder(int user_id){
-//        String getQuery = "";
-//        return 1;
-//    }
+    //재주문
+    public int reOrder(int user_id, int[] cartList){
+        String createCartQuery = "insert into Cart (user_id, store_id, menu_id, menu_count, order_price, menu_option_id) \n" +
+                "select user_id, store_id, menu_id, menu_count, order_price, menu_option_id from Cart where cart_id = ?";
+        for(int k : cartList){
+            this.jdbcTemplate.update(createCartQuery, k);
+        }
+        return 1;
+    }
+    //영수증
+    public List<GetUserOrder> getUserOrder(int user_id, int orderIdx, int storeIdx){
+        String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
+                "from Order_Info OI\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = OI.store_id\n" +
+                "inner join Address A\n" +
+                "on A.address_id = OI.address_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = OI.store_id\n" +
+                "where OI.user_id = ? and OI.order_info_id = ? and S.Store_id = ? \n";
+        String getMenuQuery = "select M.menu_name, MO.option_name, OD.menu_count, M.menu_price, MO.option_price\n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ?";
+        return this.jdbcTemplate.query(getStoreQuery,
+                (rs, rowNum) -> new GetUserOrder(
+                        rs.getString("store_name"),
+                        rs.getInt("order_info_id"),
+                        rs.getTimestamp("created_at"),
+                        rs.getInt("total_price"),
+                        rs.getString("detail_address"),
+                        rs.getInt("start_delivery_fee"),
+                        this.jdbcTemplate.query(getMenuQuery,
+                                (rs1, rowNum1) -> new OrderMenuList(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("menu_count"),
+                                        rs1.getInt("menu_price"),
+                                        rs1.getInt("option_price")
+                                ),orderIdx
+                            )
+                ), user_id, orderIdx, storeIdx);
+    }
 
+    // 회원의 주문 목록 조회
+    public List<GetUserOrder> getUserOrderList(int user_id){
+        String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
+                "from Order_Info OI\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = OI.store_id\n" +
+                "inner join Address A\n" +
+                "on A.address_id = OI.address_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = OI.store_id\n" +
+                "where OI.user_id = ? and OI.delivery_status = 'Y' \n";
+        String getMenuQuery = "select M.menu_name, MO.option_name, OD.menu_count, M.menu_price, MO.option_price \n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ?";
+        return this.jdbcTemplate.query(getStoreQuery,
+                (rs, rowNum) -> new GetUserOrder(
+                        rs.getString("store_name"),
+                        rs.getInt("order_info_id"),
+                        rs.getTimestamp("created_at"),
+                        rs.getInt("total_price"),
+                        rs.getString("detail_address"),
+                        rs.getInt("start_delivery_fee"),
+                        this.jdbcTemplate.query(getMenuQuery,
+                                (rs1, rowNum1) -> new OrderMenuList(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("menu_count"),
+                                        rs1.getInt("menu_price"),
+                                        rs1.getInt("option_price")
+                                ), rs.getInt("order_info_id")
+                        )
+                ), user_id);
+    }
+
+    // 회원의 주문 목록 조회
+    public List<GetUserOrder> getUserReadyOrderList(int user_id){
+        String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
+                "from Order_Info OI\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = OI.store_id\n" +
+                "inner join Address A\n" +
+                "on A.address_id = OI.address_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = OI.store_id\n" +
+                "where OI.user_id = ? and OI.delivery_status = 'N' \n";
+        String getMenuQuery = "select M.menu_name, MO.option_name, OD.menu_count, M.menu_price, MO.option_price \n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ?";
+        return this.jdbcTemplate.query(getStoreQuery,
+                (rs, rowNum) -> new GetUserOrder(
+                        rs.getString("store_name"),
+                        rs.getInt("order_info_id"),
+                        rs.getTimestamp("created_at"),
+                        rs.getInt("total_price"),
+                        rs.getString("detail_address"),
+                        rs.getInt("start_delivery_fee"),
+                        this.jdbcTemplate.query(getMenuQuery,
+                                (rs1, rowNum1) -> new OrderMenuList(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("menu_count"),
+                                        rs1.getInt("menu_price"),
+                                        rs1.getInt("option_price")
+                                ), rs.getInt("order_info_id")
+                        )
+                ), user_id);
+    }
     //카트에 담긴 가게 확인
     public int checkCartStore(int user_id) {
         String checkQuery = "select exists(select * from Cart where user_id = ? and status = \"Y\")";

@@ -2,9 +2,11 @@ package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.payment.Req.PostCashReq;
-import com.example.demo.src.payment.Req.PostPaymentReq;
-import com.example.demo.src.payment.Res.GetPaymentRes;
+import com.example.demo.src.payment.Model.Req.CashReq;
+import com.example.demo.src.payment.Model.Req.PostCouponReq;
+import com.example.demo.src.payment.Model.Req.PostPaymentReq;
+import com.example.demo.src.payment.Model.Res.GetCouponRes;
+import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -78,14 +80,87 @@ public class WayController {
         }
     }
 
+    // 현금영수증 생성
     @ResponseBody
-    @PatchMapping("/cash-receipt")
-    public BaseResponse<String> postCash(@Valid @RequestBody PostCashReq postCashReq) throws BaseException{
+    @PostMapping("/cash-receipt")
+    public BaseResponse<String> postCash(@Valid @RequestBody CashReq cashReq) throws BaseException{
         try {
             int userIdx= jwtService.getUserIdx();
-            System.out.println("userIdx = " + userIdx);
-            wayService.postCash(userIdx, postCashReq);
-            return new BaseResponse<>("현금영수증 생성 or 수정이 완료되었습니다.");
+            int check = wayService.checkCash(userIdx);
+            if(check == 1){
+                return new BaseResponse<>(ALREADY_POST_CASH);
+            }
+            wayService.postCash(userIdx, cashReq);
+            return new BaseResponse<>("현금영수증 생성이 완료되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //현금영수증 수정
+    @ResponseBody
+    @PatchMapping("/cash-receipt")
+    public BaseResponse<String> patchCash(@Valid @RequestBody CashReq cashReq) throws BaseException{
+        try {
+            int userIdx= jwtService.getUserIdx();
+            int check = wayService.checkCash(userIdx);
+
+            if(check == 0){
+                return new BaseResponse<>(NO_EXISTS_CASH);
+            }
+            wayService.patchCash(userIdx, cashReq);
+            return new BaseResponse<>("현금영수증 수정이 완료되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/cash-receipt/status")
+    public BaseResponse<String> deleteCash() throws BaseException{
+        try {
+            int userIdx= jwtService.getUserIdx();
+            wayService.deleteCash(userIdx);
+            return new BaseResponse<>("현금영수증이 삭제되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/coupons")
+    public BaseResponse<String> createCoupon(@Valid @RequestBody PostCouponReq postCouponReq) throws BaseException {
+        try {
+            int userIdx= jwtService.getUserIdx();
+
+            // 쿠폰 번호 확인
+            int numCheck = wayService.checkCoupon(postCouponReq.getCoupon_description());
+            if(numCheck == 0){
+                throw new BaseException(NO_EXISTS_COUPON);
+            }
+
+            //유저에게 쿠폰 유무 확인
+            int existsCheck = wayService.checkMeCoupon(userIdx, postCouponReq.getCoupon_description());
+            System.out.println("existsCheck = " + existsCheck);
+            if(existsCheck == 1){
+                throw new BaseException(ALREADY_GET_COUPON);
+            }
+
+            //쿠폰 만들기
+            wayService.createCoupon(userIdx, postCouponReq);
+            return new BaseResponse<>("쿠폰이 등록되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //쿠폰 조회
+    @ResponseBody
+    @GetMapping("/coupons")
+    public BaseResponse<List<GetCouponRes>> getCoupon() throws BaseException {
+        try {
+            int userIdx= jwtService.getUserIdx();
+            return new BaseResponse<>(wayService.getCoupon(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

@@ -7,6 +7,7 @@ import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.GetUserOrder;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,7 @@ public class OrderController {
             if(now_store_id == 0){
                 return new BaseResponse<>(FAIL_CART_NEW);
             }
+
             orderService.restartCart(userIdx, storeIdx, menuIdx, now_store_id, postCartReq);
             return new BaseResponse<>("이전 카드 삭제 후 다시 담았습니다.");
         } catch (BaseException exception) {
@@ -116,7 +118,7 @@ public class OrderController {
 
     }
 
-    //주문 생성 API
+    //주문 생성
     @ResponseBody
     @PostMapping("")
     public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @Valid @RequestBody PostOrderReq postOrderReq){
@@ -135,22 +137,76 @@ public class OrderController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-//    //주문 조회 API
-//    @ResponseBody
-//    @GetMapping()
-//    public BaseResponse<String> getOrder() throws BaseException{
-//        int user_id= jwtService.getUserIdx();
-//
-//
-//        return new BaseResponse<>("주문이 완료되었습니다.");
-//    }
-//
-//    @ResponseBody
-//    @GetMapping("/")
-//    public BaseResponse<String> getUserOrder() throws BaseException{
-//        int user_id= jwtService.getUserIdx();
-//
-//
-//        return new BaseResponse<>("주문이 완료되었습니다.");
-//    }
+    // 재주문
+    @ResponseBody
+    @PostMapping("/reorders")
+    public BaseResponse<String> reOrder(@RequestParam(required = false) int[] cartList){
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            List<PostOrderRes> postOrderRes = orderService.checkCartUserExists(user_id);
+            if(!postOrderRes.isEmpty()){
+                return new BaseResponse<>(FAIL_DUPLICATE_CART);
+            }
+
+            orderService.reOrder(user_id, cartList);
+
+            return new BaseResponse<>("재주문이 완료되었습니다.");
+
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 재주문 새로 카트 담기
+    @ResponseBody
+    @PostMapping("/carts/reorders")
+    public BaseResponse<String> reOrderFix(@RequestParam(required = false) int[] cartList){
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            int now_store_id = orderService.checkCart(user_id);
+            System.out.println("now_store_id = " + now_store_id);
+            if(now_store_id == 0){
+                return new BaseResponse<>(FAIL_CART_NEW);
+            }
+            orderService.restartOrder(user_id, now_store_id, cartList);
+
+            return new BaseResponse<>("카트에 새로 담겼습니다.");
+
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    //주문 목록 조회 API
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetUserOrder>> getOrder() throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+        return new BaseResponse<>(orderService.getOrderList(user_id));
+    }
+    //주문 준비중 목록 조회 API
+    @ResponseBody
+    @GetMapping("/ready")
+    public BaseResponse<List<GetUserOrder>> getReadyOrder() throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+        return new BaseResponse<>(orderService.getOrderReadyList(user_id));
+    }
+    //영수증 조회
+    @ResponseBody
+    @GetMapping("/results")
+    public BaseResponse<List<GetUserOrder>> getUserOrder(@RequestParam int storeIdx,
+                                                         @RequestParam int orderIdx) throws BaseException{
+        try {
+            int user_id= jwtService.getUserIdx();
+
+            List<GetUserOrder> orderListOne = orderService.getOrderListOne(user_id, orderIdx, storeIdx);
+            return new BaseResponse<>(orderListOne);
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+    }
 }

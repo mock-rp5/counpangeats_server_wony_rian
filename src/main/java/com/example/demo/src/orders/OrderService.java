@@ -6,6 +6,7 @@ import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.Req.PatchCartReq;
 import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
+import com.example.demo.src.orders.model.Res.GetUserOrder;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +85,25 @@ public class OrderService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void restartOrder(int user_id, int now_store_id, int[] cartList) throws BaseException {
+        try {
+            int result = orderDao.restartCart(user_id, now_store_id);
+            System.out.println("result = " + result);
+            if(result == 0){
+                throw new BaseException(FAIL_RESTART_CART);
+            }
+            int cart = orderDao.reOrder(user_id, cartList);
+            System.out.println("cart = " + cart);
+            if(cart == 0){
+                throw new BaseException(FAIL_CREATE_CART);
+            }
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     @Transactional(readOnly = true)
     public GetCartRes getCart(int userIdx) throws BaseException {
         try {
@@ -94,10 +114,50 @@ public class OrderService {
         }
     }
 
+    //회원의 영수증 내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getOrderListOne(int userIdx, int orderIdx, int storeIdx) throws BaseException {
+        try {
+            return orderDao.getUserOrder(userIdx, orderIdx, storeIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //회원의 주문 내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getOrderList(int userIdx) throws BaseException {
+        try {
+            return orderDao.getUserOrderList(userIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    //회원의 배달 준비중 내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getOrderReadyList(int userIdx) throws BaseException {
+        try {
+            return orderDao.getUserReadyOrderList(userIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     @Transactional(rollbackFor = Exception.class)
     public void deleteCart(int cart_id, int user_id) throws BaseException {
         try {
             orderDao.deleteCart(user_id, cart_id);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    //재주문
+    @Transactional(rollbackFor = Exception.class)
+    public void reOrder(int user_id, int[] cartList) throws BaseException {
+        try {
+            orderDao.reOrder(user_id, cartList);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

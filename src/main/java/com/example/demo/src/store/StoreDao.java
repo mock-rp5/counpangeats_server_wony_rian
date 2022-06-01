@@ -22,24 +22,32 @@ public class StoreDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public GetStoreHomeRes getHome() {
+    public GetStoreHomeRes getHome(String is_cheetah, int start_delivery_fee, int minimum_price, String is_Delivery) {
+        String getAdQuery = "select ad_id, ad_image_url, link_url from Ad;";
+
         String getCategoryQuery = "select C.category_name, C.category_image_url from Category C";
 
-        String getHomeQuery = "select Store.store_id, Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, Store_Delivery.delivery_time,Store_Delivery.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
-                "                from Store\n" +
-                "                inner join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
-                "                from Order_Info as OI \n" +
-                "                inner join Review \n" +
-                "                on OI.order_info_id = Review.order_info_id \n" +
-                "                group by OI.store_id\n" +
-                "                ) J \n" +
-                "                on J.store_id = Store.store_id\n" +
-                "                inner join Store_Delivery\n" +
-                "                on Store_Delivery.store_id = Store.store_id\n" +
-                "                inner join Store_Takeout\n" +
-                "                on Store_Takeout.store_id = Store.store_id\n" +
-                "                ";
+        String getHomeQuery = "select Store.store_id, Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, SD.delivery_time, SD.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
+                "from Store\n" +
+                "left join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
+                "\tfrom Order_Info as OI \n" +
+                "\tleft join Review \n" +
+                "\ton OI.order_info_id = Review.order_info_id \n" +
+                "\tgroup by OI.store_id\n" +
+                ") J \n" +
+                "on J.store_id = Store.store_id\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = Store.store_id\n" +
+                "inner join Store_Takeout\n" +
+                "on Store_Takeout.store_id = Store.store_id\n" +
+                "where (Store.is_cheetah_delivery = ?) and SD.start_delivery_fee<= ? and minimum_price <= ? and (Store_Takeout.status  =?) ";
 
+        List<Ad> adList = this.jdbcTemplate.query(getAdQuery,
+                (rs, rowNum) -> new Ad(
+                        rs.getInt("ad_id"),
+                        rs.getString("ad_image_url"),
+                        rs.getString("link_url")
+                ));
         List<StoreCategory> categoryList = this.jdbcTemplate.query(getCategoryQuery,
                 (rs, rowNum) -> new StoreCategory(
                         rs.getString("category_name"),
@@ -56,8 +64,8 @@ public class StoreDao {
                         rs.getString("store_main_image_url"),
                         rs.getInt("Cnt"),
                         rs.getFloat("RAvg")
-                ));
-        return new GetStoreHomeRes(categoryList, storeList);
+                ), is_cheetah, start_delivery_fee, minimum_price, is_Delivery);
+        return new GetStoreHomeRes(adList, categoryList, storeList);
     }
     public GetStoreOneRes storeOne(int store_id, int userIdx){
         String storeQuery = "select S.store_id, S.store_name, S.is_cheetah_delivery, S.store_main_image_url, SD.delivery_time, SD.start_delivery_fee, SD.minimum_price, count(R.review_id) as cnt, avg(R.review_star) as average\n" +
