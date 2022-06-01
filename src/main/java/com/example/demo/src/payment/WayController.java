@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.payment.Model.Req.PostCashReq;
 import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
+import com.example.demo.src.payment.Model.Res.GetCouponRes;
 import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +127,18 @@ public class WayController {
             //쿠폰 만들기
             wayService.createCoupon(userIdx, postCouponReq);
             return new BaseResponse<>("쿠폰이 등록되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //결제 수단 조회
+    @ResponseBody
+    @GetMapping("/coupons")
+    public BaseResponse<List<GetCouponRes>> getCoupon() throws BaseException {
+        try {
+            int userIdx= jwtService.getUserIdx();
+            return new BaseResponse<>(wayService.getCoupon(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

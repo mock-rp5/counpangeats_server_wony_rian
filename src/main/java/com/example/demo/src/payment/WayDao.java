@@ -4,6 +4,7 @@ import com.example.demo.src.payment.Model.Payments;
 import com.example.demo.src.payment.Model.Req.PostCashReq;
 import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
+import com.example.demo.src.payment.Model.Res.GetCouponRes;
 import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -92,6 +93,22 @@ public class WayDao {
         return this.jdbcTemplate.update(createCouponQuery, coupon_id, user_id);
     }
 
+    //쿠폰 조회
+    public List<GetCouponRes> getCoupon(int user_id) {
+        String getCouponQuery = "select C.coupon_name, C.discount_price, C.discount_condition, C.expiration_date\n" +
+                "from Coupon C\n" +
+                "inner join Coupon_User U\n" +
+                "on U.coupon_id = C.coupon_id\n" +
+                "where U.user_id = ? and C.status = 'Y'";
+
+        return this.jdbcTemplate.query(getCouponQuery,
+                (rs, rowNum) -> new GetCouponRes(
+                        rs.getString("coupon_name"),
+                        rs.getInt("discount_price"),
+                        rs.getString("discount_condition"),
+                        rs.getTimestamp("expiration_date")
+                ), user_id);
+    }
     //쿠폰 확인
     public int checkCoupon(String coupon_description){
         String Query = "select exists(select * from Coupon where coupon_description = ?)";

@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.payment.Model.Req.PostCashReq;
 import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
+import com.example.demo.src.payment.Model.Res.GetCouponRes;
 import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +76,17 @@ public class WayService {
     public int createCoupon(int user_id, PostCouponReq postCouponReq) throws BaseException {
         try {
             return wayDao.createCoupon(user_id, postCouponReq);
+        }catch (Exception e){
+            System.out.println("e.getMessage() = " + e.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //쿠폰 조회
+    @Transactional(readOnly = true)
+    public List<GetCouponRes> getCoupon(int user_id) throws BaseException {
+        try {
+            return wayDao.getCoupon(user_id);
         }catch (Exception e){
             System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
