@@ -55,6 +55,9 @@ public enum BaseResponseStatus {
     // /orders
     CART_ID_EMPTY(false, 2051, "유효한 카트가 없습니다."),
 
+    //[POST] /users/login/kakao
+    POST_KAKAO_LOGIN_CODE_EMPTY(false,2060,"카카오 로그인에 필요한 코드를 입력해주세요."),
+
     // /payments
     PAYMENT_NAME_EMPTY(false, 2070, "결제 방식 은행을 입력해주세요."),
     PAYMENT_NUMBER_EMPTY(false, 2071, "계좌 또는 카드 번호를 입력해주세요."),
@@ -153,6 +156,10 @@ public enum BaseResponseStatus {
 
     //[PATCH] /category/search
     FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다."),
+<<<<<<< HEAD
+    FAIL_SEND_MESSAGE(false,4055,"문자 메세지 전송에 실패하였습니다.");
+=======
+>>>>>>> main
 
 
     // /cart

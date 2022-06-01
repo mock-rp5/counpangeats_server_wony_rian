@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class PopularSearch {
-    private int p_search_id;
-    private int search_rank;
+    private int category_id;
     private String category_name;
 }

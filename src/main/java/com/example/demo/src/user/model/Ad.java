@@ -10,4 +10,5 @@ import lombok.Setter;
 public class Ad {
     private int ad_id;
     private String ad_image_url;
+    private String link_url;
 }
