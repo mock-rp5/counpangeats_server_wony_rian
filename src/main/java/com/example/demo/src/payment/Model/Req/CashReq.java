@@ -1,4 +1,4 @@
-package com.example.demo.src.payment.Req;
+package com.example.demo.src.payment.Model.Req;
 
 import lombok.*;
 
@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostCashReq {
+public class CashReq {
     @NotNull(message = "not null cash_number")
     private String cash_number;
 
-    @NotNull(message = "not null status")
-    private Integer status;
+    @NotNull(message = "not null cash_type")
+    private Integer cash_type;
 }

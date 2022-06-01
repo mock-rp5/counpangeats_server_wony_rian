@@ -31,18 +31,15 @@ public class StoreController {
         this.jwtService = jwtService;
     }
 
-    /**
-     * 아무런 필터 적용 없는 디폴트 메인 홈 화면
-     * 위치 적용 필요
-     */
+
     @ResponseBody
     @GetMapping("/home")
-    public BaseResponse<GetStoreHomeRes> getHome() {
-        try {
-            return new BaseResponse<>(storeService.getStoreResList());
-        } catch (BaseException exception) {
-            return new BaseResponse<>((exception.getStatus()));
-        }
+    public BaseResponse<GetStoreHomeRes> getHome(@RequestParam(required = false, defaultValue = "N") String is_cheetah,
+                                                 @RequestParam(required = false, defaultValue = "100000") Integer delivery_fee,
+                                                 @RequestParam(required = false, defaultValue = "0") Integer minimum_fee,
+                                                 @RequestParam(required = false, defaultValue = "N") String is_Delivery) throws BaseException {
+        GetStoreHomeRes storeResList = storeService.getStoreResList(is_cheetah, delivery_fee, minimum_fee, is_Delivery);
+        return new BaseResponse<>(storeResList);
     }
     @ResponseBody
     @GetMapping("/{storeIdx}")

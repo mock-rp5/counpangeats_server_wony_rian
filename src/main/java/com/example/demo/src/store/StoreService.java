@@ -22,9 +22,9 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public GetStoreHomeRes getStoreResList() throws BaseException {
+    public GetStoreHomeRes getStoreResList(String is_cheetah, int start_delivery_fee, int minimum_price, String is_Delivery) throws BaseException {
         try {
-            GetStoreHomeRes getStoreResList = storeDao.getHome();
+            GetStoreHomeRes getStoreResList = storeDao.getHome(is_cheetah, start_delivery_fee, minimum_price, is_Delivery);
             return getStoreResList;
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());

@@ -1,20 +1,23 @@
 package com.example.demo.src.orders.model.Res;
 
 import com.example.demo.src.orders.model.CartMenu;
+import com.example.demo.src.orders.model.OrderMenuList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetCartRes {
-    private Integer store_id;
+public class GetUserOrder {
     private String store_name;
-    private String is_cheetah_delivery;
+    private Integer order_info_id;
+    private Timestamp created_at;
+    private Integer total_price;
+    private String detail_address;
     private Integer start_delivery_fee;
-    private Integer minimum_fee;
-    private List<CartMenu> cartMenu;
+    private List<OrderMenuList> cartMenuList;
 }

@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetail {
-    private Integer menu_count;
-    private Integer menu_id;
-    private Integer menu_option_id;
+public class CartPrice {
+    private int price;
 }
