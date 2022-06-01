@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.STORE_ID_EMPTY;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/stores")
@@ -31,13 +31,16 @@ public class StoreController {
         this.jwtService = jwtService;
     }
 
-
+    //홈 화면
     @ResponseBody
     @GetMapping("/home")
     public BaseResponse<GetStoreHomeRes> getHome(@RequestParam(required = false, defaultValue = "N") String is_cheetah,
                                                  @RequestParam(required = false, defaultValue = "100000") Integer delivery_fee,
                                                  @RequestParam(required = false, defaultValue = "0") Integer minimum_fee,
                                                  @RequestParam(required = false, defaultValue = "N") String is_Delivery) throws BaseException {
+        if(delivery_fee < 0 ){
+            throw new BaseException(GET_HOME_DELIVERY_FEE_FAIL);
+        }
         GetStoreHomeRes storeResList = storeService.getStoreResList(is_cheetah, delivery_fee, minimum_fee, is_Delivery);
         return new BaseResponse<>(storeResList);
     }
@@ -52,6 +55,8 @@ public class StoreController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    //매장 정보 조회
     @ResponseBody
     @GetMapping("/info/{storeIdx}")
     public BaseResponse<GetStoreInfoRes> getStoreInfo(@PathVariable("storeIdx") Integer storeIdx){
@@ -62,6 +67,7 @@ public class StoreController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     @ResponseBody
     @GetMapping("/{storeIdx}/{menuIdx}")
     public BaseResponse<GetMenuRes> getMenuInfo(@PathVariable("storeIdx") Integer storeIdx, @PathVariable("menuIdx") Integer menuIdx){
@@ -73,6 +79,7 @@ public class StoreController {
         }
     }
 
+    //리뷰 생성
     @ResponseBody
     @PostMapping("/reviews")
     public BaseResponse<String> createReview(@Valid @RequestBody PostReviewReq postReviewReq) throws BaseException {
@@ -85,6 +92,7 @@ public class StoreController {
         }
     }
 
+    //리뷰 수정
     @ResponseBody
     @PatchMapping("/reviews/{reviewIdx}")
     public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") Integer reviewIdx, @Valid @RequestBody PatchReviewReq patchReviewReq) throws BaseException {
@@ -97,10 +105,14 @@ public class StoreController {
         }
     }
 
+    //리뷰 삭제
     @ResponseBody
-    @PatchMapping("/reviews/status/{reviewIdx}")
+    @PatchMapping("/reviews/{reviewIdx}/status")
     public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") Integer reviewIdx) throws BaseException {
         try{
+            if(reviewIdx == null){
+                throw new BaseException(REVIEW_ID_EMPTY);
+            }
             int userIdx= jwtService.getUserIdx();
             storeService.deleteReview(userIdx, reviewIdx);
             return new BaseResponse<>("리뷰가 삭제되었습니다.");
@@ -109,6 +121,7 @@ public class StoreController {
         }
     }
 
+    //주문 내역에 따른 리뷰
     @ResponseBody
     @GetMapping("/reviews/orders/{orderIdx}")
     public BaseResponse<GetReviewOrderRes> getReviewOrder(@PathVariable("orderIdx") Integer orderIdx) throws BaseException {
@@ -135,11 +148,16 @@ public class StoreController {
         }
     }
 
+    //후기 도움 돼요/안돼요 생성
     @ResponseBody
     @PostMapping("/reviews/sign")
     public BaseResponse<String> createSign(@Valid @RequestBody PostHelpReq postHelpReq) throws BaseException {
         try {
             int userIdx= jwtService.getUserIdx();
+            int checkReviewId = storeService.existsReview(postHelpReq.getReview_id());
+            if(checkReviewId == 0){
+                throw new BaseException(NO_EXISTS_REVIEW_ID);
+            }
             storeService.createHelpSign(userIdx, postHelpReq);
             return new BaseResponse<>("리뷰 도움 유무가 반영되었습니다.");
         }catch (BaseException exception){
@@ -147,11 +165,16 @@ public class StoreController {
         }
     }
 
+    //후기 도움 돼요/안돼요 삭제
     @ResponseBody
     @PatchMapping("/reviews/sign/status")
     public BaseResponse<String> deleteSign(@Valid @RequestBody PatchHelpReq patchHelpReq) throws BaseException {
         try{
             int userIdx= jwtService.getUserIdx();
+            int checkReviewId = storeService.existsReview(patchHelpReq.getReview_id());
+            if(checkReviewId == 0){
+                throw new BaseException(NO_EXISTS_REVIEW_ID);
+            }
             storeService.deleteHelpSign(userIdx, patchHelpReq);
             return new BaseResponse<>("리뷰 도움 유무가 삭제되었습니다.");
         }catch (BaseException exception){

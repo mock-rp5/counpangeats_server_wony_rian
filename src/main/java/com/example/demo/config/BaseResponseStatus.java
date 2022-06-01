@@ -65,6 +65,12 @@ public enum BaseResponseStatus {
     // /stores
     STORE_ID_EMPTY(false, 2100, "가게 식별자를 입력해주세요."),
 
+    // /stores/reviews
+    REVIEW_ID_EMPTY(false, 2200, "리뷰 식별자를 입력해주세요."),
+
+    // /stores
+    GET_HOME_DELIVERY_FEE_FAIL(false, 2300, "배달비를 확인해 주세요"),
+
     /**
      * 3000 : Response 오류
      */
@@ -106,6 +112,11 @@ public enum BaseResponseStatus {
     ALREADY_GET_COUPON(false, 3301, "이미 가지고 있는 쿠폰입니다."),
     ALREADY_POST_CASH(false, 3302, "이미 현금영수증 번호가 있습니다."),
     NO_EXISTS_CASH(false, 3303, "현금영수증 번호가 존재하지 않습니다."),
+
+    // /stores/reviews
+    NO_EXISTS_REVIEW_ID(false, 3403, "리뷰가 존재하지 않습니다."),
+
+
 
     /**
      * 4000 : Database, Server 오류
@@ -156,7 +167,7 @@ public enum BaseResponseStatus {
     FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다."),
 
 
-    // /cart
+    // /carts
     FAIL_RESTART_CART(false, 4100, "카트 새로 담는 것에 실패하였습니다."),
     FAIL_CREATE_CART(false, 4101, "카트를 생성에 실패하였습니다."),
 
@@ -164,7 +175,13 @@ public enum BaseResponseStatus {
     FAIL_CREATE_CASH(false, 4200, "현금영수증 추가에 실패하였습니다."),
     FAIL_MODIFY_CASH(false, 4201, "현금영수증 수정에 실패하였습니다."),
     FAIL_DELETE_CASH(false, 4202, "현금영수증 삭제에 실패하였습니다."),
-    FAIL_CREATE_COUPON(false, 4203, "쿠폰 등록에 실패하였습니다.");
+    FAIL_CREATE_COUPON(false, 4203, "쿠폰 등록에 실패하였습니다."),
+
+    // /stores/reviews
+    FAIL_CREATE_REVIEW(false, 4300, "리뷰 등록에 실패하였습니다."),
+    FAIL_MODIFY_REVIEW(false, 4301, "리뷰 수정에 실패하였습니다."),
+    FAIL_DELETE_REVIEW(false, 4302, "리뷰 삭제에 실패하였습니다.");
+
 
 
     // 5000 : 필요시 만들어서 쓰세요

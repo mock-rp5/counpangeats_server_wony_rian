@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class StoreService {
@@ -63,9 +63,12 @@ public class StoreService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public int createReview(int userIdx, PostReviewReq postReviewReq) throws BaseException{
+    public void createReview(int userIdx, PostReviewReq postReviewReq) throws BaseException{
         try {
-            return storeDao.createReview(userIdx, postReviewReq);
+            int result = storeDao.createReview(userIdx, postReviewReq);
+            if(result == 0){
+                throw new BaseException(FAIL_CREATE_REVIEW);
+            }
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
@@ -92,10 +95,14 @@ public class StoreService {
         }
     }
 
+    //리뷰 수정
     @Transactional(rollbackFor = Exception.class)
-    public int modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException{
+    public void modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException{
         try {
-            return storeDao.modifyReview(userIdx, reviewIdx, patchReviewReq);
+            int result = storeDao.modifyReview(userIdx, reviewIdx, patchReviewReq);
+            if(result == 0){
+                throw new BaseException(FAIL_MODIFY_REVIEW);
+            }
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
@@ -103,9 +110,12 @@ public class StoreService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public int deleteReview(int userIdx, int reviewIdx) throws BaseException{
+    public void deleteReview(int userIdx, int reviewIdx) throws BaseException{
         try {
-            return storeDao.deleteReview(userIdx, reviewIdx);
+            int result = storeDao.deleteReview(userIdx, reviewIdx);
+            if(result == 0){
+                throw new BaseException(FAIL_DELETE_REVIEW);
+            }
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
@@ -126,6 +136,15 @@ public class StoreService {
     public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq) throws BaseException{
         try {
             return storeDao.deleteHelpSign(userIdx, patchHelpReq);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    @Transactional(readOnly = true)
+    public int existsReview(int reviewIdx) throws BaseException {
+        try {
+            return storeDao.existsReview(reviewIdx);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
