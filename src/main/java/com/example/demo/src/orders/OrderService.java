@@ -114,7 +114,7 @@ public class OrderService {
         }
     }
 
-    //회원의 주문내역 조회
+    //회원의 영수증 내역 조회
     @Transactional(readOnly = true)
     public List<GetUserOrder> getOrderListOne(int userIdx, int orderIdx, int storeIdx) throws BaseException {
         try {
@@ -125,6 +125,26 @@ public class OrderService {
         }
     }
 
+    //회원의 주문 내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getOrderList(int userIdx) throws BaseException {
+        try {
+            return orderDao.getUserOrderList(userIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    //회원의 배달 준비중 내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getOrderReadyList(int userIdx) throws BaseException {
+        try {
+            return orderDao.getUserReadyOrderList(userIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     @Transactional(rollbackFor = Exception.class)
     public void deleteCart(int cart_id, int user_id) throws BaseException {
         try {

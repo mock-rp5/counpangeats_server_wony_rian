@@ -178,16 +178,23 @@ public class OrderController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-//    //주문 조회 API
-//    @ResponseBody
-//    @GetMapping()
-//    public BaseResponse<String> getOrder() throws BaseException{
-//        int user_id= jwtService.getUserIdx();
-//
-//
-//        return new BaseResponse<>("주문이 완료되었습니다.");
-//    }
-//
+    //주문 목록 조회 API
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetUserOrder>> getOrder() throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+        return new BaseResponse<>(orderService.getOrderList(user_id));
+    }
+    //주문 준비중 목록 조회 API
+    @ResponseBody
+    @GetMapping("/ready")
+    public BaseResponse<List<GetUserOrder>> getReadyOrder() throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+        return new BaseResponse<>(orderService.getOrderReadyList(user_id));
+    }
+    //영수증 조회
     @ResponseBody
     @GetMapping("/results")
     public BaseResponse<List<GetUserOrder>> getUserOrder(@RequestParam int storeIdx,

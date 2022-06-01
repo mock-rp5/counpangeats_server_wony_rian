@@ -1,7 +1,6 @@
 package com.example.demo.src.orders;
 
 import com.example.demo.src.orders.model.CartMenu;
-import com.example.demo.src.orders.model.CartPrice;
 import com.example.demo.src.orders.model.OrderMenuList;
 import com.example.demo.src.orders.model.Res.GetCartRes;
 import com.example.demo.src.orders.model.OrderDetail;
@@ -10,8 +9,6 @@ import com.example.demo.src.orders.model.Req.PostCartReq;
 import com.example.demo.src.orders.model.Req.PostOrderReq;
 import com.example.demo.src.orders.model.Res.GetUserOrder;
 import com.example.demo.src.orders.model.Res.PostOrderRes;
-import com.example.demo.src.store.model.OrderMenu;
-import com.example.demo.src.user.model.Res.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -171,7 +168,7 @@ public class OrderDao {
         }
         return 1;
     }
-
+    //영수증
     public List<GetUserOrder> getUserOrder(int user_id, int orderIdx, int storeIdx){
         String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
                 "from Order_Info OI\n" +
@@ -209,6 +206,81 @@ public class OrderDao {
                 ), user_id, orderIdx, storeIdx);
     }
 
+    // 회원의 주문 목록 조회
+    public List<GetUserOrder> getUserOrderList(int user_id){
+        String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
+                "from Order_Info OI\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = OI.store_id\n" +
+                "inner join Address A\n" +
+                "on A.address_id = OI.address_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = OI.store_id\n" +
+                "where OI.user_id = ? and OI.delivery_status = 'Y' \n";
+        String getMenuQuery = "select M.menu_name, MO.option_name, OD.menu_count, M.menu_price, MO.option_price \n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ?";
+        return this.jdbcTemplate.query(getStoreQuery,
+                (rs, rowNum) -> new GetUserOrder(
+                        rs.getString("store_name"),
+                        rs.getInt("order_info_id"),
+                        rs.getTimestamp("created_at"),
+                        rs.getInt("total_price"),
+                        rs.getString("detail_address"),
+                        rs.getInt("start_delivery_fee"),
+                        this.jdbcTemplate.query(getMenuQuery,
+                                (rs1, rowNum1) -> new OrderMenuList(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("menu_count"),
+                                        rs1.getInt("menu_price"),
+                                        rs1.getInt("option_price")
+                                ), rs.getInt("order_info_id")
+                        )
+                ), user_id);
+    }
+
+    // 회원의 주문 목록 조회
+    public List<GetUserOrder> getUserReadyOrderList(int user_id){
+        String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
+                "from Order_Info OI\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = OI.store_id\n" +
+                "inner join Address A\n" +
+                "on A.address_id = OI.address_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = OI.store_id\n" +
+                "where OI.user_id = ? and OI.delivery_status = 'N' \n";
+        String getMenuQuery = "select M.menu_name, MO.option_name, OD.menu_count, M.menu_price, MO.option_price \n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ?";
+        return this.jdbcTemplate.query(getStoreQuery,
+                (rs, rowNum) -> new GetUserOrder(
+                        rs.getString("store_name"),
+                        rs.getInt("order_info_id"),
+                        rs.getTimestamp("created_at"),
+                        rs.getInt("total_price"),
+                        rs.getString("detail_address"),
+                        rs.getInt("start_delivery_fee"),
+                        this.jdbcTemplate.query(getMenuQuery,
+                                (rs1, rowNum1) -> new OrderMenuList(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("menu_count"),
+                                        rs1.getInt("menu_price"),
+                                        rs1.getInt("option_price")
+                                ), rs.getInt("order_info_id")
+                        )
+                ), user_id);
+    }
     //카트에 담긴 가게 확인
     public int checkCartStore(int user_id) {
         String checkQuery = "select exists(select * from Cart where user_id = ? and status = \"Y\")";
