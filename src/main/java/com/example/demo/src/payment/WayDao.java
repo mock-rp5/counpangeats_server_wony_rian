@@ -2,6 +2,7 @@ package com.example.demo.src.payment;
 
 import com.example.demo.src.payment.Model.Payments;
 import com.example.demo.src.payment.Model.Req.PostCashReq;
+import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
 import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,30 @@ public class WayDao {
     public int deleteCash(int user_id){
         String Query = "UPDATE Cash SET status = 'N' WHERE user_id=?";
         return this.jdbcTemplate.update(Query, user_id);
+    }
+
+    //쿠폰 생성
+    public int createCoupon(int user_id, PostCouponReq postCouponReq){
+        String couponIdQuery = "select coupon_id from Coupon where coupon_description = ?";
+        Integer coupon_id = this.jdbcTemplate.queryForObject(couponIdQuery, int.class, postCouponReq.getCoupon_description());
+
+        String createCouponQuery = "insert into Coupon_User (coupon_id, user_id) VALUES (?,?)";
+        return this.jdbcTemplate.update(createCouponQuery, coupon_id, user_id);
+    }
+
+    //쿠폰 확인
+    public int checkCoupon(String coupon_description){
+        String Query = "select exists(select * from Coupon where coupon_description = ?)";
+        return this.jdbcTemplate.queryForObject(Query, int.class, coupon_description);
+    }
+
+    //쿠폰 유저한테 확인
+    public int checkMeCoupon(int user_id, String coupon_description){
+        String couponIdQuery = "select coupon_id from Coupon where coupon_description = ?";
+        Integer coupon_id = this.jdbcTemplate.queryForObject(couponIdQuery, int.class, coupon_description);
+
+        String Query = "select exists(select coupon_user_id from Coupon_User where coupon_id = ? and user_id = ?)";
+        return this.jdbcTemplate.queryForObject(Query, int.class, coupon_id, user_id);
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.demo.src.payment;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.payment.Model.Req.PostCashReq;
+import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
 import com.example.demo.src.payment.Model.Res.GetPaymentRes;
 import com.example.demo.utils.JwtService;
@@ -98,6 +99,33 @@ public class WayController {
             int userIdx= jwtService.getUserIdx();
             wayService.deleteCash(userIdx);
             return new BaseResponse<>("현금영수증이 삭제되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/coupons")
+    public BaseResponse<String> createCoupon(@Valid @RequestBody PostCouponReq postCouponReq) throws BaseException {
+        try {
+            int userIdx= jwtService.getUserIdx();
+
+            // 쿠폰 번호 확인
+            int numCheck = wayService.checkCoupon(postCouponReq.getCoupon_description());
+            if(numCheck == 0){
+                throw new BaseException(NO_EXISTS_COUPON);
+            }
+
+            //유저에게 쿠폰 유무 확인
+            int existsCheck = wayService.checkMeCoupon(userIdx, postCouponReq.getCoupon_description());
+            System.out.println("existsCheck = " + existsCheck);
+            if(existsCheck == 1){
+                throw new BaseException(ALREADY_GET_COUPON);
+            }
+
+            //쿠폰 만들기
+            wayService.createCoupon(userIdx, postCouponReq);
+            return new BaseResponse<>("쿠폰이 등록되었습니다.");
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
