@@ -186,3 +186,11 @@ com/example/demo/src/orders/OrderController.java
  com.example.demo.src.orders.OrderController
 com/example/demo/src/orders/OrderService.java
  com.example.demo.src.orders.OrderService
+com/example/demo/src/etc/Model/Res/GetEventRes.java
+ com.example.demo.src.etc.Model.Res.GetEventRes
+com/example/demo/src/etc/EtcService.java
+ com.example.demo.src.etc.EtcService
+com/example/demo/src/etc/EtcController.java
+ com.example.demo.src.etc.EtcController
+com/example/demo/src/etc/EtcDao.java
+ com.example.demo.src.etc.EtcDao
