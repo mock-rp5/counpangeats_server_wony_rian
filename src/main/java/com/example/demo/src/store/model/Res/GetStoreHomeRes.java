@@ -1,5 +1,6 @@
 package com.example.demo.src.store.model.Res;
 
+import com.example.demo.src.store.model.Ad;
 import com.example.demo.src.store.model.StoreCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class GetStoreHomeRes {
+    private List<Ad> adList;
     private List<StoreCategory> categoryList;
     private List<GetStoreRes> storeResList;
 }

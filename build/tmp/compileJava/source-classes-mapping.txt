@@ -2,8 +2,8 @@ com/example/demo/src/user/model/Res/GetBookmarkRes.java
  com.example.demo.src.user.model.Res.GetBookmarkRes
 com/example/demo/src/store/model/Req/PostHelpReq.java
  com.example.demo.src.store.model.Req.PostHelpReq
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
+com/example/demo/src/payment/WayDao.java
+ com.example.demo.src.payment.WayDao
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/payment/Model/Res/GetCouponRes.java
@@ -106,8 +106,8 @@ com/example/demo/src/category/model/Category.java
  com.example.demo.src.category.model.Category
 com/example/demo/src/user/model/Address.java
  com.example.demo.src.user.model.Address
-com/example/demo/src/store/model/Res/GetStoreHomeRes.java
- com.example.demo.src.store.model.Res.GetStoreHomeRes
+com/example/demo/src/payment/WayController.java
+ com.example.demo.src.payment.WayController
 com/example/demo/src/category/model/Res/GetCategoryDetailRes.java
  com.example.demo.src.category.model.Res.GetCategoryDetailRes
 com/example/demo/src/category/model/PopularSearch.java
@@ -158,14 +158,14 @@ com/example/demo/src/category/CategoryService.java
  com.example.demo.src.category.CategoryService
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
-com/example/demo/src/store/StoreController.java
- com.example.demo.src.store.StoreController
+com/example/demo/src/payment/WayService.java
+ com.example.demo.src.payment.WayService
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
-com/example/demo/src/store/StoreService.java
- com.example.demo.src.store.StoreService
+com/example/demo/src/payment/Model/Req/CashReq.java
+ com.example.demo.src.payment.Model.Req.CashReq
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
 com/example/demo/src/orders/OrderController.java
@@ -174,11 +174,13 @@ com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
-com/example/demo/src/payment/Model/Req/CashReq.java
- com.example.demo.src.payment.Model.Req.CashReq
-com/example/demo/src/payment/WayService.java
- com.example.demo.src.payment.WayService
-com/example/demo/src/payment/WayDao.java
- com.example.demo.src.payment.WayDao
-com/example/demo/src/payment/WayController.java
- com.example.demo.src.payment.WayController
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/store/model/Ad.java
+ com.example.demo.src.store.model.Ad
+com/example/demo/src/store/model/Res/GetStoreHomeRes.java
+ com.example.demo.src.store.model.Res.GetStoreHomeRes
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
