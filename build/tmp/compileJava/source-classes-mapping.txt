@@ -68,8 +68,8 @@ com/example/demo/src/orders/model/Req/DeleteCartReq.java
  com.example.demo.src.orders.model.Req.DeleteCartReq
 com/example/demo/src/store/model/Res/GetStoreRes.java
  com.example.demo.src.store.model.Res.GetStoreRes
-com/example/demo/src/user/model/Ad.java
- com.example.demo.src.user.model.Ad
+com/example/demo/src/kakao/KakaoUserInfo.java
+ com.example.demo.src.kakao.KakaoUserInfo
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
 com/example/demo/src/user/model/Req/PatchAddressReq.java
@@ -164,17 +164,17 @@ com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
+com/example/demo/src/user/model/Ad.java
+ com.example.demo.src.user.model.Ad
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
-com/example/demo/src/kakao/KakaoUserInfo.java
- com.example.demo.src.kakao.KakaoUserInfo
-com/example/demo/src/user/UserController.java
- com.example.demo.src.user.UserController
-com/example/demo/src/user/UserProvider.java
- com.example.demo.src.user.UserProvider
 com/example/demo/src/kakao/KakaoAPI.java
  com.example.demo.src.kakao.KakaoAPI
 com/example/demo/src/kakao/KakaoController.java
  com.example.demo.src.kakao.KakaoController
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
