@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.utils.ValidationRegex.isRegexCoupon;
 
 
 @RestController
@@ -120,6 +121,11 @@ public class WayController {
     public BaseResponse<String> deleteCash() throws BaseException{
         try {
             int userIdx= jwtService.getUserIdx();
+            int check = wayService.checkCash(userIdx);
+
+            if(check == 0){
+                return new BaseResponse<>(NO_EXISTS_CASH);
+            }
             wayService.deleteCash(userIdx);
             return new BaseResponse<>("현금영수증이 삭제되었습니다.");
         } catch (BaseException exception) {
@@ -133,6 +139,9 @@ public class WayController {
         try {
             int userIdx= jwtService.getUserIdx();
 
+            if(!isRegexCoupon(postCouponReq.getCoupon_description())){
+                return new BaseResponse<>(POST_COUPON_INVALID_NUMBER);
+            }
             // 쿠폰 번호 확인
             int numCheck = wayService.checkCoupon(postCouponReq.getCoupon_description());
             if(numCheck == 0){
@@ -141,7 +150,6 @@ public class WayController {
 
             //유저에게 쿠폰 유무 확인
             int existsCheck = wayService.checkMeCoupon(userIdx, postCouponReq.getCoupon_description());
-            System.out.println("existsCheck = " + existsCheck);
             if(existsCheck == 1){
                 throw new BaseException(ALREADY_GET_COUPON);
             }

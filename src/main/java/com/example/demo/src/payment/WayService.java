@@ -51,9 +51,12 @@ public class WayService {
 
     //현금영수증 생성
     @Transactional(rollbackFor = Exception.class)
-    public int postCash(int user_id, CashReq cashReq) throws BaseException {
+    public void postCash(int user_id, CashReq cashReq) throws BaseException {
         try {
-            return wayDao.postCash(user_id, cashReq);
+            int result = wayDao.postCash(user_id, cashReq);
+            if(result == 0){
+                throw new BaseException(FAIL_CREATE_CASH);
+            }
         }catch (Exception e){
             System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
@@ -62,9 +65,12 @@ public class WayService {
 
     //현금영수증 수정
     @Transactional(rollbackFor = Exception.class)
-    public int patchCash(int user_id, CashReq cashReq) throws BaseException {
+    public void patchCash(int user_id, CashReq cashReq) throws BaseException {
         try {
-            return wayDao.patchCash(user_id, cashReq);
+            int result = wayDao.patchCash(user_id, cashReq);
+            if(result == 0){
+                throw new BaseException(FAIL_MODIFY_CASH);
+            }
         }catch (Exception e){
             System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
@@ -72,9 +78,12 @@ public class WayService {
     }
     //현금 영수증 삭제
     @Transactional(rollbackFor = Exception.class)
-    public int deleteCash(int user_id) throws BaseException {
+    public void deleteCash(int user_id) throws BaseException {
         try {
-            return wayDao.deleteCash(user_id);
+            int result = wayDao.deleteCash(user_id);
+            if(result == 0){
+                throw new BaseException(FAIL_MODIFY_CASH);
+            }
         }catch (Exception e){
             System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
@@ -83,11 +92,13 @@ public class WayService {
 
     //쿠폰 생성
     @Transactional(rollbackFor = Exception.class)
-    public int createCoupon(int user_id, PostCouponReq postCouponReq) throws BaseException {
+    public void createCoupon(int user_id, PostCouponReq postCouponReq) throws BaseException {
         try {
-            return wayDao.createCoupon(user_id, postCouponReq);
+            int result = wayDao.createCoupon(user_id, postCouponReq);
+            if(result == 0){
+                throw new BaseException(FAIL_CREATE_COUPON);
+            }
         }catch (Exception e){
-            System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -98,7 +109,6 @@ public class WayService {
         try {
             return wayDao.getCoupon(user_id);
         }catch (Exception e){
-            System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }

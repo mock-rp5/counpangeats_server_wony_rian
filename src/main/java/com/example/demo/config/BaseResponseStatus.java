@@ -60,6 +60,7 @@ public enum BaseResponseStatus {
     PAYMENT_NUMBER_EMPTY(false, 2071, "계좌 또는 카드 번호를 입력해주세요."),
     PAYMENT_TYPE_EMPTY(false, 2072, "결제 방식 종류를 입력해주세요."),
     PAYMENT_ID_EMPTY(false, 2073, "결제 방식 식별자를 입력해주세요."),
+    POST_COUPON_INVALID_NUMBER(false, 2074, "쿠폰 형식을 확인해주세요."),
 
     // /stores
     STORE_ID_EMPTY(false, 2100, "가게 식별자를 입력해주세요."),
@@ -157,8 +158,13 @@ public enum BaseResponseStatus {
 
     // /cart
     FAIL_RESTART_CART(false, 4100, "카트 새로 담는 것에 실패하였습니다."),
-    FAIL_CREATE_CART(false, 4101, "카트를 생성에 실패하였습니다.");
+    FAIL_CREATE_CART(false, 4101, "카트를 생성에 실패하였습니다."),
 
+    // /payments
+    FAIL_CREATE_CASH(false, 4200, "현금영수증 추가에 실패하였습니다."),
+    FAIL_MODIFY_CASH(false, 4201, "현금영수증 수정에 실패하였습니다."),
+    FAIL_DELETE_CASH(false, 4202, "현금영수증 삭제에 실패하였습니다."),
+    FAIL_CREATE_COUPON(false, 4203, "쿠폰 등록에 실패하였습니다.");
 
 
     // 5000 : 필요시 만들어서 쓰세요

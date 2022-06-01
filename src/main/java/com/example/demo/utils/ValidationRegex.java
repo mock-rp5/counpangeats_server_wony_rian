@@ -16,5 +16,11 @@ public class ValidationRegex {
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
+    public static boolean isRegexCoupon(String target) {
+        String regex = "[0-9]{8,16}";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(target);
+        return matcher.find();
+    }
 }
 
