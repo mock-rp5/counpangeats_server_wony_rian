@@ -148,7 +148,8 @@ public enum BaseResponseStatus {
     FAIL_DELETE_SEARCH_ONE(false, 4050, "해당 검색어 삭제에 실패하였습니다."),
 
     //[PATCH] /category/search
-    FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다.");
+    FAIL_DELETE_SEARCH_ALL(false, 4051, "검색어 전체 삭제에 실패하였습니다."),
+    FAIL_SEND_MESSAGE(false,4055,"문자 메세지 전송에 실패하였습니다.");
 
 
 
