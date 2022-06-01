@@ -1,8 +1,7 @@
 package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.config.BaseResponse;
-import com.example.demo.src.payment.Model.Req.PostCashReq;
+import com.example.demo.src.payment.Model.Req.CashReq;
 import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
 import com.example.demo.src.payment.Model.Res.GetCouponRes;
@@ -50,16 +49,27 @@ public class WayService {
         }
     }
 
+    //현금영수증 생성
     @Transactional(rollbackFor = Exception.class)
-    public int postCash(int user_id, PostCashReq postCashReq) throws BaseException {
+    public int postCash(int user_id, CashReq cashReq) throws BaseException {
         try {
-            return wayDao.patchCash(user_id, postCashReq);
+            return wayDao.postCash(user_id, cashReq);
         }catch (Exception e){
             System.out.println("e.getMessage() = " + e.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
+    //현금영수증 수정
+    @Transactional(rollbackFor = Exception.class)
+    public int patchCash(int user_id, CashReq cashReq) throws BaseException {
+        try {
+            return wayDao.patchCash(user_id, cashReq);
+        }catch (Exception e){
+            System.out.println("e.getMessage() = " + e.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     //현금 영수증 삭제
     @Transactional(rollbackFor = Exception.class)
     public int deleteCash(int user_id) throws BaseException {
@@ -92,6 +102,17 @@ public class WayService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    //현금 영수증 확인
+    public int checkCash(int user_id) throws BaseException {
+        try {
+            return wayDao.checkCash(user_id);
+        }catch (Exception e){
+            System.out.println("e.getMessage() = " + e.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     //쿠폰 번호 확인
     public int checkCoupon(String coupon_description) throws BaseException {
         try {

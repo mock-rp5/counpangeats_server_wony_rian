@@ -2,7 +2,7 @@ package com.example.demo.src.payment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.payment.Model.Req.PostCashReq;
+import com.example.demo.src.payment.Model.Req.CashReq;
 import com.example.demo.src.payment.Model.Req.PostCouponReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
 import com.example.demo.src.payment.Model.Res.GetCouponRes;
@@ -80,14 +80,36 @@ public class WayController {
         }
     }
 
+    // 현금영수증 생성
     @ResponseBody
-    @PatchMapping("/cash-receipt")
-    public BaseResponse<String> postCash(@Valid @RequestBody PostCashReq postCashReq) throws BaseException{
+    @PostMapping("/cash-receipt")
+    public BaseResponse<String> postCash(@Valid @RequestBody CashReq cashReq) throws BaseException{
         try {
             int userIdx= jwtService.getUserIdx();
-            System.out.println("userIdx = " + userIdx);
-            wayService.postCash(userIdx, postCashReq);
-            return new BaseResponse<>("현금영수증 생성 or 수정이 완료되었습니다.");
+            int check = wayService.checkCash(userIdx);
+            if(check == 1){
+                return new BaseResponse<>(ALREADY_POST_CASH);
+            }
+            wayService.postCash(userIdx, cashReq);
+            return new BaseResponse<>("현금영수증 생성이 완료되었습니다.");
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //현금영수증 수정
+    @ResponseBody
+    @PatchMapping("/cash-receipt")
+    public BaseResponse<String> patchCash(@Valid @RequestBody CashReq cashReq) throws BaseException{
+        try {
+            int userIdx= jwtService.getUserIdx();
+            int check = wayService.checkCash(userIdx);
+
+            if(check == 0){
+                return new BaseResponse<>(NO_EXISTS_CASH);
+            }
+            wayService.patchCash(userIdx, cashReq);
+            return new BaseResponse<>("현금영수증 수정이 완료되었습니다.");
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -132,7 +154,7 @@ public class WayController {
         }
     }
 
-    //결제 수단 조회
+    //쿠폰 조회
     @ResponseBody
     @GetMapping("/coupons")
     public BaseResponse<List<GetCouponRes>> getCoupon() throws BaseException {

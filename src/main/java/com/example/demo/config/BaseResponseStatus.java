@@ -103,6 +103,8 @@ public enum BaseResponseStatus {
     // /payments
     NO_EXISTS_COUPON(false, 3300, "없는 쿠폰 번호입니다."),
     ALREADY_GET_COUPON(false, 3301, "이미 가지고 있는 쿠폰입니다."),
+    ALREADY_POST_CASH(false, 3302, "이미 현금영수증 번호가 있습니다."),
+    NO_EXISTS_CASH(false, 3303, "현금영수증 번호가 존재하지 않습니다."),
 
     /**
      * 4000 : Database, Server 오류
