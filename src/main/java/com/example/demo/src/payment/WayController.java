@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.payment.Model.Req.CashReq;
 import com.example.demo.src.payment.Model.Req.PostCouponReq;
+import com.example.demo.src.payment.Model.Req.PostCouponStoreReq;
 import com.example.demo.src.payment.Model.Req.PostPaymentReq;
 import com.example.demo.src.payment.Model.Res.GetCouponRes;
 import com.example.demo.src.payment.Model.Res.GetPaymentRes;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.utils.ValidationRegex.isRegexCoupon;
 
 
 @RestController
@@ -120,6 +122,11 @@ public class WayController {
     public BaseResponse<String> deleteCash() throws BaseException{
         try {
             int userIdx= jwtService.getUserIdx();
+            int check = wayService.checkCash(userIdx);
+
+            if(check == 0){
+                return new BaseResponse<>(NO_EXISTS_CASH);
+            }
             wayService.deleteCash(userIdx);
             return new BaseResponse<>("현금영수증이 삭제되었습니다.");
         } catch (BaseException exception) {
@@ -133,6 +140,9 @@ public class WayController {
         try {
             int userIdx= jwtService.getUserIdx();
 
+            if(!isRegexCoupon(postCouponReq.getCoupon_description())){
+                return new BaseResponse<>(POST_COUPON_INVALID_NUMBER);
+            }
             // 쿠폰 번호 확인
             int numCheck = wayService.checkCoupon(postCouponReq.getCoupon_description());
             if(numCheck == 0){
@@ -141,7 +151,6 @@ public class WayController {
 
             //유저에게 쿠폰 유무 확인
             int existsCheck = wayService.checkMeCoupon(userIdx, postCouponReq.getCoupon_description());
-            System.out.println("existsCheck = " + existsCheck);
             if(existsCheck == 1){
                 throw new BaseException(ALREADY_GET_COUPON);
             }
@@ -153,6 +162,32 @@ public class WayController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+//    @ResponseBody
+//    @PostMapping("/coupons/stores")
+//    public BaseResponse<String> createCouponStore(@Valid @RequestBody PostCouponStoreReq postCouponReq) throws BaseException {
+//        try {
+//            int userIdx= jwtService.getUserIdx();
+//
+//            // 쿠폰 번호 확인
+//            int numCheck = wayService.checkCouponId(postCouponReq.getCouponIdx());
+//            if(numCheck == 0){
+//                throw new BaseException(NO_EXISTS_COUPON);
+//            }
+//
+//            //유저에게 쿠폰 유무 확인
+//            int existsCheck = wayService.checkMeCoupon(userIdx, postCouponReq);
+//            if(existsCheck == 1){
+//                throw new BaseException(ALREADY_GET_COUPON);
+//            }
+//
+//            //쿠폰 만들기
+//            wayService.createCoupon(userIdx, postCouponReq);
+//            return new BaseResponse<>("쿠폰이 등록되었습니다.");
+//        } catch (BaseException exception) {
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
 
     //쿠폰 조회
     @ResponseBody

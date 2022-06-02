@@ -36,9 +36,20 @@ public class EtcService {
         }
     }
 
+    // 공지 사항 조회
     public List<GetNoticeRes> getNoticeRes() throws BaseException{
         try {
             return etcDao.getNoticeRes();
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 공지 사항 목록 조회
+    public List<List<GetNoticeRes>> getNoticeResList() throws BaseException{
+        try {
+            return etcDao.getNoticeResList();
         } catch (Exception exception) {
             System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);

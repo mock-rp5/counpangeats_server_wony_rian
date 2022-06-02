@@ -41,17 +41,31 @@ public class WayDao {
 
     //결제 방식 조회
     public List<GetPaymentRes> getPayment(int user_id) {
-        String checkQuery = "select CASE WHEN status = 'Y' THEN cash_number else 0 END as cash_number\n" +
-                "from Cash \n" +
-                "where user_id = ?";
+        String checkQuery = "select exists(select cash_number from Cash  where user_id = ? and status = 'Y');";
+
+        int checkCash = this.jdbcTemplate.queryForObject(checkQuery, int.class, user_id);
+        String cash_number = null;
+        if(checkCash == 1){
+            String cashQuery = "select cash_number from Cash where user_id = ? and status = 'Y';";
+            cash_number = this.jdbcTemplate.queryForObject(cashQuery, String.class, user_id);
+        }
 
         String getPaymentQuery = "select payment_method_id, payment_name, payment_number, payment_type \n" +
         "from Payment_Method \n" +
         "where user_id = ? and status = 'Y';";
 
+        List<Payments> query = this.jdbcTemplate.query(getPaymentQuery,
+                (rs1, rowNum1) -> new Payments(
+                        rs1.getInt("payment_method_id"),
+                        rs1.getString("payment_name"),
+                        rs1.getString("payment_number"),
+                        rs1.getString("payment_type")
+                ), user_id);
+
+        String finalCash_number = cash_number;
         return this.jdbcTemplate.query(checkQuery,
                 (rs, rowNum) -> new GetPaymentRes(
-                    rs.getString("cash_number"),
+                        finalCash_number,
                     this.jdbcTemplate.query(getPaymentQuery,
                             (rs1, rowNum1)-> new Payments(
                                     rs1.getInt("payment_method_id"),
@@ -122,6 +136,11 @@ public class WayDao {
         return this.jdbcTemplate.queryForObject(Query, int.class, coupon_description);
     }
 
+    //쿠폰 식별자 확인
+    public int checkCouponStore(int coupon_id){
+        String Query = "select exists(select * from Coupon where coupon_id = ?)";
+        return this.jdbcTemplate.queryForObject(Query, int.class, coupon_id);
+    }
     //쿠폰 유저한테 확인
     public int checkMeCoupon(int user_id, String coupon_description){
         String couponIdQuery = "select coupon_id from Coupon where coupon_description = ?";

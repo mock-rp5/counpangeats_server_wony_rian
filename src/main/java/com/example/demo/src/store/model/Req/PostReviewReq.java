@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,5 +19,6 @@ public class PostReviewReq {
     private String review_content;
     private String review_image_url;
 
+    private Map<Integer, Integer> is_menu_good;
     private Integer is_delivery_good;
 }

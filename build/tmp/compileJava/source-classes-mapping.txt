@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 com/example/demo/src/user/model/Req/PostUserReq.java
  com.example.demo.src.user.model.Req.PostUserReq
+=======
+com/example/demo/src/category/CategoryController.java
+ com.example.demo.src.category.CategoryController
+>>>>>>> main
 com/example/demo/src/store/model/Req/PostHelpReq.java
  com.example.demo.src.store.model.Req.PostHelpReq
 com/example/demo/src/user/model/Res/GetAddressRes.java
@@ -8,10 +13,10 @@ com/example/demo/src/category/model/Res/GetCategoryDetailRes.java
  com.example.demo.src.category.model.Res.GetCategoryDetailRes
 com/example/demo/src/kakao/KakaoAPI.java
  com.example.demo.src.kakao.KakaoAPI
-com/example/demo/src/store/model/OrderMenu.java
- com.example.demo.src.store.model.OrderMenu
 com/example/demo/src/store/model/MenuCategory.java
  com.example.demo.src.store.model.MenuCategory
+com/example/demo/src/store/model/OrderMenu.java
+ com.example.demo.src.store.model.OrderMenu
 com/example/demo/src/user/model/Res/PostSmsRes.java
  com.example.demo.src.user.model.Res.PostSmsRes
 com/example/demo/src/user/model/ReviewSimple.java
@@ -22,20 +27,32 @@ com/example/demo/src/payment/Model/Res/GetCouponRes.java
  com.example.demo.src.payment.Model.Res.GetCouponRes
 com/example/demo/src/store/model/Res/GetReviewStoreRes.java
  com.example.demo.src.store.model.Res.GetReviewStoreRes
+<<<<<<< HEAD
 com/example/demo/src/category/model/Res/GetSearchRes.java
  com.example.demo.src.category.model.Res.GetSearchRes
+=======
+com/example/demo/src/user/model/Res/GetUserEmailRes.java
+ com.example.demo.src.user.model.Res.GetUserEmailRes
+>>>>>>> main
 com/example/demo/src/store/model/Res/GetStoreInfoRes.java
  com.example.demo.src.store.model.Res.GetStoreInfoRes
 com/example/demo/src/kakao/PostKakaoLoginReq.java
  com.example.demo.src.kakao.PostKakaoLoginReq
-com/example/demo/src/user/model/Res/PostUserRes.java
- com.example.demo.src.user.model.Res.PostUserRes
 com/example/demo/src/orders/model/Req/PostOrderReq.java
  com.example.demo.src.orders.model.Req.PostOrderReq
+<<<<<<< HEAD
 com/example/demo/src/store/model/Req/PostReviewReq.java
  com.example.demo.src.store.model.Req.PostReviewReq
+=======
+com/example/demo/src/user/model/Res/PostUserRes.java
+ com.example.demo.src.user.model.Res.PostUserRes
+com/example/demo/config/BaseResponseStatus.java
+ com.example.demo.config.BaseResponseStatus
+>>>>>>> main
 com/example/demo/src/orders/model/Res/PostOrderRes.java
  com.example.demo.src.orders.model.Res.PostOrderRes
+com/example/demo/src/push/RequestDto.java
+ com.example.demo.src.push.RequestDto
 com/example/demo/src/store/model/Req/PatchReviewReq.java
  com.example.demo.src.store.model.Req.PatchReviewReq
 com/example/demo/src/store/model/Res/GetStoreHomeRes.java
@@ -46,12 +63,24 @@ com/example/demo/src/store/model/Res/GetReviewOrderRes.java
  com.example.demo.src.store.model.Res.GetReviewOrderRes
 com/example/demo/src/payment/WayDao.java
  com.example.demo.src.payment.WayDao
-com/example/demo/src/payment/Model/Payments.java
- com.example.demo.src.payment.Model.Payments
+com/example/demo/src/push/FcmMessage.java
+ com.example.demo.src.push.FcmMessage
+ com.example.demo.src.push.FcmMessage$FcmMessageBuilder
+ com.example.demo.src.push.FcmMessage$Message
+ com.example.demo.src.push.FcmMessage$Message$MessageBuilder
+ com.example.demo.src.push.FcmMessage$Notification
+ com.example.demo.src.push.FcmMessage$Notification$NotificationBuilder
 com/example/demo/src/etc/Model/Res/GetNoticeRes.java
  com.example.demo.src.etc.Model.Res.GetNoticeRes
+<<<<<<< HEAD
 com/example/demo/src/category/model/CategorySimple.java
  com.example.demo.src.category.model.CategorySimple
+=======
+com/example/demo/src/payment/Model/Payments.java
+ com.example.demo.src.payment.Model.Payments
+com/example/demo/src/etc/EtcController.java
+ com.example.demo.src.etc.EtcController
+>>>>>>> main
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
 com/example/demo/src/orders/model/OrderDetail.java
@@ -64,6 +93,8 @@ com/example/demo/src/category/CategoryDao.java
  com.example.demo.src.category.CategoryDao
 com/example/demo/src/user/model/Res/GetUserPasswordRes.java
  com.example.demo.src.user.model.Res.GetUserPasswordRes
+com/example/demo/src/push/FcmController.java
+ com.example.demo.src.push.FcmController
 com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/src/user/model/Address.java
@@ -88,24 +119,38 @@ com/example/demo/src/user/model/Res/PostAddressRes.java
  com.example.demo.src.user.model.Res.PostAddressRes
 com/example/demo/src/store/model/Res/GetMenuRes.java
  com.example.demo.src.store.model.Res.GetMenuRes
-com/example/demo/src/etc/EtcDao.java
- com.example.demo.src.etc.EtcDao
+com/example/demo/src/orders/model/CartMenu.java
+ com.example.demo.src.orders.model.CartMenu
 com/example/demo/src/user/model/Res/PostLoginRes.java
  com.example.demo.src.user.model.Res.PostLoginRes
+<<<<<<< HEAD
 com/example/demo/src/payment/Model/Req/CashReq.java
  com.example.demo.src.payment.Model.Req.CashReq
 com/example/demo/src/payment/Model/Res/GetPaymentRes.java
  com.example.demo.src.payment.Model.Res.GetPaymentRes
 com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
+=======
+com/example/demo/src/kakao/KakaoController.java
+ com.example.demo.src.kakao.KakaoController
+com/example/demo/src/payment/Model/Req/CashReq.java
+ com.example.demo.src.payment.Model.Req.CashReq
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+>>>>>>> main
 com/example/demo/src/orders/model/Res/GetUserOrder.java
  com.example.demo.src.orders.model.Res.GetUserOrder
 com/example/demo/src/payment/Model/Req/PostPaymentReq.java
  com.example.demo.src.payment.Model.Req.PostPaymentReq
 com/example/demo/src/store/model/Res/GetStoreOneRes.java
  com.example.demo.src.store.model.Res.GetStoreOneRes
+<<<<<<< HEAD
 com/example/demo/src/category/model/Req/PostSearchReq.java
  com.example.demo.src.category.model.Req.PostSearchReq
+=======
+com/example/demo/src/etc/EtcService.java
+ com.example.demo.src.etc.EtcService
+>>>>>>> main
 com/example/demo/src/etc/Model/Res/GetQuestionRes.java
  com.example.demo.src.etc.Model.Res.GetQuestionRes
 com/example/demo/src/category/model/Search.java
@@ -126,8 +171,8 @@ com/example/demo/src/store/model/StoreCategory.java
  com.example.demo.src.store.model.StoreCategory
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
+com/example/demo/src/etc/EtcDao.java
+ com.example.demo.src.etc.EtcDao
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/orders/model/CartPrice.java
@@ -146,14 +191,23 @@ com/example/demo/src/store/model/StoreGetReview.java
  com.example.demo.src.store.model.StoreGetReview
 com/example/demo/src/store/model/Req/PatchHelpReq.java
  com.example.demo.src.store.model.Req.PatchHelpReq
-com/example/demo/src/payment/Model/Req/PostCouponReq.java
- com.example.demo.src.payment.Model.Req.PostCouponReq
 com/example/demo/src/orders/model/OrderMenuList.java
  com.example.demo.src.orders.model.OrderMenuList
+<<<<<<< HEAD
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/category/model/Category.java
  com.example.demo.src.category.model.Category
+=======
+com/example/demo/src/payment/Model/Req/PostCouponReq.java
+ com.example.demo.src.payment.Model.Req.PostCouponReq
+com/example/demo/src/payment/WayService.java
+ com.example.demo.src.payment.WayService
+com/example/demo/src/category/CategoryService.java
+ com.example.demo.src.category.CategoryService
+com/example/demo/src/store/model/Req/PostCouponUserReq.java
+ com.example.demo.src.store.model.Req.PostCouponUserReq
+>>>>>>> main
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/user/model/StoreSimple.java
@@ -170,6 +224,7 @@ com/example/demo/src/user/model/Res/GetUserEmailRes.java
  com.example.demo.src.user.model.Res.GetUserEmailRes
 com/example/demo/src/user/model/Res/PostBookmarkRes.java
  com.example.demo.src.user.model.Res.PostBookmarkRes
+<<<<<<< HEAD
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/category/CategoryController.java
@@ -214,3 +269,53 @@ com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+=======
+com/example/demo/src/payment/Model/Req/PostCouponStoreReq.java
+ com.example.demo.src.payment.Model.Req.PostCouponStoreReq
+com/example/demo/src/user/model/Req/PostSmsReq.java
+ com.example.demo.src.user.model.Req.PostSmsReq
+com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
+ com.example.demo.src.user.model.Res.GetAddressSimpleRes
+com/example/demo/src/push/FirebaseCloudMessageService.java
+ com.example.demo.src.push.FirebaseCloudMessageService
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
+com/example/demo/src/etc/Model/Res/GetEventRes.java
+ com.example.demo.src.etc.Model.Res.GetEventRes
+com/example/demo/src/store/model/Res/ReviewRes.java
+ com.example.demo.src.store.model.Res.ReviewRes
+com/example/demo/src/store/model/Req/PostReviewReq.java
+ com.example.demo.src.store.model.Req.PostReviewReq
+com/example/demo/src/category/model/Category.java
+ com.example.demo.src.category.model.Category
+com/example/demo/src/store/model/Res/GetStoreHomeRes.java
+ com.example.demo.src.store.model.Res.GetStoreHomeRes
+com/example/demo/src/category/model/Res/GetCategoryDetailRes.java
+ com.example.demo.src.category.model.Res.GetCategoryDetailRes
+com/example/demo/src/category/model/Res/GetSearchRes.java
+ com.example.demo.src.category.model.Res.GetSearchRes
+com/example/demo/src/category/model/Req/PostSearchReq.java
+ com.example.demo.src.category.model.Req.PostSearchReq
+com/example/demo/src/WebSecurityConfig.java
+ com.example.demo.src.WebSecurityConfig
+com/example/demo/src/user/model/Req/PostLoginReq.java
+ com.example.demo.src.user.model.Req.PostLoginReq
+com/example/demo/src/user/model/Req/PostUserReq.java
+ com.example.demo.src.user.model.Req.PostUserReq
+com/example/demo/src/category/model/CategorySimple.java
+ com.example.demo.src.category.model.CategorySimple
+com/example/demo/src/user/model/User.java
+ com.example.demo.src.user.model.User
+com/example/demo/src/payment/Model/Res/GetPaymentRes.java
+ com.example.demo.src.payment.Model.Res.GetPaymentRes
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController
+com/example/demo/DemoApplication.java
+ com.example.demo.DemoApplication
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
+>>>>>>> main
