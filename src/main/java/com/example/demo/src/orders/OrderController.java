@@ -46,6 +46,12 @@ public class OrderController {
             if(sameMenu != 0){
                 return new BaseResponse<>("카트에 담겼습니다.");
             }
+            // 메뉴 옵션 식별자가 메뉴에 속한 지 확인
+            int i = orderService.checkMenuAndOption(menuIdx, postCartReq.getMenu_option_id());
+            if(i == 0){
+                return new BaseResponse<>(FAIL_CART_MISMATCH);
+            }
+
             orderService.createCart(userIdx, storeIdx, menuIdx, postCartReq);
             return new BaseResponse<>("카드에 담겼습니다.");
         } catch (BaseException exception) {
@@ -70,7 +76,6 @@ public class OrderController {
                                            @RequestParam int cartIdx, @RequestBody PatchCartReq patchCartReq) throws BaseException {
         int userIdx= jwtService.getUserIdx();
 
-        System.out.println("cartIdx = " + cartIdx);
         if (storeIdx == 0 || cartIdx == 0) {
             return new BaseResponse<>(PATCH_MODIFY_CART_EMPTY);
         }
@@ -86,10 +91,10 @@ public class OrderController {
     @PatchMapping("/carts/status")
     public BaseResponse<String> deleteCart(@RequestBody DeleteCartReq deleteCartReq) throws BaseException {
         int user_id= jwtService.getUserIdx();
-
         if(orderService.checkCartExists(deleteCartReq.getCart_id()) == 0){
             return new BaseResponse<>(FAIL_CART_EMPTY);
         }
+        System.out.println("user_id = " + user_id);
         orderService.deleteCart(deleteCartReq.getCart_id(), user_id);
         return new BaseResponse<>("카드가 삭제 되었습니다.");
     }
@@ -114,8 +119,6 @@ public class OrderController {
 
             return new BaseResponse<>((exception.getStatus()));
         }
-
-
     }
 
     //주문 생성
@@ -124,12 +127,6 @@ public class OrderController {
     public BaseResponse<String> createOrder(@RequestParam Integer[] cartList, @Valid @RequestBody PostOrderReq postOrderReq){
         try {
             int user_id= jwtService.getUserIdx();
-
-            List<PostOrderRes> postOrderRes = orderService.checkCartUserExists(user_id);
-            if(postOrderRes.isEmpty()){
-                return new BaseResponse<>(CART_ID_EMPTY);
-            }
-
             orderService.createOrder(user_id, cartList, postOrderReq);
             return new BaseResponse<>("주문이 완료되었습니다.");
 
@@ -185,6 +182,15 @@ public class OrderController {
         int user_id= jwtService.getUserIdx();
 
         return new BaseResponse<>(orderService.getOrderList(user_id));
+    }
+
+    //주문 내역 검색 API
+    @ResponseBody
+    @GetMapping("/search")
+    public BaseResponse<List<GetUserOrder>> getOrder(@RequestParam(required = false) String menuName) throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+        return new BaseResponse<>(orderService.getSearchMenu(user_id, menuName));
     }
     //주문 준비중 목록 조회 API
     @ResponseBody
