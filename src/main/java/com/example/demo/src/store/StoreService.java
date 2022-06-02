@@ -121,6 +121,18 @@ public class StoreService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<GetSearchMenu> menuSearch(int store_id, String menuName) throws BaseException{
+        try {
+            return storeDao.searchMenu(store_id, menuName);
+
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public void createCouponUser(int userIdx, int storeIdx) throws BaseException{
         try {

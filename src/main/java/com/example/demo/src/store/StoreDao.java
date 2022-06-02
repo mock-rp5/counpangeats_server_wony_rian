@@ -303,9 +303,29 @@ public class StoreDao {
                 ), storeIdx);
     }
 
-    public int searchMenu(int userIdx, int reviewIdx){
-        String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
-        return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
+    // 메뉴 검색
+    public List<GetSearchMenu> searchMenu(int store_id, String menuName){
+        String searchMenuQuery = "select menu_id from Menu where store_id = ? and menu_name like '%"+ menuName + "%'";
+
+        String getMenu= "select M.menu_id, M.menu_name, M.menu_img_url, M.menu_description, M.menu_price\n" +
+                "from Menu M \n" +
+                "inner join Store S \n" +
+                "on S.store_id = M.store_id \n" +
+                "where M.menu_id = ? and S.store_id = ? ";
+
+
+        return this.jdbcTemplate.query(searchMenuQuery,
+                (rs, rowNum) -> new GetSearchMenu(
+                        this.jdbcTemplate.query(getMenu,
+                                (rs1, rowNum1) -> new MenuDetail(
+                                        rs1.getInt("menu_id"),
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("menu_img_url"),
+                                        rs1.getString("menu_description"),
+                                        rs1.getInt("menu_price")
+                                ), rs.getInt("menu_id"), store_id
+                        )
+                ), store_id);
     }
 
     public int deleteReview(int userIdx, int reviewIdx){
