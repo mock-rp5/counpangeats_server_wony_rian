@@ -136,6 +136,11 @@ public class WayDao {
         return this.jdbcTemplate.queryForObject(Query, int.class, coupon_description);
     }
 
+    //쿠폰 식별자 확인
+    public int checkCouponStore(int coupon_id){
+        String Query = "select exists(select * from Coupon where coupon_id = ?)";
+        return this.jdbcTemplate.queryForObject(Query, int.class, coupon_id);
+    }
     //쿠폰 유저한테 확인
     public int checkMeCoupon(int user_id, String coupon_description){
         String couponIdQuery = "select coupon_id from Coupon where coupon_description = ?";
