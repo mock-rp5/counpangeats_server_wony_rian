@@ -14,6 +14,7 @@ public class CartMenu {
     private Integer menu_option_id;
     private String option_name;
     private String menu_name;
+    private Integer menu_price;
     private Integer option_price;
     private Integer price;
 }

@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -57,7 +58,7 @@ public class OrderDao {
                 "where S.store_id = ? and C.user_id = ? and S.status = \"Y\" \n" +
                 "group by C.user_id";
 
-        String menuQuery = "select C.cart_id, C.menu_count, MO.menu_option_id, MO.option_name, M.menu_name, MO.option_price, (C.order_price)*C.menu_count as price\n" +
+        String menuQuery = "select C.cart_id, C.menu_count, MO.menu_option_id, MO.option_name, M.menu_name, M.menu_price, MO.option_price, (C.order_price)*C.menu_count as price\n" +
                 "from Cart as C \n" +
                 "inner join Menu_Option as MO\n" +
                 "on MO.menu_option_id = C.menu_option_id\n" +
@@ -79,6 +80,7 @@ public class OrderDao {
                                         rs1.getInt("menu_option_id"),
                                         rs1.getString("option_name"),
                                         rs1.getString("menu_name"),
+                                        rs1.getInt("menu_price"),
                                         rs1.getInt("option_price"),
                                         rs1.getInt("price")
                                 ), user_id)
@@ -94,7 +96,6 @@ public class OrderDao {
     //카트 삭제
     public int deleteCart(int user_id, int cart_id) {
         String Query = "UPDATE Cart SET status='N' WHERE cart_id=? AND user_id=?";
-        int update = this.jdbcTemplate.update(Query, cart_id, user_id);
         return this.jdbcTemplate.update(Query, cart_id, user_id);
     }
 
@@ -119,13 +120,13 @@ public class OrderDao {
         String getOrderInfoQuery = "SELECT MAX(order_info_id) FROM Order_Info;";
         Integer orderInfoId = this.jdbcTemplate.queryForObject(getOrderInfoQuery, int.class);
 
-        Integer[] arr = new Integer[cartList.length];
-        int i = 0;
-        for(int k : cartList){
+        ArrayList<Integer> brr = new ArrayList<>();
+        for(int k=0; k<cartList.length; k++){
             String checkQuery = "select menu_count*order_price as price\n" +
                     "from Cart\n" +
                     "where cart_id = ?";
-            arr[i++] =  this.jdbcTemplate.queryForObject(checkQuery, int.class, k);
+            Integer integer = this.jdbcTemplate.queryForObject(checkQuery, int.class, cartList[k]);
+            brr.add(integer);
         }
 
         String deleteCartQuery = "UPDATE Cart SET status='N' WHERE cart_id = ?";
@@ -135,7 +136,9 @@ public class OrderDao {
         String getTotalPriceQuery = "select menu_count*order_price as total_price from Cart where cart_id = ?";
 
         Integer sum = 0;
+        int i = 0;
         for(Integer k : cartList){
+            System.out.println("k = " + k);
             sum += this.jdbcTemplate.queryForObject(getTotalPriceQuery, int.class, k);
             OrderDetail orderDetail = this.jdbcTemplate.queryForObject(selectCartMenuQuery,
                     (rs, rowNum) -> new OrderDetail(
@@ -143,7 +146,7 @@ public class OrderDao {
                             rs.getInt("menu_id"),
                             rs.getInt("menu_option_id")
                     ), k);
-            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id, postOrderReq.getStore_id(), arr[k]);
+            this.jdbcTemplate.update(insertOrderDetailQuery, orderDetail.getMenu_id(), orderDetail.getMenu_count(), orderInfoId+1, orderDetail.getMenu_option_id(), user_id, postOrderReq.getStore_id(), brr.get(i++));
             this.jdbcTemplate.update(deleteCartQuery, k); //카트에서 삭제
         }
         System.out.println("selectCartMenuQuery = " + selectCartMenuQuery);
@@ -152,11 +155,6 @@ public class OrderDao {
                 "where SD.store_id = ?";
         int deliveryFee =  this.jdbcTemplate.queryForObject(getDeliveryPriceQuery, int.class, postOrderReq.getStore_id());
         return this.jdbcTemplate.update(insertOrderInfoQuery, user_id, postOrderReq.getStore_id(), sum + deliveryFee, postOrderReq.getPayment_method_id(), postOrderReq.getDelivery_request(), postOrderReq.getStore_request(), postOrderReq.getAddress_id());
-    }
-
-    public int getOrder(int user_id){
-        String getQuery = "";
-        return 1;
     }
 
     //재주문
@@ -319,5 +317,12 @@ public class OrderDao {
                 (rs, rowNum) -> new PostOrderRes(
                         rs.getInt("cart_id")
                 ), user_id);
+    }
+
+    public int checkMenuAndOption(int menu_id, int option_id){
+        String cartQuery = "select menu_id from Menu_Option where menu_option_id = ? ";
+        Integer check = this.jdbcTemplate.queryForObject(cartQuery, int.class, option_id);
+        if(check == menu_id) return 1;
+        else return 0;
     }
 }

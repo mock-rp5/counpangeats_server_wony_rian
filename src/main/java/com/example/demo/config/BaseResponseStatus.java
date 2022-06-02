@@ -51,6 +51,7 @@ public enum BaseResponseStatus {
     // /carts
     PATCH_MODIFY_CART_EMPTY(false, 2030, "입력한 카트가 없습니다."),
     FAIL_CART_EMPTY(false, 2031, "카트가 비었습니다."),
+    FAIL_CART_MISMATCH(false, 2032, "메뉴 옵션이 메뉴와 매칭되지 않습니다."),
 
     // /orders
     CART_ID_EMPTY(false, 2041, "유효한 카트가 없습니다."),
@@ -109,6 +110,7 @@ public enum BaseResponseStatus {
     // /cart
     FAIL_DUPLICATE_CART(false, 3200, "카트에 담긴 가게가 다릅니다."),
     FAIL_CART_NEW(false, 3201, "이미 없는 카트입니다."),
+    NO_EXISTS_CART(false, 3202, "카트가 존재하지 않습니다."),
 
     // /payments
     NO_EXISTS_COUPON(false, 3300, "없는 쿠폰 번호입니다."),
@@ -174,6 +176,7 @@ public enum BaseResponseStatus {
     // /carts
     FAIL_RESTART_CART(false, 4100, "카트 새로 담는 것에 실패하였습니다."),
     FAIL_CREATE_CART(false, 4101, "카트를 생성에 실패하였습니다."),
+    FAIL_MODIFY_CART(false, 4102, "카트를 수정에 실패하였습니다."),
 
     // /payments
     FAIL_CREATE_CASH(false, 4200, "현금영수증 추가에 실패하였습니다."),

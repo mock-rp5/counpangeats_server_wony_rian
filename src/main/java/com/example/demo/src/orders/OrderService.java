@@ -37,8 +37,6 @@ public class OrderService {
     public void createCart(int userIdx, int storeIdx, int menuIdx, PostCartReq postCartReq) throws BaseException {
         int checkCartStore = checkCart(userIdx);
 
-        System.out.println("checkCartStore = " + checkCartStore);
-        System.out.println("storeIdx = " + storeIdx);
         if (checkCartStore != 0 && storeIdx != checkCartStore) {
             throw new BaseException(FAIL_DUPLICATE_CART);
         }
@@ -53,12 +51,13 @@ public class OrderService {
         }
     }
 
+    //카트 수정
     @Transactional(rollbackFor = Exception.class)
     public void modifyCart(int store_id, int cart_id, PatchCartReq patchCartReq) throws BaseException {
         try {
             int result = orderDao.modifyCart(store_id, cart_id, patchCartReq);
             if (result == 0){
-                throw new BaseException(FAIL_CREATE_CART);
+                throw new BaseException(FAIL_MODIFY_CART);
             }
         } catch (Exception exception) {
             System.out.println("exception.getMessage() = " + exception.getMessage());
@@ -104,9 +103,14 @@ public class OrderService {
         }
     }
 
+    //카트 조회
     @Transactional(readOnly = true)
     public GetCartRes getCart(int userIdx) throws BaseException {
         try {
+            List<PostOrderRes> postOrderRes = checkCartUserExists(userIdx);
+            if(postOrderRes.size() <= 0) {
+                throw new BaseException(NO_EXISTS_CART);
+            }
             return orderDao.getCart(userIdx);
         } catch (Exception exception) {
             System.out.println("exception.getMessage() = " + exception.getMessage());
@@ -150,6 +154,7 @@ public class OrderService {
         try {
             orderDao.deleteCart(user_id, cart_id);
         } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -187,6 +192,15 @@ public class OrderService {
     public List<PostOrderRes> checkCartUserExists(int user_id) throws BaseException {
         try {
             return orderDao.checkCartExistsUser(user_id);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkMenuAndOption(int menu_id, int menu_option_id) throws BaseException {
+        try {
+            return orderDao.checkMenuAndOption(menu_id, menu_option_id);
         } catch (Exception exception) {
             System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
