@@ -3,10 +3,7 @@ package com.example.demo.src.store;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
-import com.example.demo.src.store.model.Req.PatchHelpReq;
-import com.example.demo.src.store.model.Req.PatchReviewReq;
-import com.example.demo.src.store.model.Req.PostHelpReq;
-import com.example.demo.src.store.model.Req.PostReviewReq;
+import com.example.demo.src.store.model.Req.*;
 import com.example.demo.src.store.model.Res.*;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +113,24 @@ public class StoreController {
             int userIdx= jwtService.getUserIdx();
             storeService.deleteReview(userIdx, reviewIdx);
             return new BaseResponse<>("리뷰가 삭제되었습니다.");
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //가게 쿠폰 사용자에게 등록
+    @ResponseBody
+    @PostMapping("/coupons")
+    public BaseResponse<String> createCouponUser(@Valid @RequestBody PostCouponUserReq postCouponUserReq) throws BaseException {
+        try{
+            int userIdx= jwtService.getUserIdx();
+
+            int result = storeService.existsCouponUser(postCouponUserReq.getStore_id(), userIdx);
+            if(result == 1){
+                throw new BaseException(ALREADY_GET_COUPON);
+            }
+            storeService.createCouponUser(userIdx, postCouponUserReq.getStore_id());
+            return new BaseResponse<>("쿠폰이 유저에게 등록되었습니다.");
         }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

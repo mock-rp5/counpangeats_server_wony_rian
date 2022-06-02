@@ -306,6 +306,20 @@ public class StoreDao {
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
     }
 
+    public int createCoupon(int userIdx, int storeIdx){
+        String getCouponQuery = "select coupon_id from Coupon where store_id = ? and status = 'Y' limit 1";
+        int coupon_id = this.jdbcTemplate.queryForObject(getCouponQuery, int.class, storeIdx);
+
+        String createCouponUserQuery = "insert into Coupon_User (coupon_id, user_id) VALUES (?,?)";
+        return this.jdbcTemplate.update(createCouponUserQuery, coupon_id, userIdx);
+    }
+    public int existsCouponUser(int storeIdx, int user_id){
+        String getCouponQuery = "select coupon_id from Coupon where store_id = ? and status = 'Y' limit 1";
+        int coupon_id = this.jdbcTemplate.queryForObject(getCouponQuery, int.class, storeIdx);
+
+        String createHelpSignQuery = "SELECT EXISTS(SELECT * FROM Coupon_User WHERE coupon_id=? and user_id= ?)";
+        return this.jdbcTemplate.queryForObject(createHelpSignQuery, int.class, coupon_id, user_id);
+    }
     public int createHelpSign(int userIdx, PostHelpReq postHelpReq){
         String createHelpSignQuery = "insert into Help_Sign (review_id, help_sign_value, user_id) VALUES (?,?,?)";
         return this.jdbcTemplate.update(createHelpSignQuery, postHelpReq.getReview_id(), postHelpReq.getHelp_sign_value(), userIdx);
@@ -313,7 +327,7 @@ public class StoreDao {
 
     public int existsReview(int reviewIdx){
         String createHelpSignQuery = "SELECT EXISTS(SELECT * FROM Review WHERE review_id=? and status= 'Y')";
-        return this.jdbcTemplate.update(createHelpSignQuery, reviewIdx);
+        return this.jdbcTemplate.queryForObject(createHelpSignQuery, int.class, reviewIdx);
     }
 
     public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq){

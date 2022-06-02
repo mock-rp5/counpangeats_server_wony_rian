@@ -121,7 +121,17 @@ public class StoreService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(rollbackFor = Exception.class)
+    public void createCouponUser(int userIdx, int storeIdx) throws BaseException{
+        try {
+            int result = storeDao.createCoupon(userIdx, storeIdx);
+            if(result == 0){
+                throw new BaseException(FAIL_CREATE_COUPON);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     @Transactional(rollbackFor = Exception.class)
     public int createHelpSign(int userIdx, PostHelpReq postHelpReq) throws BaseException{
         try {
@@ -145,6 +155,16 @@ public class StoreService {
     public int existsReview(int reviewIdx) throws BaseException {
         try {
             return storeDao.existsReview(reviewIdx);
+        } catch (Exception exception) {
+            System.out.println("exception.get = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public int existsCouponUser(int store_id, int user_id) throws BaseException {
+        try {
+            return storeDao.existsCouponUser(store_id, user_id);
         } catch (Exception exception) {
             System.out.println("exception.get = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
