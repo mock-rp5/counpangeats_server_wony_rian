@@ -76,6 +76,17 @@ public class StoreController {
         }
     }
 
+    //메뉴 검색
+    @ResponseBody
+    @GetMapping("/search/{storeIdx}")
+    public BaseResponse<List<GetSearchMenu>> getMenuSearch(@PathVariable("storeIdx") Integer storeIdx, @RequestParam String menuName){
+        try {
+            return new BaseResponse<>(storeService.menuSearch(storeIdx, menuName));
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     //리뷰 생성
     @ResponseBody
     @PostMapping("/reviews")
