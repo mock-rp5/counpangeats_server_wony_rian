@@ -11,7 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Repository
 public class StoreDao {
@@ -183,12 +186,23 @@ public class StoreDao {
         String storeGet = "select store_id from Order_Info where order_info_id = ?";
         Integer store_id = this.jdbcTemplate.queryForObject(storeGet, int.class, postReviewReq.getOrder_info_id());
 
-//        String getMenu = "select menu_id\n" +
-//                "from Order_Detail\n" +
-//                "where order_info_id = ? ";
-//
-//        String isGoodQuery = "select isGood from Menu where menu_id = ?";
+        Map<Integer, Integer> is_menu_good = postReviewReq.getIs_menu_good();
 
+        String isGoodQuery = "select is_good from Menu where menu_id = ?;";
+        String isGood_Menu_Query = "UPDATE Menu SET is_good=? WHERE menu_id = ?";
+        if (postReviewReq.getIs_menu_good().size()!=0){
+            Set<Map.Entry<Integer,Integer>> entrySet = postReviewReq.getIs_menu_good().entrySet();
+            Iterator<Map.Entry<Integer, Integer>> entryIterator = entrySet.iterator();
+
+            while(entryIterator.hasNext()){
+                Map.Entry<Integer, Integer> entry = entryIterator.next();
+                Integer key = entry.getKey();
+                Integer value = entry.getValue();
+                Integer is_good_count = this.jdbcTemplate.queryForObject(isGoodQuery, int.class, key);
+
+                this.jdbcTemplate.update(isGood_Menu_Query, is_good_count+value, key);
+            }
+        }
         String create = "insert into Review (order_info_id, user_id, review_star, review_image_url, review_content, store_id, is_delivery_good) VALUES (?,?,?,?,?,?,?)";
         Object[] createReviewParams = new Object[]{postReviewReq.getOrder_info_id(), user_id, postReviewReq.getReview_star(),
                 postReviewReq.getReview_image_url(), postReviewReq.getReview_content(), store_id, postReviewReq.getIs_delivery_good()};
@@ -292,9 +306,28 @@ public class StoreDao {
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
     }
 
+    public int createCoupon(int userIdx, int storeIdx){
+        String getCouponQuery = "select coupon_id from Coupon where store_id = ? and status = 'Y' limit 1";
+        int coupon_id = this.jdbcTemplate.queryForObject(getCouponQuery, int.class, storeIdx);
+
+        String createCouponUserQuery = "insert into Coupon_User (coupon_id, user_id) VALUES (?,?)";
+        return this.jdbcTemplate.update(createCouponUserQuery, coupon_id, userIdx);
+    }
+    public int existsCouponUser(int storeIdx, int user_id){
+        String getCouponQuery = "select coupon_id from Coupon where store_id = ? and status = 'Y' limit 1";
+        int coupon_id = this.jdbcTemplate.queryForObject(getCouponQuery, int.class, storeIdx);
+
+        String createHelpSignQuery = "SELECT EXISTS(SELECT * FROM Coupon_User WHERE coupon_id=? and user_id= ?)";
+        return this.jdbcTemplate.queryForObject(createHelpSignQuery, int.class, coupon_id, user_id);
+    }
     public int createHelpSign(int userIdx, PostHelpReq postHelpReq){
         String createHelpSignQuery = "insert into Help_Sign (review_id, help_sign_value, user_id) VALUES (?,?,?)";
         return this.jdbcTemplate.update(createHelpSignQuery, postHelpReq.getReview_id(), postHelpReq.getHelp_sign_value(), userIdx);
+    }
+
+    public int existsReview(int reviewIdx){
+        String createHelpSignQuery = "SELECT EXISTS(SELECT * FROM Review WHERE review_id=? and status= 'Y')";
+        return this.jdbcTemplate.queryForObject(createHelpSignQuery, int.class, reviewIdx);
     }
 
     public int deleteHelpSign(int userIdx, PatchHelpReq patchHelpReq){

@@ -7,8 +7,8 @@ plugins {
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -55,12 +55,15 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // push-alarm
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.0.0'
+    implementation 'com.google.firebase:firebase-admin:6.8.1'
+
     //Access Token 받기 - Gson 라이브러리
     implementation 'com.google.code.gson:gson:2.8.7'
 
     //문자 인증
     compile group: 'net.nurigo', name: 'javaSDK', version: '2.2'
-
 
 }
 
