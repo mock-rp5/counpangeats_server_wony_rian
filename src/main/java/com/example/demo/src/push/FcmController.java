@@ -13,7 +13,7 @@ import java.io.IOException;
 public class FcmController {
     private final FirebaseCloudMessageService firebaseCloudMessageService;
 
-    @PostMapping("/api/fcm")
+    @PostMapping("/push")
     public ResponseEntity pushMessage(@RequestBody RequestDto requestDTO) throws IOException {
         System.out.println(requestDTO.getTargetToken() + " "
                 +requestDTO.getTitle() + " " + requestDTO.getBody());
