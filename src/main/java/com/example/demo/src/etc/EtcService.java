@@ -2,6 +2,7 @@ package com.example.demo.src.etc;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.etc.Model.Res.GetEventRes;
+import com.example.demo.src.etc.Model.Res.GetNoticeRes;
 import com.example.demo.src.etc.Model.Res.GetQuestionRes;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,14 @@ public class EtcService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetNoticeRes> getNoticeRes() throws BaseException{
+        try {
+            return etcDao.getNoticeRes();
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

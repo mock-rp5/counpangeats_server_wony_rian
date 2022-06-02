@@ -159,6 +159,7 @@ public class UserController {
         }
     }
 
+
     /**
      * 유저 이름 변경 API
      * [PATCH] /users/name

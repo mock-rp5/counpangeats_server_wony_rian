@@ -129,10 +129,13 @@ public class CategoryDao {
     public GetSearchRes getSearchList(int userIdx) {
         String getUpdatedPopularQuery = "SELECT date_format(UPDATE_TIME,'%m.%d') as update_time\n" +
                 "FROM INFORMATION_SCHEMA.TABLES\n" +
-                "WHERE table_name='Popular_Search';";
-        String getPopularSearchListQuery = "select p_search_id,search_rank,category_name from Popular_Search\n" +
-                "where status='Y'\n" +
-                "order by search_rank;";
+                "WHERE table_name='Search';";
+        String getPopularSearchListQuery = "select C.category_id as category_id, C.category_name as category_name\n" +
+                "from Search\n" +
+                "inner join Category C on Search.category_name = C.category_name\n" +
+                "group by category_name\n" +
+                "order by count(*) desc\n" +
+                "limit 10;";
         String getSearchListQuery = "select search_id, category_name, date_format(created_at,'%m.%d') as created_at\n" +
                 "from Search\n" +
                 "where user_id=? and status='Y'\n" +
@@ -143,10 +146,10 @@ public class CategoryDao {
                 (rs, rowNum) -> new GetSearchRes(
                         rs.getString("update_time"),
                         this.jdbcTemplate.query(getPopularSearchListQuery,
-                                (rs1, rowNum1) -> new PopularSearch(
-                                        rs1.getInt("p_search_id"),
-                                        rs1.getInt("search_rank"),
-                                        rs1.getString("category_name"))),
+                                (rs1, rowNum1) -> {
+                                    int category_id = rs1.getInt("category_id");
+                                    String category_name = rs1.getString("category_name");
+                                    return new PopularSearch(category_id, category_name);}),
                         this.jdbcTemplate.query(getSearchListQuery,
                                 (rs2, rowNum2) -> new Search(
                                         rs2.getInt("search_id"),

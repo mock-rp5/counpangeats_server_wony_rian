@@ -146,11 +146,11 @@ public class CategoryController {
     }
     /**
      * 검색어 전체 삭제 API
-     * [PATCH] /categories/search/:searchIdx
+     * [PATCH] /categories/search/status
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/search")
+    @PatchMapping("/search/status")
     public BaseResponse<String> deleteAllSearch( ){
         try {
             //jwt에서 idx 추출.

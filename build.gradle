@@ -59,6 +59,12 @@ dependencies {
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.0.0'
     implementation 'com.google.firebase:firebase-admin:6.8.1'
 
+    //Access Token 받기 - Gson 라이브러리
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    //문자 인증
+    compile group: 'net.nurigo', name: 'javaSDK', version: '2.2'
+
 }
 
 test {
