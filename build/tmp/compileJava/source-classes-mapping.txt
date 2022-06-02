@@ -59,8 +59,8 @@ com/example/demo/src/etc/Model/Res/GetNoticeRes.java
  com.example.demo.src.etc.Model.Res.GetNoticeRes
 com/example/demo/src/payment/Model/Payments.java
  com.example.demo.src.payment.Model.Payments
-com/example/demo/src/store/StoreController.java
- com.example.demo.src.store.StoreController
+com/example/demo/src/etc/EtcController.java
+ com.example.demo.src.etc.EtcController
 com/example/demo/src/store/model/MenuOption.java
  com.example.demo.src.store.model.MenuOption
 com/example/demo/src/orders/model/OrderDetail.java
@@ -73,8 +73,8 @@ com/example/demo/src/category/CategoryDao.java
  com.example.demo.src.category.CategoryDao
 com/example/demo/src/user/model/Res/GetUserPasswordRes.java
  com.example.demo.src.user.model.Res.GetUserPasswordRes
-com/example/demo/src/push/FcmController.java
- com.example.demo.src.push.FcmController
+com/example/demo/src/store/StoreService.java
+ com.example.demo.src.store.StoreService
 com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/src/user/model/Address.java
@@ -115,8 +115,8 @@ com/example/demo/src/payment/Model/Req/PostPaymentReq.java
  com.example.demo.src.payment.Model.Req.PostPaymentReq
 com/example/demo/src/store/model/Res/GetStoreOneRes.java
  com.example.demo.src.store.model.Res.GetStoreOneRes
-com/example/demo/src/store/StoreService.java
- com.example.demo.src.store.StoreService
+com/example/demo/src/etc/EtcService.java
+ com.example.demo.src.etc.EtcService
 com/example/demo/src/etc/Model/Res/GetQuestionRes.java
  com.example.demo.src.etc.Model.Res.GetQuestionRes
 com/example/demo/src/category/model/Search.java
@@ -137,8 +137,8 @@ com/example/demo/src/store/model/StoreCategory.java
  com.example.demo.src.store.model.StoreCategory
 com/example/demo/src/user/model/Res/GetUserRes.java
  com.example.demo.src.user.model.Res.GetUserRes
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
+com/example/demo/src/etc/EtcDao.java
+ com.example.demo.src.etc.EtcDao
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/orders/model/CartPrice.java
@@ -189,8 +189,8 @@ com/example/demo/src/user/model/Req/PostSmsReq.java
  com.example.demo.src.user.model.Req.PostSmsReq
 com/example/demo/src/user/model/Res/GetAddressSimpleRes.java
  com.example.demo.src.user.model.Res.GetAddressSimpleRes
-com/example/demo/src/push/FirebaseCloudMessageService.java
- com.example.demo.src.push.FirebaseCloudMessageService
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
 com/example/demo/src/etc/Model/Res/GetEventRes.java
@@ -225,9 +225,9 @@ com/example/demo/src/orders/OrderController.java
  com.example.demo.src.orders.OrderController
 com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
-com/example/demo/src/etc/EtcService.java
- com.example.demo.src.etc.EtcService
-com/example/demo/src/etc/EtcController.java
- com.example.demo.src.etc.EtcController
-com/example/demo/src/etc/EtcDao.java
- com.example.demo.src.etc.EtcDao
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/push/FirebaseCloudMessageService.java
+ com.example.demo.src.push.FirebaseCloudMessageService
+com/example/demo/src/push/FcmController.java
+ com.example.demo.src.push.FcmController

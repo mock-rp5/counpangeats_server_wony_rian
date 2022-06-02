@@ -301,6 +301,12 @@ public class StoreDao {
                         reviewList
                 ), storeIdx);
     }
+
+    public int searchMenu(int userIdx, int reviewIdx){
+        String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
+        return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
+    }
+
     public int deleteReview(int userIdx, int reviewIdx){
         String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);

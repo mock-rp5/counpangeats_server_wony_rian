@@ -22,7 +22,7 @@ import static okhttp3.MediaType.*;
 @RequiredArgsConstructor
 public class FirebaseCloudMessageService {
 
-    private final String API_URL = "https://fcm.googleapis.com/v1/projects/push-alarm-7dabd/messages:send";
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/coupangeatsmessage/messages:send";
     private final ObjectMapper objectMapper;
 
 
