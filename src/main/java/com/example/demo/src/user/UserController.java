@@ -159,6 +159,25 @@ public class UserController {
         }
     }
 
+    /**
+     * 로그아웃 API
+     * [POST] /users/logout
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/logout")
+    public BaseResponse<String> logOut() {
+
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            userService.logOut(userIdxByJwt);
+            String result ="로그아웃이 완료되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 
     /**
      * 유저 이름 변경 API
