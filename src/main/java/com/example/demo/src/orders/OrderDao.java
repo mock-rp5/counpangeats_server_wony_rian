@@ -242,7 +242,43 @@ public class OrderDao {
                 ), user_id);
     }
 
-    // 회원의 주문 목록 조회
+    public List<GetUserOrder> getSearchMenu(int user_id, String menuName){
+        String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
+                "from Order_Info OI\n" +
+                "inner join Store_Delivery SD\n" +
+                "on SD.store_id = OI.store_id\n" +
+                "inner join Address A\n" +
+                "on A.address_id = OI.address_id\n" +
+                "inner join Store S\n" +
+                "on S.store_id = OI.store_id\n" +
+                "where OI.user_id = ? and OI.delivery_status = 'Y' \n";
+        String getMenuQuery = "select M.menu_name, MO.option_name, OD.menu_count, M.menu_price, MO.option_price \n" +
+                "from Order_Detail OD\n" +
+                "inner join Menu_Option MO\n" +
+                "on MO.menu_option_id = OD.menu_option_id\n" +
+                "inner join Menu M\n" +
+                "on M.menu_id = OD.menu_id \n" +
+                "where OD.order_info_id = ? and menu_name like '%"+ menuName + "%'";
+        return this.jdbcTemplate.query(getStoreQuery,
+                (rs, rowNum) -> new GetUserOrder(
+                        rs.getString("store_name"),
+                        rs.getInt("order_info_id"),
+                        rs.getTimestamp("created_at"),
+                        rs.getInt("total_price"),
+                        rs.getString("detail_address"),
+                        rs.getInt("start_delivery_fee"),
+                        this.jdbcTemplate.query(getMenuQuery,
+                                (rs1, rowNum1) -> new OrderMenuList(
+                                        rs1.getString("menu_name"),
+                                        rs1.getString("option_name"),
+                                        rs1.getInt("menu_count"),
+                                        rs1.getInt("menu_price"),
+                                        rs1.getInt("option_price")
+                                ), rs.getInt("order_info_id")
+                        )
+                ), user_id);
+    }
+    // 회원의 준비 중 주문 목록 조회
     public List<GetUserOrder> getUserReadyOrderList(int user_id){
         String getStoreQuery = "select S.store_name, OI.order_info_id, OI.created_at, OI.total_price, A.detail_address, SD.start_delivery_fee\n" +
                 "from Order_Info OI\n" +

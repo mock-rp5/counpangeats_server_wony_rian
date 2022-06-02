@@ -139,6 +139,18 @@ public class OrderService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    //회원의 주문 내역 조회
+    @Transactional(readOnly = true)
+    public List<GetUserOrder> getSearchMenu(int userIdx, String menuName) throws BaseException {
+        try {
+            return orderDao.getSearchMenu(userIdx, menuName);
+        } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     //회원의 배달 준비중 내역 조회
     @Transactional(readOnly = true)
     public List<GetUserOrder> getOrderReadyList(int userIdx) throws BaseException {

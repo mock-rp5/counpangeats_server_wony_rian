@@ -221,15 +221,15 @@ com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/store/model/Res/GetSearchMenu.java
  com.example.demo.src.store.model.Res.GetSearchMenu
-com/example/demo/src/orders/OrderDao.java
- com.example.demo.src.orders.OrderDao
-com/example/demo/src/orders/OrderController.java
- com.example.demo.src.orders.OrderController
-com/example/demo/src/orders/OrderService.java
- com.example.demo.src.orders.OrderService
-com/example/demo/src/store/StoreDao.java
- com.example.demo.src.store.StoreDao
-com/example/demo/src/store/StoreController.java
- com.example.demo.src.store.StoreController
 com/example/demo/src/store/StoreService.java
  com.example.demo.src.store.StoreService
+com/example/demo/src/store/StoreController.java
+ com.example.demo.src.store.StoreController
+com/example/demo/src/store/StoreDao.java
+ com.example.demo.src.store.StoreDao
+com/example/demo/src/orders/OrderDao.java
+ com.example.demo.src.orders.OrderDao
+com/example/demo/src/orders/OrderService.java
+ com.example.demo.src.orders.OrderService
+com/example/demo/src/orders/OrderController.java
+ com.example.demo.src.orders.OrderController

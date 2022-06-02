@@ -183,6 +183,15 @@ public class OrderController {
 
         return new BaseResponse<>(orderService.getOrderList(user_id));
     }
+
+    //주문 내역 검색 API
+    @ResponseBody
+    @GetMapping("/search")
+    public BaseResponse<List<GetUserOrder>> getOrder(@RequestParam(required = false) String menuName) throws BaseException{
+        int user_id= jwtService.getUserIdx();
+
+        return new BaseResponse<>(orderService.getSearchMenu(user_id, menuName));
+    }
     //주문 준비중 목록 조회 API
     @ResponseBody
     @GetMapping("/ready")
