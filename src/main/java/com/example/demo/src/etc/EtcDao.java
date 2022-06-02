@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -51,5 +52,24 @@ public class EtcDao {
                         rs.getString("notice_name"),
                         rs.getString("notice_content")
                 ));
+    }
+
+    //공지사항 조회
+    public List<List<GetNoticeRes>> getNoticeResList(){
+        String maxQuery = "select max(notice_id) from Notice;";
+        Integer maxRow = this.jdbcTemplate.queryForObject(maxQuery, int.class);
+
+        List<List<GetNoticeRes>> arr = new ArrayList<>();
+        for(int k=1; k<=maxRow; k+=10){
+            String query = "select date_format(created_at,'%Y-%m-%d') as created_at, notice_name, notice_content\n" +
+                    "from Notice order by notice_id desc limit ?, ?;";
+            arr.add(this.jdbcTemplate.query(query,
+                    (rs, rowNum) -> new GetNoticeRes(
+                            rs.getString("created_at"),
+                            rs.getString("notice_name"),
+                            rs.getString("notice_content")
+                    ), k, k + 9));
+        }
+        return arr;
     }
 }

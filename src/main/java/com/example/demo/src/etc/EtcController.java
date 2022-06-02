@@ -38,9 +38,18 @@ public class EtcController {
     public BaseResponse<List<GetQuestionRes>> getQuestion() throws BaseException {
         return new BaseResponse<>(etcService.getQuestionRes());
     }
+
+    //공지 사항 조회
     @ResponseBody
-    @GetMapping("/notices")
+    @GetMapping("/notices/{noticeIdx}")
     public BaseResponse<List<GetNoticeRes>> getNotice() throws BaseException {
         return new BaseResponse<>(etcService.getNoticeRes());
+    }
+
+    //공지사항 목록 조회
+    @ResponseBody
+    @GetMapping("/notices")
+    public BaseResponse<List<List<GetNoticeRes>>> getNoticeList() throws BaseException {
+        return new BaseResponse<>(etcService.getNoticeResList());
     }
 }
