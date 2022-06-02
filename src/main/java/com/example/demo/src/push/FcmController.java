@@ -1,5 +1,6 @@
 package com.example.demo.src.push;
 
+import com.example.demo.config.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ public class FcmController {
     private final FirebaseCloudMessageService firebaseCloudMessageService;
 
     @PostMapping("/push")
-    public ResponseEntity pushMessage(@RequestBody RequestDto requestDTO) throws IOException {
+    public BaseResponse<String> pushMessage(@RequestBody RequestDto requestDTO) throws IOException {
         System.out.println(requestDTO.getTargetToken() + " "
                 +requestDTO.getTitle() + " " + requestDTO.getBody());
 
@@ -22,6 +23,6 @@ public class FcmController {
                 requestDTO.getTargetToken(),
                 requestDTO.getTitle(),
                 requestDTO.getBody());
-        return ResponseEntity.ok().build();
+        return new BaseResponse<>("알람이 전송되었습니다.");
     }
 }

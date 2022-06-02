@@ -30,20 +30,21 @@ public class StoreDao {
 
         String getCategoryQuery = "select C.category_name, C.category_image_url from Category C";
 
-        String getHomeQuery = "select Store.store_id, Store.store_name, Store.is_cheetah_delivery, Store_Takeout.status as take_out, SD.delivery_time, SD.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
-                "from Store\n" +
-                "left join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
-                "\tfrom Order_Info as OI \n" +
-                "\tleft join Review \n" +
-                "\ton OI.order_info_id = Review.order_info_id \n" +
-                "\tgroup by OI.store_id\n" +
-                ") J \n" +
-                "on J.store_id = Store.store_id\n" +
-                "inner join Store_Delivery SD\n" +
-                "on SD.store_id = Store.store_id\n" +
-                "inner join Store_Takeout\n" +
-                "on Store_Takeout.store_id = Store.store_id\n" +
-                "where (Store.is_cheetah_delivery = ?) and SD.start_delivery_fee<= ? and minimum_price <= ? and (Store_Takeout.status  =?) ";
+
+        String  getHomeQuery = "select Store.store_id, Store.store_name, Store.is_cheetah_delivery, Store.is_takeout as take_out, SD.delivery_time, SD.start_delivery_fee, Store.store_main_image_url, J.Cnt, J.RAvg\n" +
+                    "from Store\n" +
+                    "left join (select OI.store_id, count(Review.review_id) as Cnt, avg(Review.review_star) as RAvg\n" +
+                    "\tfrom Order_Info as OI \n" +
+                    "\tleft join Review \n" +
+                    "\ton OI.order_info_id = Review.order_info_id \n" +
+                    "\tgroup by OI.store_id\n" +
+                    ") J \n" +
+                    "on J.store_id = Store.store_id\n" +
+                    "inner join Store_Delivery SD\n" +
+                    "on SD.store_id = Store.store_id\n" +
+                    "inner join Store_Takeout\n" +
+                    "on Store_Takeout.store_id = Store.store_id\n" +
+                    "where (Store.is_cheetah_delivery = 'Y' || Store.is_cheetah_delivery = ?) and SD.start_delivery_fee<= ? and minimum_price >= ? and (Store.is_takeout  = 'Y' || Store.is_takeout  = ? ) ";
 
         List<Ad> adList = this.jdbcTemplate.query(getAdQuery,
                 (rs, rowNum) -> new Ad(
@@ -301,6 +302,12 @@ public class StoreDao {
                         reviewList
                 ), storeIdx);
     }
+
+    public int searchMenu(int userIdx, int reviewIdx){
+        String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
+        return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
+    }
+
     public int deleteReview(int userIdx, int reviewIdx){
         String deleteReview = "UPDATE Review SET status = 'N' WHERE review_id=? and user_id=?";
         return this.jdbcTemplate.update(deleteReview, reviewIdx, userIdx);
