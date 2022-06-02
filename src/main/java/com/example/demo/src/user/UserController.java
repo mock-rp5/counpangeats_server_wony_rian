@@ -177,6 +177,27 @@ public class UserController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+    /**
+     * 유저 설정정보  변경 API
+     * [PATCH] /users/setting
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/setting")
+    public BaseResponse<String> modifySetting(@RequestParam(required = false, defaultValue = "Y") String order_notice,
+                                              @RequestParam(required = false,defaultValue = "Y") String event_notice,
+                                              @RequestParam(required=false,defaultValue="korean")String language) {
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            userService.modifySetting(userIdxByJwt,order_notice,event_notice,language);
+            String result = "설정 정보가 변경되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
     /**

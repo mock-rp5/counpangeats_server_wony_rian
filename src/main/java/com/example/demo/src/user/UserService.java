@@ -81,6 +81,19 @@ public class UserService {
         }
     }
 
+    //PATCH 회원 설정정보 변경
+    @Transactional(rollbackFor = {BaseException.class})
+    public void modifySetting (int userIdx, String order_notice, String event_notice, String language)throws BaseException{
+        try {
+            int result = userDao.modifySetting(userIdx, order_notice, event_notice, language);
+            if(result==0)
+                throw new BaseException(MODIFY_FAIL_SETTING);
+
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
     //PATCH 회원 이름 변경
     @Transactional(rollbackFor = {BaseException.class})

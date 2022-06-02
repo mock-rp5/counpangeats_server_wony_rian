@@ -114,6 +114,14 @@ public class UserDao {
 
     }
 
+    public int modifySetting(int userIdx, String order_notice, String event_notice, String language){
+        String modifySettingQuery="update User set order_notice=?,event_notice=?, User.language=?\n" +
+                "where user_id=?;";
+        Object[] modifySettingParams=new Object[]{order_notice, event_notice, language, userIdx};
+
+        return this.jdbcTemplate.update(modifySettingQuery,modifySettingParams);
+    }
+
     public int modifyUserName(User user) {
         String modifyUserNameQuery = "update User set user_name = ? where user_id = ? ";
         Object[] modifyUserNameParams = new Object[]{user.getUser_name(), user.getUser_id()};
