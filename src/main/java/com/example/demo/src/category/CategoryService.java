@@ -7,10 +7,10 @@ import com.example.demo.src.category.model.Res.GetCategoryDetailRes;
 import com.example.demo.src.category.model.Res.GetSearchRes;
 import com.example.demo.src.category.model.Res.PostSearchRes;
 import com.example.demo.src.category.model.StoreInfo;
+import com.example.demo.src.user.UserDao;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +24,16 @@ public class CategoryService {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final CategoryDao categoryDao;
+    private final UserDao userDao;
     private final JwtService jwtService;
 
 
-    @Autowired
-    public CategoryService(CategoryDao categoryDao, JwtService jwtService){
-        this.categoryDao=categoryDao;
-        this.jwtService=jwtService;
+    public CategoryService(CategoryDao categoryDao, UserDao userDao, JwtService jwtService) {
+        this.categoryDao = categoryDao;
+        this.userDao = userDao;
+        this.jwtService = jwtService;
     }
+
     //GET 카테고리 목록 조회
     @Transactional(readOnly = true)
     public List<CategorySimple> getCategoryList() throws BaseException{
@@ -58,6 +60,9 @@ public class CategoryService {
     //POST 검색 생성
     @Transactional(rollbackFor = {BaseException.class})
     public PostSearchRes createSearch(int userIdx, PostSearchReq postSearchReq) throws BaseException {
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try{
             int search_id = categoryDao.createSearch(userIdx, postSearchReq.getCategory_name());
             return new PostSearchRes(search_id);
@@ -70,6 +75,9 @@ public class CategoryService {
     //GET 검색어 목록 조회
     @Transactional(readOnly = true)
     public GetSearchRes getSearchList(int userIdx) throws BaseException{
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try{
             GetSearchRes getSearchResList = categoryDao.getSearchList(userIdx);
             return getSearchResList;
@@ -96,6 +104,10 @@ public class CategoryService {
     //PATCH 검색어 개별 삭제
     @Transactional(rollbackFor = {BaseException.class})
     public void deleteOneSearch(int userIdx, int searchIdx) throws BaseException{
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         if(categoryDao.getSearchStatus(userIdx, searchIdx).equals("N")) {
             throw new BaseException(ALREADY_DELETED_SEARCH);
         }
@@ -114,6 +126,9 @@ public class CategoryService {
     //PATCH 검색어 전체 삭제
     @Transactional(rollbackFor = {BaseException.class})
     public void deleteAllSearch(int userIdx) throws BaseException{
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try{
             categoryDao.deleteAllSearch(userIdx);
         }
