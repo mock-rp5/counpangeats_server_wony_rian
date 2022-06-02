@@ -87,6 +87,23 @@ public class UserDao {
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
     }
+    public String getIsLogin(int userIdx){
+        String getIsLoginQuery="select is_login from User\n" +
+                "where user_id=?;";
+        return this.jdbcTemplate.queryForObject(getIsLoginQuery,String.class,userIdx);
+    }
+
+    public int login(int userIdx){
+        String loginQuery="update User set is_login='Y'\n" +
+                "where user_id=?;";
+        return this.jdbcTemplate.update(loginQuery,userIdx);
+    }
+
+    public int logOut(int userIdx){
+        String logOutQuery="update User set is_login='N'\n" +
+                "where user_id=?;";
+        return this.jdbcTemplate.update(logOutQuery,userIdx);
+    }
 
     public int checkEmail(String email) {
         String checkEmailQuery = "select exists(select user_email from User where user_email = ?)";

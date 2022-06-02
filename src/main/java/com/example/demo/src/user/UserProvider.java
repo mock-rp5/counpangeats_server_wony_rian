@@ -60,6 +60,9 @@ public class UserProvider {
     //마이이츠 조회
     @Transactional(readOnly = true)
     public MyEatsInfo getMyEats(int userIdx) throws BaseException {
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try {
             MyEatsInfo getMyEatsRes = userDao.getMyEats(userIdx);
             return getMyEatsRes;
@@ -118,6 +121,7 @@ public class UserProvider {
     @Transactional(readOnly = true)
     public PostLoginRes kakaoLogin(KakaoUserInfo kaKaoUserInfo) throws BaseException {
         String email= kaKaoUserInfo.getUser_email();
+        System.out.println("email = " + email);
 
         boolean isExistEmail=userDao.isExistEmail(email);
         System.out.println("isExistEmail: "+isExistEmail);
@@ -166,6 +170,10 @@ public class UserProvider {
     //주소 목록 조회
     @Transactional(readOnly = true)
     public List<GetAddressSimpleRes> getAddress(int userIdx) throws BaseException{
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         try{
             List<GetAddressSimpleRes> getAddressSimpleResList= userDao.getAddress(userIdx);
             return getAddressSimpleResList;
@@ -195,6 +203,10 @@ public class UserProvider {
     //즐겨찾기 목록 조회
     @Transactional(readOnly = true)
     public GetBookmarkRes getBookmarkList(int userIdx) throws BaseException{
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         try{
             GetBookmarkRes getBookmarkResList=userDao.getBookmarkList(userIdx);
             return getBookmarkResList;

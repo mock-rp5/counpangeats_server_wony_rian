@@ -58,13 +58,37 @@ public class UserService {
             int userIdx = userDao.createUser(postUserReq);
             return new PostUserRes(userIdx);
         } catch (Exception exception) {
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
+    //POST 로그아웃
+    @Transactional(rollbackFor = {BaseException.class})
+    public void logOut(int userIdx) throws BaseException {
+        //이미 로그아웃된 회원인지 검사
+        String isLogin = userDao.getIsLogin(userIdx);
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+        try {
+            int result = userDao.logOut(userIdx);
+            if (result == 0) {
+                throw new BaseException(FAIL_LOGOUT);
+            }
+
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
     //PATCH 회원 이름 변경
     @Transactional(rollbackFor = {BaseException.class})
     public void modifyUserName(User user) throws BaseException {
+        String isLogin = userDao.getIsLogin(user.getUser_id());
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         //기존과 다른 이름인지 검사
         String originName = userDao.getUserName(user.getUser_id());
         if (originName.equals(user.getUser_name())) {
@@ -81,9 +105,13 @@ public class UserService {
         }
     }
 
+
     //PATCH 회원 이메일 변경
     @Transactional(rollbackFor = {BaseException.class})
     public void modifyUserEmail(User user) throws BaseException {
+        String isLogin = userDao.getIsLogin(user.getUser_id());
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
 
         //기존과 다른 이메일인지 검사
         String originEmail = userDao.getUserEmail(user.getUser_id());
@@ -104,6 +132,9 @@ public class UserService {
     //PATCH 회원 휴대폰번호 변경
     @Transactional(rollbackFor = {BaseException.class})
     public void modifyUserPhone(User user) throws BaseException {
+        String isLogin = userDao.getIsLogin(user.getUser_id());
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
 
         //기존과 다른 휴대폰번호인지 검사
         String originPhone = userDao.getUserPhone(user.getUser_id());
@@ -123,6 +154,10 @@ public class UserService {
     //PATCH 회원 비밀번호 변경
     @Transactional(rollbackFor = {BaseException.class})
     public void modifyUserPassword(User user) throws BaseException {
+        String isLogin = userDao.getIsLogin(user.getUser_id());
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         String encryptPwd;
         try {
             encryptPwd = new SHA256().encrypt(user.getUser_password());
@@ -159,6 +194,9 @@ public class UserService {
     //PATCH 유저 삭제
     @Transactional(rollbackFor = {BaseException.class})
     public void deleteUser(int userIdx) throws BaseException {
+        String isLogin = userDao.getIsLogin(userIdx);
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try {
             int result = userDao.deleteUser(userIdx);
             if (result == 0) {
@@ -172,6 +210,9 @@ public class UserService {
     //POST 새 주소 추가
     @Transactional(rollbackFor = {BaseException.class})
     public PostAddressRes createAddress(Address address) throws BaseException {
+        String isLogin = userDao.getIsLogin(address.getUser_id());
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
 
         try {
             int addressIdx = userDao.createAddress(address);
@@ -187,6 +228,10 @@ public class UserService {
     //PATCH 주소 변경
     @Transactional(rollbackFor = {BaseException.class})
     public void modifyAddress(int userIdx, int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+
+        String isLogin = userDao.getIsLogin(userIdx);
+        if (isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try {
             int modify_addressIdx = userDao.modifyAddress(addressIdx, patchAddressReq);
             if (modify_addressIdx == 0) {
@@ -212,10 +257,12 @@ public class UserService {
 
     //PATCH 주소 삭제
     @Transactional(rollbackFor = {BaseException.class})
-    public void deleteAddress(int userIdx,int addressIdx) throws BaseException {
-
+    public void deleteAddress(int userIdx, int addressIdx) throws BaseException {
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
         try {
-            int delete_addressIdx = userDao.deleteAddress(userIdx,addressIdx);
+            int delete_addressIdx = userDao.deleteAddress(userIdx, addressIdx);
 
             if (delete_addressIdx == 0) {
                 throw new BaseException(FAIL_DELETE_ADDRESS);
@@ -228,6 +275,10 @@ public class UserService {
     //POST 북마크 추가
     @Transactional(rollbackFor = {BaseException.class})
     public PostBookmarkRes createBookmark(int userIdx, int storeIdx) throws BaseException {
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         //이미 추가한 북마크인지 확인
         int isAlreadyCreate = userDao.isAlreadyCreate(userIdx, storeIdx);
         int bookmarkIdx = 0;
@@ -254,6 +305,10 @@ public class UserService {
     //PATACH 북마크 삭제
     @Transactional(rollbackFor = {BaseException.class})
     public void deleteBookmark(int userIdx, int storeIdx) throws BaseException {
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
+
         //이미 삭제된 북마크인지 확인
         String bookmarkIdxStatus = userDao.getBookmarkStatus(userIdx, storeIdx);
         if (bookmarkIdxStatus.equals("N")) {
@@ -268,9 +323,13 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     //PATACH 북마크 선택 삭제
     @Transactional(rollbackFor = {BaseException.class})
     public Integer[] deleteBookmarkList(int userIdx, Integer[] bookmarkList) throws BaseException {
+        String isLogin =userDao.getIsLogin(userIdx);
+        if(isLogin.equals("N"))
+            throw new BaseException(ALREADY_LOGOUT_USER);
 
         try {
             Integer[] bookmarkIdxList = userDao.deleteBookmarkList(userIdx, bookmarkList);

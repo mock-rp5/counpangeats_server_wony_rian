@@ -75,8 +75,9 @@ public enum BaseResponseStatus {
 
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
-    FAILED_TO_LOGIN(false,3014,"없는 이메일이거나 비밀번호가 틀렸습니다."),
+    FAILED_TO_LOGIN(false,3014,"로그인에 실패하였습니다."),
     DELETED_USER(false,3015,"탈퇴한 유저의 접근입니다."),
+    ALREADY_LOGOUT_USER(false, 3016,"로그아웃한 유저의 접근입니다"),
 
     //[PATCH] /users
     NEED_NEW_USER_NAME(false,3020,"새로운 이름을 입력해주세요."),
@@ -123,6 +124,9 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USER_EMAIL(false,4015,"유저이메일 변경에 실패하였습니다."),
     MODIFY_FAIL_USER_PHONE(false, 4016, "유저 휴대폰번호 변경에 실패하였습니다."),
     MODIFY_FAIL_USER_PASSWORD(false, 4017, "유저 비밀번호 변경에 실패하였습니다."),
+
+    //[POST] /users/logout
+    FAIL_LOGOUT(false,4018,"로그아웃에 실패하였습니다."),
 
     //[PATCH] /users/status
     DELETE_FAIL_USER(false, 4020, "유저 삭제에 실패하였습니다."),
